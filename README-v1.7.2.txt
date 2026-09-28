@@ -1,4 +1,4 @@
-MaterialYardage v1.7.2 — Corrected Deployment Package
+MaterialYardage v1.7. — Corrected Deployment Package
 
 Static Vercel package for MaterialYardage.com.
 
@@ -7,7 +7,6 @@ Included:
 - Mulch calculator
 - Gravel calculator
 - About
-- Methodology
 - Contact
 - Privacy Policy
 - Shared stylesheet
@@ -18,4 +17,4 @@ Analytics: G-08MTZ3F4Q1
 AdSense publisher: ca-pub-2650221548917155
 Public contact: okezonne@gmail.com
 
-No AdSense data-ad-slot IDs are invented in this package. Calculator results are client-side estimates; material density varies by product, moisture and compaction.
+

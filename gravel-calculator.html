@@ -1,3 +1,359 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Free Gravel Calculator | Cubic Yards & Tons</title><meta name="description" content="Calculate gravel and crushed stone volume in cubic yards, cubic meters and cubic feet, with estimated tonnage."><link rel="canonical" href="https://www.materialyardage.com/gravel-calculator.html"><link rel="stylesheet" href="/assets/styles.css"><script async src="https://www.googletagmanager.com/gtag/js?id=G-08MTZ3F4Q1"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-08MTZ3F4Q1')</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650221548917155" crossorigin="anonymous"></script></head><body class="min-h-screen bg-slate-950 text-slate-100"><header class="border-b border-slate-800"><div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-4"><a href="/" class="text-xl font-extrabold text-emerald-400">Material<span class="text-white">Yardage</span></a><nav class="hidden gap-4 text-sm sm:flex"><a class="navlink" href="/">Topsoil</a><a class="navlink" href="/mulch-calculator.html">Mulch</a><a class="navlink" href="/gravel-calculator.html">Gravel</a><a class="navlink" href="/about.html">About</a><a class="navlink" href="/contact.html">Contact</a></nav></div></header><main class="mx-auto max-w-4xl px-4 py-10"><h1 class="text-3xl font-black sm:text-4xl">Gravel Calculator: Cubic Yards and Tons</h1><p class="mt-3 max-w-3xl text-slate-400">Estimate gravel, crushed stone or aggregate needed for driveways, paths, drainage and landscape beds.</p><section class="card mt-8 p-5 sm:p-8"><div class="grid gap-5 sm:grid-cols-3"><label>Length (ft)<input id="l" value="40" type="number" min="0" step="any" class="mt-2 w-full rounded-xl border border-slate-700 bg-slate-950 p-3"></label><label>Width (ft)<input id="w" value="10" type="number" min="0" step="any" class="mt-2 w-full rounded-xl border border-slate-700 bg-slate-950 p-3"></label><label>Depth (in)<input id="d" value="4" type="number" min="0" step="any" class="mt-2 w-full rounded-xl border border-slate-700 bg-slate-950 p-3"></label></div><div class="mt-7 grid gap-4 sm:grid-cols-4"><div class="card p-4"><small class="text-slate-400">Cubic yards</small><div id="yd" class="mt-1 text-2xl font-black text-emerald-400">—</div></div><div class="card p-4"><small class="text-slate-400">Cubic meters</small><div id="m3" class="mt-1 text-2xl font-black">—</div></div><div class="card p-4"><small class="text-slate-400">Cubic feet</small><div id="ft3" class="mt-1 text-2xl font-black">—</div></div><div class="card p-4"><small class="text-slate-400">Estimated tons</small><div id="tons" class="mt-1 text-2xl font-black">—</div></div></div><p class="mt-5 text-sm text-slate-400">Suggested order quantity can be rounded up after considering grading, settling, compaction and supplier minimums.</p></section><div class="my-8 card p-4 text-center text-sm text-slate-500">Advertisement</div><article class="prose-lite text-sm text-slate-300"><h2>Gravel calculation formula</h2><div class="formula">Cubic feet = length × width × (depth ÷ 12)
-Cubic yards = cubic feet ÷ 27
-Estimated tons = cubic yards × assumed bulk density</div><p>For this calculator, the default gravel density is approximately 1.40 tons per cubic yard. Crushed stone, pea gravel, river rock and road base can have different bulk densities.</p><h2>Worked example</h2><p>A 40 ft × 10 ft area at 4 inches deep is about 133.33 cubic feet, or 4.94 cubic yards. At 1.40 tons per cubic yard, the estimated weight is about 6.91 tons.</p><h2>How deep should gravel be?</h2><p>Depth depends on the application. Walkways, decorative beds and vehicle areas can require different construction depths. For driveways and traffic-bearing surfaces, consider the sub-base, drainage and local construction practice rather than relying on a single generic depth.</p><h2>Gravel vs. crushed stone</h2><p>Gravel is a broad category. Rounded stone, angular crushed stone and graded aggregate behave differently during placement and compaction. Ask the supplier for the product's coverage and bulk density when ordering.</p><h2>Ordering allowance</h2><p>Measurements of irregular areas are approximate. Consider a reasonable allowance for variation and compaction, then confirm the final quantity with the supplier.</p><h2>FAQ</h2><h3>How many tons are in a cubic yard of gravel?</h3><p>A common estimating figure is around 1.4 tons per cubic yard, but actual weight varies by material, moisture and grading.</p><h3>Should I order exactly the calculated amount?</h3><p>Not necessarily. The calculator provides an estimate. Site conditions, compaction and supplier measurement practices can change the final amount required.</p></article></main><footer class="border-t border-slate-800 py-8 text-center text-xs text-slate-500"><a href="/methodology.html">Methodology</a> · <a href="/privacy-policy.html">Privacy</a> · <a href="/contact.html">Contact</a><p class="mt-3">© <span id="year"></span> MaterialYardage.com</p></footer><script>const $=id=>document.getElementById(id);function calc(){let l=+$('l').value,w=+$('w').value,d=+$('d').value;let ft=l*w*d/12,yd=ft/27,m3=ft*.0283168466; $('yd').textContent=yd.toFixed(2)+' yd³';$('m3').textContent=m3.toFixed(2)+' m³';$('ft3').textContent=ft.toFixed(2)+' ft³';$('tons').textContent=(yd*1.4).toFixed(2)}['l','w','d'].forEach(x=>$(x).addEventListener('input',calc));$('year').textContent=new Date().getFullYear();calc();</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gravel Calculator | Cubic Yards and Tons of Gravel | MaterialYardage</title>
+<meta name="description" content="Free gravel calculator. Estimate cubic yards, cubic meters and tons of gravel or crushed stone for driveways, walkways and patio bases, with depth guides and worked examples.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://www.materialyardage.com/gravel-calculator.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gravel Calculator | Cubic Yards and Tons of Gravel">
+<meta property="og:description" content="Calculate gravel volume and tonnage for driveways, walkways and patio bases.">
+<meta property="og:url" content="https://www.materialyardage.com/gravel-calculator.html">
+<meta name="theme-color" content="#020617">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-08MTZ3F4Q1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-08MTZ3F4Q1');
+</script>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650221548917155" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="/assets/css/styles.css">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebApplication",
+      "@id":"https://www.materialyardage.com/gravel-calculator.html#calculator",
+      "name":"Gravel Calculator",
+      "url":"https://www.materialyardage.com/gravel-calculator.html",
+      "applicationCategory":"UtilitiesApplication",
+      "operatingSystem":"All",
+      "browserRequirements":"Requires JavaScript and HTML5",
+      "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.materialyardage.com/"},
+        {"@type":"ListItem","position":2,"name":"Gravel Calculator","item":"https://www.materialyardage.com/gravel-calculator.html"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "@id":"https://www.materialyardage.com/gravel-calculator.html#faq",
+      "mainEntity":[
+        {"@type":"Question","name":"How much does a yard of gravel weigh?","acceptedAnswer":{"@type":"Answer","text":"A cubic yard of gravel or crushed stone is commonly estimated at roughly 1.3 to 1.5 tons. Dense graded base material sits at the higher end and lighter decorative stone at the lower end."}},
+        {"@type":"Question","name":"How deep should gravel be for a driveway?","acceptedAnswer":{"@type":"Answer","text":"A residential gravel driveway is typically built in layers totalling 8 to 12 inches, with a coarse base beneath and a 3 to 4 inch surface course. Resurfacing an existing driveway usually needs only 2 to 3 inches."}},
+        {"@type":"Question","name":"How many cubic yards of gravel do I need?","acceptedAnswer":{"@type":"Answer","text":"Multiply length in feet by width in feet by the depth in inches divided by twelve, then divide the result by 27."}},
+        {"@type":"Question","name":"How much area does a ton of gravel cover?","acceptedAnswer":{"@type":"Answer","text":"At roughly 1.4 tons per cubic yard, one ton is about 0.71 cubic yards, which covers around 77 square feet at 3 inches deep or 58 square feet at 4 inches deep."}},
+        {"@type":"Question","name":"What is the difference between gravel and crushed stone?","acceptedAnswer":{"@type":"Answer","text":"Gravel is naturally weathered and rounded, while crushed stone is mechanically broken and has angular faces. The angular faces let crushed stone lock together and stay in place, which is why it is preferred for driveways and compacted bases."}}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+
+<body>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/">Material<span>Yardage</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="/">Topsoil</a>
+      <a href="/mulch-calculator.html">Mulch</a>
+      <a href="/gravel-calculator.html">Gravel</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="block">
+    <p class="crumbs"><a href="/">Home</a> › Gravel Calculator</p>
+    <h1>Gravel Calculator: Cubic Yards and Tons of Gravel</h1>
+    <p class="lede">Enter the dimensions of the area you are covering to get the volume in cubic yards and cubic meters, an estimated tonnage, and a suggested order quantity including an allowance for compaction. Below the calculator you will find depth guidance for driveways, walkways and patio bases, worked examples for each, and an explanation of how gravel differs from crushed stone.</p>
+  </section>
+
+  <section class="card" aria-label="Gravel calculator">
+    <div class="toggle" role="group" aria-label="Measurement system">
+      <button id="btn-imperial" type="button" aria-pressed="true">Imperial (ft / in)</button>
+      <button id="btn-metric" type="button" aria-pressed="false">Metric (m / cm)</button>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div class="field">
+          <label id="lbl-length" for="input-length">Length (feet)</label>
+          <input id="input-length" type="number" min="0" step="any" value="40" inputmode="decimal">
+        </div>
+        <div class="field">
+          <label id="lbl-width" for="input-width">Width (feet)</label>
+          <input id="input-width" type="number" min="0" step="any" value="10" inputmode="decimal">
+        </div>
+        <div class="field">
+          <label id="lbl-depth" for="input-depth">Depth (inches)</label>
+          <input id="input-depth" type="number" min="0" step="any" value="4" inputmode="decimal">
+        </div>
+        <div class="field">
+          <label for="select-material">Material</label>
+          <select id="select-material">
+            <option value="crushed" selected>Crushed stone (~1.4 tons/yd³)</option>
+            <option value="pea">Pea gravel (~1.35 tons/yd³)</option>
+            <option value="river">River rock (~1.35 tons/yd³)</option>
+            <option value="base">Crusher run / road base (~1.5 tons/yd³)</option>
+            <option value="decomposed">Decomposed granite (~1.3 tons/yd³)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="select-allowance">Ordering allowance</label>
+          <select id="select-allowance">
+            <option value="0">None — exact volume</option>
+            <option value="5">5% — level, contained area</option>
+            <option value="10" selected>10% — typical compaction allowance</option>
+            <option value="15">15% — uneven or rutted base</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="results">
+        <div>
+          <p class="result-label">Volume required</p>
+          <p id="out-volume-primary" class="result-primary">4.94 yd³</p>
+          <p id="out-volume-secondary" class="result-secondary">3.78 m³ · 133.3 ft³</p>
+        </div>
+        <div class="rule"></div>
+        <div>
+          <p class="result-label">Estimated weight</p>
+          <p id="out-weight" class="result-alt">6.91 tons</p>
+        </div>
+        <div class="rule"></div>
+        <div>
+          <p class="result-label">Suggested order</p>
+          <p id="out-order" class="result-alt">5.43 yd³ (7.6 tons)</p>
+        </div>
+        <button id="reset" type="button" class="link-btn">Reset fields</button>
+      </div>
+    </div>
+
+    <p id="validation" class="alert hidden"></p>
+    <p class="fine" style="margin-top:1rem">Tonnage is an estimate. Aggregate density varies with stone type, particle size, moisture and the degree of compaction, and suppliers in different regions quote different conversion figures. Confirm with your supplier before ordering by weight.</p>
+  </section>
+
+  <!-- AD SLOT 1 — below the calculator and introduction.
+       Paste the ad unit code generated in your AdSense account here.
+  <div class="ad-slot">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-2650221548917155"
+         data-ad-slot="YOUR_AD_UNIT_ID"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  -->
+
+  <section class="block">
+    <h2>Calculating gravel in cubic yards</h2>
+    <p>Gravel is quoted by the cubic yard in most of North America and by the tonne or cubic metre elsewhere. Whichever unit your supplier uses, the starting point is the same volume calculation.</p>
+    <div class="formula">Cubic feet  = length (ft) × width (ft) × (depth in ÷ 12)
+Cubic yards = cubic feet ÷ 27</div>
+    <p>A cubic yard is 27 cubic feet, which is where the divisor comes from. If your project has more than one depth — a driveway with a thicker base layer under a thinner surface course, for example — calculate each layer separately and add the results.</p>
+
+    <h3>Calculating in cubic meters</h3>
+    <p>Metric measurements need no conversion step. Multiply length and width in meters by the depth in meters, which is the depth in centimeters divided by one hundred.</p>
+    <div class="formula">Cubic meters = length (m) × width (m) × (depth cm ÷ 100)
+Cubic yards  = cubic meters × 1.308</div>
+
+    <h3>Estimated tons</h3>
+    <p>To convert volume to weight, multiply the cubic yards by the bulk density of the material. Crushed stone is commonly taken as about 1.4 tons per cubic yard, though the figure varies by stone type and region.</p>
+    <div class="formula">Tons = cubic yards × tons per cubic yard
+Example: 4.94 × 1.4 = 6.91 tons</div>
+    <p>This matters because many suppliers sell aggregate by weight rather than volume, and because trucks and trailers are limited by weight long before they run out of space. A single cubic yard of gravel is beyond the payload of most half-ton pickups.</p>
+  </section>
+
+  <section class="block">
+    <h2>Gravel depth guide</h2>
+    <div class="table-scroll">
+      <table>
+        <caption>Typical depths by application. Driveway figures are the total of all layers.</caption>
+        <thead><tr><th>Application</th><th>Depth</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Decorative ground cover</td><td>2 in</td><td>Over landscape fabric to limit weed growth</td></tr>
+          <tr><td>Garden pathway</td><td>2–3 in</td><td>Edging keeps loose stone from spreading</td></tr>
+          <tr><td>Patio or paver base</td><td>4–6 in</td><td>Compacted crushed stone beneath a sand setting bed</td></tr>
+          <tr><td>New residential driveway</td><td>8–12 in total</td><td>Coarse base course plus a 3–4 in surface course</td></tr>
+          <tr><td>Resurfacing an existing driveway</td><td>2–3 in</td><td>Over a base that is already sound</td></tr>
+          <tr><td>Drainage trench or French drain</td><td>Varies</td><td>Washed stone so fines do not clog the drainage path</td></tr>
+          <tr><td>Shed or workshop base</td><td>4–6 in</td><td>Compacted in two layers for stability</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Depth is not the only consideration for a driveway. The subgrade has to be stable and drain properly; adding gravel over soft, saturated ground produces ruts within a season regardless of how much material you put down.</p>
+  </section>
+
+  <section class="block">
+    <h2>Worked examples</h2>
+
+    <div class="example">
+      <h3>Driveway — 40 ft × 10 ft surface course at 4 inches</h3>
+      <div class="formula">Area        = 40 × 10 = 400 sq ft
+Cubic feet  = 400 × (4 ÷ 12) = 133.3 ft³
+Cubic yards = 133.3 ÷ 27 = 4.94 yd³
+Tons        = 4.94 × 1.4 = 6.91 tons
+With 10%    = 5.43 yd³ ≈ 7.6 tons</div>
+      <p>Round up to 5.5 or 6 cubic yards. Coming up short on a driveway means a second delivery charge for a fraction of a load.</p>
+    </div>
+
+    <div class="example">
+      <h3>Walkway — 30 ft × 3 ft at 3 inches</h3>
+      <div class="formula">Area        = 30 × 3 = 90 sq ft
+Cubic feet  = 90 × (3 ÷ 12) = 22.5 ft³
+Cubic yards = 22.5 ÷ 27 = 0.83 yd³
+Tons        = 0.83 × 1.35 = 1.13 tons</div>
+      <p>Below one cubic yard, check the supplier's minimum order — many will not deliver less than a yard, and some charge for a full yard regardless.</p>
+    </div>
+
+    <div class="example">
+      <h3>Patio base — 12 ft × 16 ft at 5 inches of crushed stone</h3>
+      <div class="formula">Area        = 12 × 16 = 192 sq ft
+Cubic feet  = 192 × (5 ÷ 12) = 80 ft³
+Cubic yards = 80 ÷ 27 = 2.96 yd³
+Tons        = 2.96 × 1.4 = 4.15 tons
+With 15%    = 3.41 yd³ ≈ 4.8 tons</div>
+      <p>A compacted base loses noticeable depth under a plate compactor, so the higher allowance is appropriate here. The sand setting bed above the base is calculated separately.</p>
+    </div>
+  </section>
+
+  <!-- AD SLOT 2 — lower on the page, between content sections.
+       Paste the ad unit code from your AdSense account here.
+  <div class="ad-slot">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-2650221548917155"
+         data-ad-slot="YOUR_AD_UNIT_ID"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+  -->
+
+  <section class="block">
+    <h2>Gravel versus crushed stone</h2>
+    <p>The two terms are used interchangeably in conversation, but they describe different materials with different behaviour.</p>
+    <p><strong>Gravel</strong> in the strict sense is naturally occurring stone weathered into rounded shapes by water. Pea gravel and river rock are the familiar examples. Rounded stone drains freely and is comfortable underfoot, but the individual stones roll against each other rather than locking together, so it migrates under traffic and needs edging to stay put.</p>
+    <p><strong>Crushed stone</strong> is quarried rock mechanically broken into angular pieces. Those angular faces interlock when compacted, which produces a stable surface that holds its shape. This is why crushed stone is the standard for driveways, patio bases and any surface that carries load.</p>
+    <p>A third category sits between them. <strong>Crusher run</strong> or <strong>dense graded aggregate</strong> mixes crushed stone with the stone dust produced during crushing. The fines fill the voids between larger pieces, so the material compacts into a nearly solid layer. It makes an excellent base but drains poorly, which is exactly why it should not be used in a French drain, where <strong>washed stone</strong> with the fines removed is required instead.</p>
+    <p>For calculation purposes the differences show up in density. Dense graded base with its fines packs tighter and weighs more per cubic yard than open, single-sized decorative stone.</p>
+  </section>
+
+  <section class="block">
+    <h2>How much does a yard of gravel weigh?</h2>
+    <div class="table-scroll">
+      <table>
+        <caption>Typical working densities. Regional figures vary with stone type and moisture.</caption>
+        <thead><tr><th>Material</th><th>Tons per cubic yard</th><th>Cubic yards per ton</th></tr></thead>
+        <tbody>
+          <tr><td>Pea gravel</td><td>~1.35</td><td>~0.74</td></tr>
+          <tr><td>River rock</td><td>~1.35</td><td>~0.74</td></tr>
+          <tr><td>Crushed stone (¾ in)</td><td>~1.40</td><td>~0.71</td></tr>
+          <tr><td>Crusher run / road base</td><td>~1.50</td><td>~0.67</td></tr>
+          <tr><td>Decomposed granite</td><td>~1.30</td><td>~0.77</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>One ton of typical crushed stone is roughly 0.71 cubic yards, which covers about 77 square feet at 3 inches deep or 58 square feet at 4 inches. These figures are working estimates rather than specifications; if a supplier quotes a different conversion for their material, use theirs.</p>
+  </section>
+
+  <section class="block">
+    <h2>Ordering allowance</h2>
+    <p>Aggregate settles more than most landscape materials because compaction is usually the point. A layer spread loose at four inches will finish noticeably thinner once it has been rolled or driven over.</p>
+    <ul>
+      <li><strong>5%</strong> for decorative stone in a contained, level bed where no compaction is intended.</li>
+      <li><strong>10%</strong> for general use — pathways, resurfacing, ground cover over a sound base.</li>
+      <li><strong>15%</strong> for compacted base layers, rutted driveways, or anywhere the existing surface is uneven.</li>
+    </ul>
+    <p>Two further points on ordering. Suppliers generally deliver in whole or half yards, or in whole tons where they sell by weight, so round up to the next increment they offer. And check where the truck can tip: a load of gravel needs a firm surface and reasonable overhead clearance, and moving it twice by barrow is a great deal of work.</p>
+  </section>
+
+  <section class="block">
+    <h2>Frequently asked questions</h2>
+
+    <details>
+      <summary>How many cubic yards of gravel do I need?</summary>
+      <p>Multiply length in feet by width in feet by the depth in inches divided by twelve, then divide by 27. For layered projects such as driveways, calculate each layer separately and add them.</p>
+    </details>
+
+    <details>
+      <summary>How much does a cubic yard of gravel weigh?</summary>
+      <p>Commonly between 1.3 and 1.5 tons depending on the material. Dense graded base is at the heavy end; lighter decorative stone at the lower end.</p>
+    </details>
+
+    <details>
+      <summary>How deep should gravel be for a driveway?</summary>
+      <p>A new residential driveway is typically 8 to 12 inches total, built as a coarse base course with a 3 to 4 inch surface course on top. Resurfacing a driveway with a sound base usually needs only 2 to 3 inches.</p>
+    </details>
+
+    <details>
+      <summary>How much area does a ton of gravel cover?</summary>
+      <p>At about 1.4 tons per cubic yard, a ton is roughly 0.71 cubic yards — around 77 square feet at 3 inches deep, or 58 square feet at 4 inches.</p>
+    </details>
+
+    <details>
+      <summary>Should I use landscape fabric under gravel?</summary>
+      <p>Under decorative stone it helps considerably with weed suppression and stops stone working down into the soil. Under a compacted driveway base, a woven geotextile serves a structural purpose by separating the aggregate from the subgrade, which is a different product from lightweight weed fabric.</p>
+    </details>
+
+    <details>
+      <summary>What size gravel is best for a driveway?</summary>
+      <p>A common approach uses larger crushed stone for the base and ¾ inch or smaller angular stone for the surface. Rounded pea gravel is not well suited to driveways because it does not lock together and migrates under tyres.</p>
+    </details>
+
+    <details>
+      <summary>Can I calculate gravel by the ton instead of the yard?</summary>
+      <p>Yes. Calculate the volume in cubic yards first, then multiply by the tons-per-yard figure for your material. The calculator above shows both, along with the order quantity once an allowance is applied.</p>
+    </details>
+  </section>
+
+  <section class="block">
+    <h2>Related calculators</h2>
+    <ul class="cards three">
+      <li><a href="/"><strong>Topsoil Calculator</strong><span>Soil volume for lawns, beds and raised beds, with depth guidance.</span></a></li>
+      <li><a href="/mulch-calculator.html"><strong>Mulch Calculator</strong><span>Cubic yards and bag counts for bark, wood chip and pine straw.</span></a></li>
+      <li><a href="/about.html#methodology"><strong>Calculation Methodology</strong><span>The formulas and density figures behind every result on this site.</span></a></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="/">Topsoil Calculator</a>
+      <a href="/mulch-calculator.html">Mulch Calculator</a>
+      <a href="/gravel-calculator.html">Gravel Calculator</a>
+      <a href="/about.html">About</a>
+      <a href="/about.html#methodology">Methodology</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy-policy.html">Privacy Policy</a>
+    </nav>
+    <p>Estimates are provided for planning purposes. Confirm final quantities with your material supplier.</p>
+    <p>© <span id="year"></span> MaterialYardage.com</p>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/gravel-calculator.js"></script>
+</body>
+</html>
