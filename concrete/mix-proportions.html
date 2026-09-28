@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Volumetric Concrete Mix Proportioning Calculator (1:2:4 Ratio) | MaterialYardage</title>
     <meta name="description" content="Calculate the exact dry component breakout ingredients for site-mixed wet concrete. Uses the engineering standard 1:2:4 design rule for cement, sand, and aggregate stone ballast.">
-    <link rel="canonical" href="https://materialyardage.com">
+    <link rel="canonical" href="https://www.materialyardage.com/concrete/mix-proportions.html">
     
     <!-- Google Analytics Module -->
-    <script async src="https://googletagmanager.com"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-08MTZ3F4Q1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -17,7 +17,7 @@
     </script>
 
     <!-- Google AdSense Monetization Verification -->
-    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650221548917155" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 <body>
@@ -26,8 +26,8 @@
     <nav style="background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1rem; display: flex; justify-content: space-between; align-items: center; max-width: 100%;">
         <a href="/" style="color: #2b5c3f; font-weight: 800; text-decoration: none; font-size: 1.2rem; letter-spacing: -0.02em;">MaterialYardage</a>
         <div style="display: flex; gap: 1.25rem;">
-            <a href="/calculators" style="color: #2d3748; text-decoration: none; font-size: 0.95rem; font-weight: 600;">All Calculators</a>
-            <a href="/about" style="color: #718096; text-decoration: none; font-size: 0.95rem;">About</a>
+            <a href="/calculators.html" style="color: #2d3748; text-decoration: none; font-size: 0.95rem; font-weight: 600;">All Calculators</a>
+            <a href="/methodology.html" style="color: #718096; text-decoration: none; font-size: 0.95rem;">Methodology</a><a href="/contact.html" style="color: #718096; text-decoration: none; font-size: 0.95rem;">Contact</a><a href="/about.html" style="color: #718096; text-decoration: none; font-size: 0.95rem;">About</a>
         </div>
     </nav>
 
@@ -82,7 +82,19 @@
 
     <footer style="background: #1a202c; color: #ffffff; text-align: center; padding: 2rem 1rem; margin-top: 8rem; font-size: 0.9rem;">
         <p>&copy; 2026 MaterialYardage. All corporate property protections reserved.</p>
-    </footer>
+    
+<section class="wrap narrow block calculator-guide">
+  <h2>Concrete Mix Proportion Guide</h2>
+  <p>This tool illustrates a 1:2:4 volumetric mix allocation for planning raw material quantities. It is an estimating aid, not a substitute for a designed concrete mix or laboratory-tested specification.</p>
+  <h3>How the estimate works</h3>
+  <p>Start with the target wet concrete volume. The calculator allocates the target into cement, fine aggregate and coarse aggregate using the stated volumetric model and an assumed dry-volume adjustment. Actual batching quantities depend on aggregate moisture, grading, cement type, water content and the required strength.</p>
+  <h3>Important assumptions</h3>
+  <ul><li>Do not treat a nominal 1:2:4 ratio as a universal structural specification.</li><li>Concrete strength and durability should be based on the project specification and applicable local standards.</li><li>Supplier or engineer mix designs may produce substantially different cement, water and aggregate quantities.</li></ul>
+  <h3>Frequently asked questions</h3>
+  <details><summary>Can I use this for structural concrete?</summary><p>Use the result only as a preliminary quantity estimate. Structural concrete should follow the approved mix design and project specification.</p></details><details><summary>Why is dry material volume greater than wet volume?</summary><p>Loose ingredients contain voids and pack differently. Mix-design methods therefore use an adjustment rather than simply dividing the wet volume equally.</p></details><details><summary>Does aggregate moisture matter?</summary><p>Yes. Moisture changes both mass and effective water content, which is why production batching requires material-specific corrections.</p></details>
+  <p class="fine">For the calculation assumptions used on this site, see the <a href="/methodology.html">MaterialYardage methodology</a>.</p>
+</section>
+</footer>
 
     <script>
         function calcStandaloneMixProportions() {
