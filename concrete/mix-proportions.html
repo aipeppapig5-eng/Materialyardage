@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volumetric Concrete Mix Proportioning Calculator (1:2:4 Ratio) | MaterialYardage</title>
+    <meta name="description" content="Calculate the exact dry component breakout ingredients for site-mixed wet concrete. Uses the engineering standard 1:2:4 design rule for cement, sand, and aggregate stone ballast.">
+    <link rel="canonical" href="https://materialyardage.com">
+    
+    <!-- Google Analytics Module -->
+    <script async src="https://googletagmanager.com"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-08MTZ3F4Q1');
+    </script>
+
+    <!-- Google AdSense Monetization Verification -->
+    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+
+    <!-- Header Navigation Bar -->
+    <nav style="background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1rem; display: flex; justify-content: space-between; align-items: center; max-width: 100%;">
+        <a href="/" style="color: #2b5c3f; font-weight: 800; text-decoration: none; font-size: 1.2rem; letter-spacing: -0.02em;">MaterialYardage</a>
+        <div style="display: flex; gap: 1.25rem;">
+            <a href="/calculators" style="color: #2d3748; text-decoration: none; font-size: 0.95rem; font-weight: 600;">All Calculators</a>
+            <a href="/about" style="color: #718096; text-decoration: none; font-size: 0.95rem;">About</a>
+        </div>
+    </nav>
+
+    <header style="background: #2b5c3f; color: #ffffff; padding: 2.5rem 1rem; text-align: center;">
+        <h1 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem;">Concrete Mix Design Proportions</h1>
+        <p style="font-size: 0.95rem; opacity: 0.9;">Deconstruct target wet yardage requirements straight into discrete raw elements.</p>
+    </header>
+
+    <div class="container" style="max-width: 800px; margin: 2.5rem auto; padding: 0 1rem;">
+        <main class="card" style="background: #ffffff; padding: 2rem; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+            
+            <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 2rem;">
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem; max-width: 400px; margin: 0 auto; width: 100%;">
+                    <label style="font-size: 0.9rem; font-weight: 600; text-align: center;" for="cm-yd">Target Wet Concrete Volume (Cubic Yards)</label>
+                    <input type="number" id="cm-yd" value="2.0" step="any" oninput="calcStandaloneMixProportions()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1.1rem; text-align: center;">
+                </div>
+            </div>
+
+            <div class="results-box" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px;">
+                <h3 style="font-size: 1rem; color: #2d3748; text-transform: uppercase; margin-bottom: 1.25rem; letter-spacing: 0.02em; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; text-align: center;">Dry Component Raw Ingredients Allocation</h3>
+                
+                <div class="results-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem;">
+                    <!-- Cement Card -->
+                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #1a202c; padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 0.85rem; font-weight: 700; color: #718096;">⚪ Portland Cement (94lb Bags)</div>
+                        <div id="cm-out-cement" style="font-size: 1.5rem; font-weight: 800; color: #1a202c; margin: 0.25rem 0;">16 Bags</div>
+                        <p style="font-size: 0.75rem; color: #718096;">Standard Type I/II structural binder</p>
+                    </div>
+
+                    <!-- Sand Card -->
+                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #dd6b20; padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 0.85rem; font-weight: 700; color: #718096;">⏳ Fine Masonry Sand</div>
+                        <div id="cm-out-sand" style="font-size: 1.5rem; font-weight: 800; color: #dd6b20; margin: 0.25rem 0;">1.06 yd³</div>
+                        <p style="font-size: 0.75rem; color: #718096;">Estimated Weight: <span id="cm-out-sand-weight" style="font-weight:700;">1.38</span> Tons</p>
+                    </div>
+
+                    <!-- Aggregate Card -->
+                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #2b5c3f; padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 0.85rem; font-weight: 700; color: #718096;">🪨 Coarse Stone Aggregate</div>
+                        <div id="cm-out-agg" style="font-size: 1.5rem; font-weight: 800; color: #2b5c3f; margin: 0.25rem 0;">2.14 yd³</div>
+                        <p style="font-size: 0.75rem; color: #718096;">Estimated Weight: <span id="cm-out-agg-weight" style="font-weight:700;">3.00</span> Tons</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; background: #e9f1ec; padding: 1rem; border-radius: 6px; font-size: 0.85rem; color: var(--text-main);">
+                <strong>Engineering Ratio Notice:</strong> This configuration implements the standard volumetric engineering empirical shrinkage rules model where loose dry component total components shrink roughly 30-33% when water binder mixes are introduced. Values correspond to an approximate M15 class structural performance profile.
+            </div>
+
+        </main>
+    </div>
+
+    <footer style="background: #1a202c; color: #ffffff; text-align: center; padding: 2rem 1rem; margin-top: 8rem; font-size: 0.9rem;">
+        <p>&copy; 2026 MaterialYardage. All corporate property protections reserved.</p>
+    </footer>
+
+    <script>
+        function calcStandaloneMixProportions() {
+            const yd = parseFloat(document.getElementById('cm-yd').value) || 0;
+            
+            // Standard civil construction dry expansion factor coefficient constants (1:2:4 proportion ratio matrix rules)
+            const cementBags = Math.ceil(yd * 7.7);
+            const sandYards = yd * 0.53;
+            const aggYards = yd * 1.07;
+
+            // Approximate mass ton weights based on loose bulk physical density configurations
+            const sandTons = sandYards * 1.30;
+            const aggTons = aggYards * 1.40;
+
+            document.getElementById('cm-out-cement').innerText = cementBags + " Bags";
+            document.getElementById('cm-out-sand').innerText = sandYards.toFixed(2) + " yd³";
+            document.getElementById('cm-out-agg').innerText = aggYards.toFixed(2) + " yd³";
+            
+            document.getElementById('cm-out-sand-weight').innerText = sandTons.toFixed(2);
+            document.getElementById('cm-out-agg-weight').innerText = aggTons.toFixed(2);
+        }
+        window.onload = function() { calcStandaloneMixProportions(); };
+    </script>
+</body>
+</html>

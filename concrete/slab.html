@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concrete Slab Volume & Pre-mix Bag Calculator | MaterialYardage</title>
+    <meta name="description" content="Calculate cubic yards of wet concrete required for slabs, patios, and footings. Includes automatic safety waste calculations and standard 80lb/60lb bag count conversions.">
+    <link rel="canonical" href="https://materialyardage.com">
+    
+    <!-- Google Analytics Module -->
+    <script async src="https://googletagmanager.com"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-08MTZ3F4Q1');
+    </script>
+
+    <!-- Google AdSense Monetization Verification -->
+    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+
+    <!-- Navigation Header Matrix -->
+    <nav style="background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1rem; display: flex; justify-content: space-between; align-items: center; max-width: 100%;">
+        <a href="/" style="color: #2b5c3f; font-weight: 800; text-decoration: none; font-size: 1.2rem; letter-spacing: -0.02em;">MaterialYardage</a>
+        <div style="display: flex; gap: 1.25rem;">
+            <a href="/calculators" style="color: #2d3748; text-decoration: none; font-size: 0.95rem; font-weight: 600;">All Calculators</a>
+            <a href="/about" style="color: #718096; text-decoration: none; font-size: 0.95rem;">About</a>
+        </div>
+    </nav>
+
+    <header style="background: #2b5c3f; color: #ffffff; padding: 2.5rem 1rem; text-align: center;">
+        <h1 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem;">Structural Concrete Slab Calculator</h1>
+        <p style="font-size: 0.95rem; opacity: 0.9;">Calculate total cubic yards alongside standard pre-mixed commercial baggage arrays.</p>
+    </header>
+
+    <div class="container" style="max-width: 800px; margin: 2.5rem auto; padding: 0 1rem;">
+        <main class="card" style="background: #ffffff; padding: 2rem; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+            
+            <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label style="font-size: 0.9rem; font-weight: 600;" for="cc-len">Slab Length (Feet)</label>
+                    <input type="number" id="cc-len" value="12" step="any" oninput="calcStandaloneSlab()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                </div>
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label style="font-size: 0.9rem; font-weight: 600;" for="cc-wid">Slab Width (Feet)</label>
+                    <input type="number" id="cc-wid" value="12" step="any" oninput="calcStandaloneSlab()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                </div>
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label style="font-size: 0.9rem; font-weight: 600;" for="cc-dep">Slab Thickness (Inches)</label>
+                    <input type="number" id="cc-dep" value="4" step="any" oninput="calcStandaloneSlab()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                </div>
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label style="font-size: 0.9rem; font-weight: 600;" for="cc-waste">Wastage Buffer Allowance (%)</label>
+                    <input type="number" id="cc-waste" value="10" step="1" oninput="calcStandaloneSlab()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                </div>
+            </div>
+
+            <div style="background: #e9f1ec; padding: 1.25rem; border-radius: 6px; border-left: 5px solid #2b5c3f; margin: 2rem 0; text-align: center;">
+                <span style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: #718096; letter-spacing: 0.05em;">Total Volume to Order (Inc. Waste):</span>
+                <div id="cc-out-gross" style="font-size: 1.75rem; font-weight: 800; color: #2b5c3f; margin: 0.15rem 0;">1.96 Cubic Yards</div>
+                <span id="cc-out-yd" style="font-size: 0.9rem; font-weight: 600; color: #2d3748;">1.78 Net Cubic Yards (Before Spill Margin)</span>
+            </div>
+
+            <div class="results-box" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                <h3 style="font-size: 1rem; color: #2d3748; text-transform: uppercase; margin-bottom: 1.25rem; letter-spacing: 0.02em; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">Retail Pre-mix Baggage Estimations</h3>
+                <div class="results-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem;">
+                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #b45309; padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 0.8rem; font-weight: 700; color: #718096; text-transform: uppercase;">Standard 80lb Bags</div>
+                        <div id="cc-out-bags80" style="font-size: 1.6rem; font-weight: 800; color: #b45309; margin: 0.25rem 0;">89 Bags</div>
+                        <span style="font-size: 0.75rem; color: #718096;">Yields ~0.022 yd³ per bag</span>
+                    </div>
+                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #15803d; padding: 1rem; border-radius: 6px; text-align: center;">
+                        <div style="font-size: 0.8rem; font-weight: 700; color: #718096; text-transform: uppercase;">Utility 60lb Bags</div>
+                        <div id="cc-out-bags60" style="font-size: 1.6rem; font-weight: 800; color: #15803d; margin: 0.25rem 0;">118 Bags</div>
+                        <span style="font-size: 0.75rem; color: #718096;">Yields ~0.017 yd³ per bag</span>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer style="background: #1a202c; color: #ffffff; text-align: center; padding: 2rem 1rem; margin-top: 8rem; font-size: 0.9rem;">
+        <p>&copy; 2026 MaterialYardage. All corporate property protections reserved.</p>
+    </footer>
+
+    <script>
+        function calcStandaloneSlab() {
+            const l = parseFloat(document.getElementById('cc-len').value) || 0;
+            const w = parseFloat(document.getElementById('cc-wid').value) || 0;
+            const d = parseFloat(document.getElementById('cc-dep').value) || 0;
+            const waste = parseFloat(document.getElementById('cc-waste').value) || 0;
+
+            const cubicFeet = l * w * (d / 12);
+            const netYards = cubicFeet / 27;
+            const grossYards = netYards * (1 + (waste / 100));
+
+            // Standard physical structural packaging yield coefficients
+            const bags80 = Math.ceil(grossYards * 45); 
+            const bags60 = Math.ceil(grossYards * 60);
+
+            document.getElementById('cc-out-yd').innerText = netYards.toFixed(2) + " Net Cubic Yards (Before Spill Margin)";
+            document.getElementById('cc-out-gross').innerText = grossYards.toFixed(2) + " Cubic Yards";
+            document.getElementById('cc-out-bags80').innerText = bags80 + " Bags";
+            document.getElementById('cc-out-bags60').innerText = bags60 + " Bags";
+        }
+        window.onload = function() { calcStandaloneSlab(); };
+    </script>
+</body>
+</html>

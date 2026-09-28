@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMU Concrete block Wall Calculator | MaterialYardage</title>
+    <meta name="description" content="Calculate exactly how many standard 8x8x16 CMU concrete masonry blocks are needed for a wall construction layout. Includes cutting edge waste multipliers.">
+    <link rel="canonical" href="https://materialyardage.com">
+    
+    <!-- Google Analytics Module -->
+    <script async src="https://googletagmanager.com"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-08MTZ3F4Q1');
+    </script>
+
+    <!-- Google AdSense Monetization Verification -->
+    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+
+    <!-- Header Navigation Bar -->
+    <nav style="background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1rem; display: flex; justify-content: space-between; align-items: center; max-width: 100%;">
+        <a href="/" style="color: #2b5c3f; font-weight: 800; text-decoration: none; font-size: 1.2rem; letter-spacing: -0.02em;">MaterialYardage</a>
+        <div style="display: flex; gap: 1.25rem;">
+            <a href="/calculators" style="color: #2d3748; text-decoration: none; font-size: 0.95rem; font-weight: 600;">All Calculators</a>
+            <a href="/about" style="color: #718096; text-decoration: none; font-size: 0.95rem;">About</a>
+        </div>
+    </nav>
+
+    <header style="background: #2b5c3f; color: #ffffff; padding: 2.5rem 1rem; text-align: center;">
+        <h1 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem;">Concrete CMU Block Wall Calculator</h1>
+        <p style="font-size: 0.95rem; opacity: 0.9;">Establishes structural blocks counts based on the industry-standard 8x8x16 specification rule matrix.</p>
+    </header>
+
+    <div class="container" style="max-width: 800px; margin: 2.5rem auto; padding: 0 1rem;">
+        <main class="card" style="background: #ffffff; padding: 2rem; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+            
+            <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label style="font-size: 0.9rem; font-weight: 600;" for="bl-len">Wall Surface Length (Feet)</label>
+                    <input type="number" id="bl-len" value="40" step="any" oninput="calcStandaloneBlock()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                </div>
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label style="font-size: 0.9rem; font-weight: 600;" for="bl-hi">Wall Surface Height (Feet)</label>
+                    <input type="number" id="bl-hi" value="10" step="any" oninput="calcStandaloneBlock()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                </div>
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label style="font-size: 0.9rem; font-weight: 600;" for="bl-waste">Structural Waste Allowance (%)</label>
+                    <input type="number" id="bl-waste" value="5" step="1" oninput="calcStandaloneBlock()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                </div>
+            </div>
+
+            <div style="background: #e9f1ec; padding: 1.25rem; border-radius: 6px; border-left: 5px solid #2b5c3f; margin: 2rem 0; text-align: center;">
+                <span style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: #718096; letter-spacing: 0.05em;">Gross Blocks Recommended:</span>
+                <div id="bl-out-gross" style="font-size: 1.75rem; font-weight: 800; color: #2b5c3f; margin: 0.15rem 0;">473 Blocks</div>
+                <span id="bl-out-net" style="font-size: 0.9rem; font-weight: 600; color: #2d3748;">450 Blocks Net Structural (Assuming 8"x8"x16" Standard Blocks)</span>
+            </div>
+
+        </main>
+    </div>
+
+    <footer style="background: #1a202c; color: #ffffff; text-align: center; padding: 2rem 1rem; margin-top: 8rem; font-size: 0.9rem;">
+        <p>&copy; 2026 MaterialYardage. All corporate property protections reserved.</p>
+    </footer>
+
+    <script>
+        function calcStandaloneBlock() {
+            const l = parseFloat(document.getElementById('bl-len').value) || 0;
+            const h = parseFloat(document.getElementById('bl-hi').value) || 0;
+            const waste = parseFloat(document.getElementById('bl-waste').value) || 0;
+
+            const area = l * h;
+            const netBlocks = Math.ceil(area * 1.125); // 1.125 block multiplier matches standard 8x8x16 size including standard joint gaps
+            const grossBlocks = Math.ceil(netBlocks * (1 + (waste / 100)));
+
+            document.getElementById('bl-out-net').innerText = netBlocks.toLocaleString() + " Blocks Net Structural (Assuming 8\"x8\"x16\" Standard Blocks)";
+            document.getElementById('bl-out-gross').innerText = grossBlocks.toLocaleString() + " Blocks";
+        }
+        window.onload = function() { calcStandaloneBlock(); };
+    </script>
+</body>
+</html>
