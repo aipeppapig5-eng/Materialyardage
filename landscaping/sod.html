@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sod Pallet & Turf Roll Estimator | MaterialYardage</title>
     <meta name="description" content="Calculate exactly how many square feet, individual grass rolls, or full farm pallets of sod you need to order for your new lawn installation.">
-    <link rel="canonical" href="https://www.materialyardage.com/landscaping/sod.html">
+    <link rel="canonical" href="https://www.materialyardage.com/landscaping/sod">
     
     <!-- Google Analytics Module -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-08MTZ3F4Q1"></script>
@@ -26,8 +26,8 @@
     <nav style="background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1rem; display: flex; justify-content: space-between; align-items: center; max-width: 100%;">
         <a href="/" style="color: #2b5c3f; font-weight: 800; text-decoration: none; font-size: 1.2rem; letter-spacing: -0.02em;">MaterialYardage</a>
         <div style="display: flex; gap: 1.25rem;">
-            <a href="/calculators.html" style="color: #2d3748; text-decoration: none; font-size: 0.95rem; font-weight: 600;">All Calculators</a>
-            <a href="/methodology.html" style="color: #718096; text-decoration: none; font-size: 0.95rem;">Methodology</a><a href="/contact.html" style="color: #718096; text-decoration: none; font-size: 0.95rem;">Contact</a><a href="/about.html" style="color: #718096; text-decoration: none; font-size: 0.95rem;">About</a>
+            <a href="/calculators" style="color: #2d3748; text-decoration: none; font-size: 0.95rem; font-weight: 600;">All Calculators</a>
+            <a href="/methodology" style="color: #718096; text-decoration: none; font-size: 0.95rem;">Methodology</a><a href="/contact" style="color: #718096; text-decoration: none; font-size: 0.95rem;">Contact</a><a href="/about" style="color: #718096; text-decoration: none; font-size: 0.95rem;">About</a>
         </div>
     </nav>
 
@@ -95,10 +95,10 @@
     </div>
 
     <footer style="background: #1a202c; color: #ffffff; text-align: center; padding: 2.5rem 1rem; margin-top: 8rem; font-size: 0.9rem;">
-        <p>&copy; 2026 MaterialYardage. All corporate property protections reserved.</p>
+        <p>&copy; 2026 MaterialYardage. All rights reserved.</p>
         <p style="margin-top: 0.5rem; color: #a0aec0;">
             <a href="/" style="color: #a0aec0; text-decoration: none; margin: 0 0.5rem;">Workspace Home</a> | 
-            <a href="/calculators.html" style="color: #a0aec0; text-decoration: none; margin: 0 0.5rem;">Directory Index</a>
+            <a href="/calculators" style="color: #a0aec0; text-decoration: none; margin: 0 0.5rem;">Directory Index</a>
         </p>
     
 <section class="wrap narrow block calculator-guide">
@@ -110,16 +110,16 @@
   <ul><li>Real lawns often contain curves, trees, beds and narrow sections that increase cutting waste.</li><li>Farm pallet coverage differs by supplier, so confirm the actual pallet square footage before ordering.</li><li>Measure the installation area rather than relying only on property dimensions.</li></ul>
   <h3>Frequently asked questions</h3>
   <details><summary>How much extra sod should I order?</summary><p>A simple rectangle can need less extra material than an irregular lawn. Use the calculator&#x27;s waste options as planning assumptions and confirm with the sod supplier.</p></details><details><summary>Can I use this for curved lawns?</summary><p>Yes as an estimate, but divide complex shapes into measurable sections for a closer result.</p></details><details><summary>Are pallets standardized?</summary><p>No. Pallet coverage varies by supplier and sod type, so verify the actual unit coverage.</p></details>
-  <p class="fine">For the calculation assumptions used on this site, see the <a href="/methodology.html">MaterialYardage methodology</a>.</p>
+  <p class="fine">For the calculation assumptions used on this site, see the <a href="/methodology">MaterialYardage methodology</a>.</p>
 </section>
 </footer>
 
     <!-- Native Self-Contained Sod Logic Engine -->
     <script>
         function calcEmbeddedSod() {
-            const length = parseFloat(document.getElementById('sd-len').value) || 0;
-            const width = parseFloat(document.getElementById('sd-wid').value) || 0;
-            const wasteFactor = parseFloat(document.getElementById('sd-waste').value) || 0;
+            const length = Math.max(0, parseFloat(document.getElementById('sd-len').value) || 0);
+            const width = Math.max(0, parseFloat(document.getElementById('sd-wid').value) || 0);
+            const wasteFactor = Math.max(0, parseFloat(document.getElementById('sd-waste').value) || 0);
 
             // Compute structural square footages
             const netSquareFeet = length * width;
@@ -134,8 +134,8 @@
             const roughPayloadWeight = fullPallets * 2500;
 
             // Output safely straight to DOM tokens
-            document.getElementById('sd-out-total-sqft').innerText = grossSquareFeet.toFixed(0).toLocaleString() + " Sq. Ft.";
-            document.getElementById('sd-out-net-sqft').innerText = netSquareFeet.toFixed(0).toLocaleString() + " Net Square Feet (Before Waste Margin)";
+            document.getElementById('sd-out-total-sqft').innerText = Math.round(grossSquareFeet).toLocaleString() + " Sq. Ft.";
+            document.getElementById('sd-out-net-sqft').innerText = Math.round(netSquareFeet).toLocaleString() + " Net Square Feet (Before Waste Margin)";
             
             document.getElementById('sd-out-pallets').innerText = fullPallets + " Pallets";
             document.getElementById('sd-out-rolls').innerText = totalRolls.toLocaleString() + " Rolls";
