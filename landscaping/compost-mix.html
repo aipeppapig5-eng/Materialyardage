@@ -19,9 +19,10 @@
     <!-- Google AdSense Monetization Verification -->
     <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
 <body>
 
-    <!-- Unified Framework Header Navigation Bar -->
+    <!-- Header Navigation Bar -->
     <nav style="background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1rem; display: flex; justify-content: space-between; align-items: center; max-width: 100%;">
         <a href="/" style="color: #2b5c3f; font-weight: 800; text-decoration: none; font-size: 1.2rem; letter-spacing: -0.02em;">MaterialYardage</a>
         <div style="display: flex; gap: 1.25rem;">
@@ -42,51 +43,51 @@
             <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
                 <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
                     <label style="font-size: 0.9rem; font-weight: 600;" for="cmx-len">Bed Length (Feet)</label>
-                    <input type="number" id="cmx-len" value="12" step="any" oninput="calcStandaloneCompost()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                    <input type="number" id="cmx-len" value="12" step="any" oninput="calcEmbeddedCompostMix()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
                 </div>
                 <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
                     <label style="font-size: 0.9rem; font-weight: 600;" for="cmx-wid">Bed Width (Feet)</label>
-                    <input type="number" id="cmx-wid" value="4" step="any" oninput="calcStandaloneCompost()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                    <input type="number" id="cmx-wid" value="4" step="any" oninput="calcEmbeddedCompostMix()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
                 </div>
                 <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
                     <label style="font-size: 0.9rem; font-weight: 600;" for="cmx-dep">Fill Depth (Inches)</label>
-                    <input type="number" id="cmx-dep" value="12" step="any" oninput="calcStandaloneCompost()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                    <input type="number" id="cmx-dep" value="12" step="any" oninput="calcEmbeddedCompostMix()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
                 </div>
                 <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
                     <label style="font-size: 0.9rem; font-weight: 600;" for="cmx-waste">Waste Allowance (%)</label>
-                    <input type="number" id="cmx-waste" value="10" step="1" oninput="calcStandaloneCompost()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                    <input type="number" id="cmx-waste" value="10" step="1" oninput="calcEmbeddedCompostMix()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
                 </div>
             </div>
 
-            <!-- Absolute Combined Volume Requirement Banner View -->
+            <!-- Volume Requirement Banner View -->
             <div style="background: #e9f1ec; padding: 1.25rem; border-radius: 6px; border-left: 5px solid #2b5c3f; margin: 2rem 0; text-align: center;">
                 <span style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: #718096; letter-spacing: 0.05em;">Total Blended Volume Requirement:</span>
-                <div id="cmx-out-total-yd" style="font-size: 1.75rem; font-weight: 800; color: #2b5c3f; margin: 0.15rem 0;">1.96 Cubic Yards</div>
-                <span id="cmx-out-total-ft" style="font-size: 0.9rem; font-weight: 600; color: #2d3748;">52.80 Total Cubic Feet (Inc. Waste Allowance)</span>
+                <div id="cmx-out-total-yd" style="font-size: 1.75rem; font-weight: 800; color: #2b5c3f; margin: 0.15rem 0;">0.00 Cubic Yards</div>
+                <span id="cmx-out-total-ft" style="font-size: 0.9rem; font-weight: 600; color: #2d3748;">0.00 Total Cubic Feet (Inc. Waste Allowance)</span>
             </div>
 
-            <!-- Segregated Breakdown Formulation Box -->
+            <!-- Allocation Breakdown Card -->
             <div class="results-box" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
                 <h3 style="font-size: 1rem; color: #2d3748; text-transform: uppercase; margin-bottom: 1.25rem; letter-spacing: 0.02em; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">Material Composition Allocation Breakdown</h3>
                 
                 <div class="results-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem;">
-                    <!-- Topsoil component block layout card -->
+                    <!-- Topsoil Card -->
                     <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #b45309; padding: 1rem; border-radius: 6px;">
                         <div style="font-size: 0.85rem; font-weight: 700; color: #718096;">🍂 Screened Loam Topsoil (70%)</div>
-                        <div id="cmx-out-soil-yd" style="font-size: 1.5rem; font-weight: 800; color: #b45309; margin: 0.25rem 0;">1.37 yd³</div>
+                        <div id="cmx-out-soil-yd" style="font-size: 1.5rem; font-weight: 800; color: #b45309; margin: 0.25rem 0;">0.00 yd³</div>
                         <div style="font-size: 0.85rem; color: #2d3748; line-height: 1.4;">
-                            Mass Weight: <span id="cmx-out-soil-tons" style="font-weight:700;">1.37</span> Tons<br>
-                            Standard Retail Bags (0.75 ft³): <span id="cmx-out-soil-bags" style="font-weight:700;">50</span> Bags
+                            Mass Weight: <span id="cmx-out-soil-tons" style="font-weight:700;">0.00</span> Tons<br>
+                            Standard Retail Bags (0.75 ft³): <span id="cmx-out-soil-bags" style="font-weight:700;">0</span> Bags
                         </div>
                     </div>
 
-                    <!-- Organic compost component block layout card -->
+                    <!-- Compost Card -->
                     <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #15803d; padding: 1rem; border-radius: 6px;">
                         <div style="font-size: 0.85rem; font-weight: 700; color: #718096;">🌿 High-Nutrient Compost (30%)</div>
-                        <div id="cmx-out-comp-yd" style="font-size: 1.5rem; font-weight: 800; color: #15803d; margin: 0.25rem 0;">0.59 yd³</div>
+                        <div id="cmx-out-comp-yd" style="font-size: 1.5rem; font-weight: 800; color: #15803d; margin: 0.25rem 0;">0.00 yd³</div>
                         <div style="font-size: 0.85rem; color: #2d3748; line-height: 1.4;">
-                            Mass Weight: <span id="cmx-out-comp-tons" style="font-weight:700;">0.35</span> Tons<br>
-                            Standard Loose Bags (1.0 ft³): <span id="cmx-out-comp-bags" style="font-weight:700;">16</span> Bags
+                            Mass Weight: <span id="cmx-out-comp-tons" style="font-weight:700;">0.00</span> Tons<br>
+                            Standard Loose Bags (1.0 ft³): <span id="cmx-out-comp-bags" style="font-weight:700;">0</span> Bags
                         </div>
                     </div>
                 </div>
@@ -104,32 +105,35 @@
         </p>
     </footer>
 
-    <!-- Native Encapsulated Mathematics Computation Script Logic Engine -->
+    <!-- Native Self-Contained Calculator Engine -->
     <script>
-        function calcStandaloneCompost() {
-            const l = parseFloat(document.getElementById('cmx-len').value) || 0;
-            const w = parseFloat(document.getElementById('cmx-wid').value) || 0;
-            const d = parseFloat(document.getElementById('cmx-dep').value) || 0;
-            const waste = parseFloat(document.getElementById('cmx-waste').value) || 0;
+        function calcEmbeddedCompostMix() {
+            const length = parseFloat(document.getElementById('cmx-len').value) || 0;
+            const width = parseFloat(document.getElementById('cmx-wid').value) || 0;
+            const depthInches = parseFloat(document.getElementById('cmx-dep').value) || 0;
+            const wastePercent = parseFloat(document.getElementById('cmx-waste').value) || 0;
 
-            const netFeet = l * w * (d / 12);
-            const grossFeet = netFeet * (1 + (waste / 100));
-            const grossYards = grossFeet / 27;
+            // Compute volume metrics
+            const netCubicFeet = length * width * (depthInches / 12);
+            const grossCubicFeet = netCubicFeet * (1 + (wastePercent / 100));
+            const grossCubicYards = grossCubicFeet / 27;
 
-            const soilYards = grossYards * 0.70;
-            const soilFeet = grossFeet * 0.70;
-            const compYards = grossYards * 0.30;
-            const compFeet = grossFeet * 0.30;
+            // Apply 70/30 mix ratios
+            const topsoilVolumeYards = grossCubicYards * 0.70;
+            const topsoilVolumeFeet = grossCubicFeet * 0.70;
+            const compostVolumeYards = grossCubicYards * 0.30;
+            const compostVolumeFeet = grossCubicFeet * 0.30;
 
-            document.getElementById('cmx-out-total-yd').innerText = grossYards.toFixed(2) + " Cubic Yards";
-            document.getElementById('cmx-out-total-ft').innerText = grossFeet.toFixed(2) + " Total Cubic Feet (Inc. Waste)";
+            // Mass density transformations
+            const topsoilTons = topsoilVolumeYards * 1.00;
+            const compostTons = compostVolumeYards * 0.60;
 
-            document.getElementById('cmx-out-soil-yd').innerText = soilYards.toFixed(2) + " yd³";
-            document.getElementById('cmx-out-soil-tons').innerText = (soilYards * 1.00).toFixed(2);
-            document.getElementById('cmx-out-soil-bags').innerText = Math.ceil(soilFeet / 0.75).toLocaleString();
+            // Bag counts rounding factors
+            const topsoilBags = Math.ceil(topsoilVolumeFeet / 0.75);
+            const compostBags = Math.ceil(compostVolumeFeet / 1.00);
 
-            document.getElementById('cmx-out-comp-yd').innerText = compYards.toFixed(2) + " yd³";
-            document.getElementById('cmx-out-comp-tons').innerText = (compYards * 0.60).toFixed(2);
-            document.getElementById('cmx-out-comp-bags').innerText = Math.ceil(compFeet / 1.00).toLocaleString();
-        }
+            // Update UI elements securely
+            document.getElementById('cmx-out-total-yd').innerText = grossCubicYards.toFixed(2) + " Cubic Yards";
+            document.getElementById('cmx-out-total-ft').innerText = grossCubicFeet.toFixed(2) + " Total Cubic Feet (Inc. Waste)";
 
+            document.getElementById('cmx-out-soil-yd').innerText = topsoilVolumeYards.toFixed(2) + " yd³";
