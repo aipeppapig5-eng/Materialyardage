@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Topsoil, Mulch & Gravel Calculator | Yardage Estimator</title>
+  <meta name="description" content="Free topsoil, mulch and gravel calculator. Calculate cubic yards, cubic meters and estimated tons for landscaping, garden beds, driveways and construction projects.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://www.materialyardage.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Free Topsoil, Mulch & Gravel Calculator">
+  <meta property="og:description" content="Calculate the volume and estimated weight of topsoil, mulch or gravel you need.">
+  <meta property="og:url" content="https://www.materialyardage.com/">
+  <meta name="theme-color" content="#0f172a">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-08MTZ3F4Q1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-08MTZ3F4Q1');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650221548917155" crossorigin="anonymous"></script>
+
+  
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"WebApplication",
+        "@id":"https://www.materialyardage.com/#calculator",
+        "name":"Topsoil, Mulch & Gravel Calculator",
+        "url":"https://www.materialyardage.com/",
+        "applicationCategory":"UtilitiesApplication",
+        "operatingSystem":"All",
+        "browserRequirements":"Requires JavaScript and HTML5",
+        "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
+      },
+      {
+        "@type":"FAQPage",
+        "@id":"https://www.materialyardage.com/#faq",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"How deep should mulch be?",
+            "acceptedAnswer":{"@type":"Answer","text":"A typical mulch application is about 2 to 3 inches deep. Avoid piling mulch against tree trunks or plant stems."}
+          },
+          {
+            "@type":"Question",
+            "name":"How much does a cubic yard of topsoil weigh?",
+            "acceptedAnswer":{"@type":"Answer","text":"A cubic yard of topsoil is often estimated at about 1.1 tons, but actual weight varies with moisture, composition and supplier."}
+          },
+          {
+            "@type":"Question",
+            "name":"What is the formula for cubic yards?",
+            "acceptedAnswer":{"@type":"Answer","text":"For measurements in feet and inches, multiply length by width by depth in feet, then divide by 27. Depth in feet is inches divided by 12."}
+          },
+          {
+            "@type":"Question",
+            "name":"How much gravel do I need?",
+            "acceptedAnswer":{"@type":"Answer","text":"Measure the area length and width and choose the desired depth. The calculator converts the resulting volume into cubic yards and estimates weight using a typical gravel bulk density."}
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    html { scroll-behavior:smooth; }
+    body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    input:focus, select:focus { outline:2px solid transparent; box-shadow:0 0 0 2px rgb(16 185 129 / .35); }
+  </style>
+</head>
+
+<body class="min-h-screen bg-slate-950 text-slate-100">
+<header class="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/90 backdrop-blur">
+  <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
+    <a href="/" class="text-xl font-extrabold tracking-tight text-emerald-400" aria-label="Material Yardage home">
+      Material<span class="text-white">Yardage</span>
+    </a>
+    <span class="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400">100% Free</span>
+  </div>
+</header>
+
+<main class="mx-auto w-full max-w-4xl px-4 py-10">
+  <section class="mb-8 text-center">
+    <h1 class="text-3xl font-black tracking-tight sm:text-4xl">Topsoil, Mulch &amp; Gravel Calculator</h1>
+    <p class="mx-auto mt-3 max-w-2xl text-slate-400">
+      Calculate the volume and estimated weight of landscape materials for garden beds, lawns, driveways and other projects.
+    </p>
+  </section>
+
+  <section class="rounded-2xl border border-slate-800 bg-slate-900/80 p-5 shadow-2xl sm:p-8" aria-label="Material calculator">
+    <div class="mb-6 flex max-w-sm rounded-xl bg-slate-950 p-1">
+      <button id="btn-imperial" type="button" class="flex-1 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-bold text-white" aria-pressed="true">Imperial (ft/in)</button>
+      <button id="btn-metric" type="button" class="flex-1 rounded-lg px-3 py-2 text-sm font-bold text-slate-400" aria-pressed="false">Metric (m/cm)</button>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-2">
+      <div class="space-y-4">
+        <div>
+          <label id="lbl-length" for="input-length" class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">Length (feet)</label>
+          <input id="input-length" type="number" min="0" step="any" value="10" inputmode="decimal" class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 font-medium text-white">
+        </div>
+        <div>
+          <label id="lbl-width" for="input-width" class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">Width (feet)</label>
+          <input id="input-width" type="number" min="0" step="any" value="10" inputmode="decimal" class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 font-medium text-white">
+        </div>
+        <div>
+          <label id="lbl-depth" for="input-depth" class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">Depth (inches)</label>
+          <input id="input-depth" type="number" min="0" step="any" value="3" inputmode="decimal" class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 font-medium text-white">
+        </div>
+        <div>
+          <label for="select-material" class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">Material type</label>
+          <select id="select-material" class="w-full appearance-none rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 font-medium text-white">
+            <option value="mulch">Mulch (~0.4 tons/yd³)</option>
+            <option value="topsoil" selected>Topsoil (~1.1 tons/yd³)</option>
+            <option value="gravel">Gravel / Aggregate (~1.4 tons/yd³)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex flex-col rounded-2xl border border-slate-800 bg-slate-950/60 p-5">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Required volume</p>
+          <p id="out-volume-primary" class="mt-1 text-4xl font-black text-emerald-400">0.93 yd³</p>
+          <p id="out-volume-secondary" class="mt-1 text-sm text-slate-400">0.71 m³</p>
+        </div>
+        <div class="my-5 border-t border-slate-800"></div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Estimated weight</p>
+          <p id="out-weight" class="mt-1 text-4xl font-black">1.02 tons</p>
+          <p class="mt-1 text-sm text-slate-400">Approximate bulk weight</p>
+        </div>
+        <button id="reset" type="button" class="mt-auto pt-5 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white">Reset fields</button>
+      </div>
+    </div>
+
+    <p id="validation" class="mt-4 hidden rounded-lg border border-red-900/50 bg-red-950/30 p-3 text-sm text-red-300"></p>
+    <p class="mt-5 text-xs leading-relaxed text-slate-500">
+      Weight is an estimate. Actual material density varies by moisture, composition, compaction and supplier.
+      Always confirm final quantities with your local landscape-material supplier.
+    </p>
+  </section>
+
+  <div class="my-10 rounded-xl border border-slate-800 bg-slate-900/50 p-5 text-center text-sm text-slate-500">
+    Advertisement
+  </div>
+
+  <article class="space-y-9 border-t border-slate-800 pt-10 text-sm leading-7 text-slate-300">
+    <section>
+      <h2 class="mb-3 text-2xl font-bold text-white">How Many Yards of Material Do You Need?</h2>
+      <p>Accurate volume estimates help you order enough material without unnecessarily over-ordering. Measure the length and width of the area, decide the finished depth, and select topsoil, mulch or gravel. The calculator converts your measurements into cubic yards and cubic meters and provides an estimated weight.</p>
+    </section>
+
+    <section>
+      <h2 class="mb-3 text-2xl font-bold text-white">Cubic Yard Formula</h2>
+      <p>For imperial measurements, calculate cubic feet by multiplying length × width × depth in feet. Then divide by 27 to convert cubic feet to cubic yards. If depth is measured in inches, divide the inches by 12 first.</p>
+      <div class="mt-4 rounded-xl border border-slate-800 bg-slate-900 p-4 font-mono text-emerald-300">Cubic yards = length × width × (depth ÷ 12) ÷ 27</div>
+    </section>
+
+    <section>
+      <h2 class="mb-3 text-2xl font-bold text-white">Using the Metric Calculator</h2>
+      <p>For metric measurements, multiply length in meters × width in meters × depth in meters to obtain cubic meters. The calculator also converts cubic meters to cubic yards for easy comparison with suppliers that sell by the yard.</p>
+    </section>
+
+    <section>
+      <h2 class="mb-3 text-2xl font-bold text-white">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <details class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+          <summary class="cursor-pointer font-semibold text-white">How deep should mulch be?</summary>
+          <p class="mt-2 text-slate-400">A typical mulch application is about 2 to 3 inches deep. Avoid piling mulch against tree trunks or plant stems.</p>
+        </details>
+        <details class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+          <summary class="cursor-pointer font-semibold text-white">How much does a cubic yard of topsoil weigh?</summary>
+          <p class="mt-2 text-slate-400">A cubic yard of topsoil is often estimated at about 1.1 tons, but actual weight varies with moisture, composition and supplier.</p>
+        </details>
+        <details class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+          <summary class="cursor-pointer font-semibold text-white">What is the formula for cubic yards?</summary>
+          <p class="mt-2 text-slate-400">Multiply length by width by depth in feet, then divide by 27. If depth is in inches, divide it by 12 to convert it to feet first.</p>
+        </details>
+        <details class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+          <summary class="cursor-pointer font-semibold text-white">How much gravel do I need?</summary>
+          <p class="mt-2 text-slate-400">Measure the area length and width and choose the desired depth. The calculator converts the volume into cubic yards and estimates weight using a typical gravel bulk density.</p>
+        </details>
+      </div>
+    </section>
+  </article>
+</main>
+
+<footer class="border-t border-slate-800 py-8 text-center text-xs text-slate-500">
+  <p><a href="/privacy-policy.html" class="hover:text-white">Privacy Policy</a></p><p class="mt-3">© <span id="year"></span> MaterialYardage.com · Free landscape material calculator</p>
+</footer>
+
+<script>
+(() => {
+  const density = { mulch: 0.4, topsoil: 1.1, gravel: 1.4 };
+  let system = "imperial";
+
+  const $ = id => document.getElementById(id);
+  const length = $("input-length");
+  const width = $("input-width");
+  const depth = $("input-depth");
+  const material = $("select-material");
+  const primary = $("out-volume-primary");
+  const secondary = $("out-volume-secondary");
+  const weight = $("out-weight");
+  const validation = $("validation");
+
+  function updateButtons() {
+    const active = "flex-1 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-bold text-white";
+    const inactive = "flex-1 rounded-lg px-3 py-2 text-sm font-bold text-slate-400";
+    $("btn-imperial").className = system === "imperial" ? active : inactive;
+    $("btn-metric").className = system === "metric" ? active : inactive;
+    $("btn-imperial").setAttribute("aria-pressed", system === "imperial");
+    $("btn-metric").setAttribute("aria-pressed", system === "metric");
+  }
+
+  function calculate() {
+    const l = Number(length.value);
+    const w = Number(width.value);
+    const d = Number(depth.value);
+
+    if (![l, w, d].every(Number.isFinite) || l < 0 || w < 0 || d < 0) {
+      validation.textContent = "Please enter valid non-negative measurements.";
+      validation.classList.remove("hidden");
+      return;
+    }
+    validation.classList.add("hidden");
+
+    let cubicMeters;
+    if (system === "imperial") {
+      const cubicFeet = l * w * (d / 12);
+      const cubicYards = cubicFeet / 27;
+      cubicMeters = cubicYards / 1.30795062;
+      primary.textContent = cubicYards.toFixed(2) + " yd³";
+      secondary.textContent = cubicMeters.toFixed(2) + " m³";
+      weight.textContent = (cubicYards * density[material.value]).toFixed(2) + " tons";
+    } else {
+      cubicMeters = l * w * (d / 100);
+      const cubicYards = cubicMeters * 1.30795062;
+      primary.textContent = cubicMeters.toFixed(2) + " m³";
+      secondary.textContent = cubicYards.toFixed(2) + " yd³";
+      weight.textContent = (cubicYards * density[material.value]).toFixed(2) + " tons";
+    }
+  }
+
+  function setSystem(next) {
+    system = next;
+    if (system === "imperial") {
+      $("lbl-length").textContent = "Length (feet)";
+      $("lbl-width").textContent = "Width (feet)";
+      $("lbl-depth").textContent = "Depth (inches)";
+      length.value = 10;
+      width.value = 10;
+      depth.value = 3;
+    } else {
+      $("lbl-length").textContent = "Length (meters)";
+      $("lbl-width").textContent = "Width (meters)";
+      $("lbl-depth").textContent = "Depth (centimeters)";
+      length.value = "3.048";
+      width.value = "3.048";
+      depth.value = "7.62";
+    }
+    updateButtons();
+    calculate();
+  }
+
+  $("btn-imperial").addEventListener("click", () => setSystem("imperial"));
+  $("btn-metric").addEventListener("click", () => setSystem("metric"));
+  [length, width, depth, material].forEach(el => el.addEventListener("input", calculate));
+  material.addEventListener("change", calculate);
+
+  $("reset").addEventListener("click", () => setSystem(system));
+  $("year").textContent = new Date().getFullYear();
+
+  updateButtons();
+  calculate();
+})();
+</script>
+</body>
+</html>
