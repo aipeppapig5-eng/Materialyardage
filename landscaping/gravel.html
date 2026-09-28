@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aggregated Gravel & Sub-Base Weight Estimator | MaterialYardage</title>
+    <meta name="description" content="Calculate volume and heavy tonnage weight allocations for river stones, pea gravel, quarry gravel, and compactable road bases.">
+    <link rel="canonical" href="https://materialyardage.com">
+    
+    <!-- Google Analytics Module -->
+    <script async src="https://googletagmanager.com"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-08MTZ3F4Q1');
+    </script>
+
+    <!-- Google AdSense Monetization Verification -->
+    <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+
+    <!-- Header Navigation Bar -->
+    <nav style="background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1rem; display: flex; justify-content: space-between; align-items: center; max-width: 100%;">
+        <a href="/" style="color: #2b5c3f; font-weight: 800; text-decoration: none; font-size: 1.2rem; letter-spacing: -0.02em;">MaterialYardage</a>
+        <div style="display: flex; gap: 1.25rem;">
+            <a href="/calculators" style="color: #2d3748; text-decoration: none; font-size: 0.95rem; font-weight: 600;">All Calculators</a>
+            <a href="/about" style="color: #718096; text-decoration: none; font-size: 0.95rem;">About</a>
+        </div>
+    </nav>
+
+    <header style="background: #2b5c3f; color: #ffffff; padding: 2.5rem 1rem; text-align: center;">
+        <h1 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem;">Gravel & Road Base Analyzer</h1>
+        <p style="font-size: 0.95rem; opacity: 0.9;">Analyze high-mass structural volume metrics alongside tonnage outputs.</p>
+    </header>
+
+    <div class="container" style="max-width: 800px; margin: 2.5rem auto; padding: 0 1rem;">
+        <main class="card" style="background: #ffffff; padding: 2rem; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+            
+            <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label style="font-size: 0.9rem; font-weight: 600;" for="gr-len">Layout Length (Feet)</label>
+                    <input type="number" id="gr-len" value="50" step="any" oninput="calcStandaloneGravel()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                </div>
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label style="font-size: 0.9rem; font-weight: 600;" for="gr-wid">Layout Width (Feet)</label>
+                    <input type="number" id="gr-wid" value="10" step="any" oninput="calcStandaloneGravel()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                </div>
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label style="font-size: 0.9rem; font-weight: 600;" for="gr-dep">Target Depth (Inches)</label>
+                    <input type="number" id="gr-dep" value="4" step="any" oninput="calcStandaloneGravel()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
+                </div>
+                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+                    <label style="font-size: 0.9rem; font-weight: 600;" for="gr-type">Aggregate Material Geometry</label>
+                    <select id="gr-type" onchange="calcStandaloneGravel()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem; background: white;">
+                        <option value="1.35" selected>Pea Gravel / River Rock (1.35 tons/yd³)</option>
+                        <option value="1.40">Crushed Quarry Stone (1.40 tons/yd³)</option>
+                        <option value="1.50">Dense Graded Road Base (1.50 tons/yd³)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="background: #e9f1ec; padding: 1.25rem; border-radius: 6px; border-left: 5px solid #2b5c3f; margin: 2rem 0; text-align: center;">
+                <span style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: #718096; letter-spacing: 0.05em;">Net Requirement Volume:</span>
+                <div id="gr-out-yd" style="font-size: 1.75rem; font-weight: 800; color: #2b5c3f; margin: 0.15rem 0;">6.17 Cubic Yards</div>
+            </div>
+
+            <div class="results-box" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                <h3 style="font-size: 1rem; color: #2d3748; text-transform: uppercase; margin-bottom: 1.25rem; letter-spacing: 0.02em; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">Mass Weight & Shipping Thresholds</h3>
+                <div class="results-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem;">
+                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #dd6b20; padding: 1rem; border-radius: 6px;">
+                        <div style="font-size: 0.85rem; font-weight: 700; color: #718096;">Estimated Payload Mass</div>
+                        <div id="gr-out-tons" style="font-size: 1.5rem; font-weight: 800; color: #dd6b20; margin: 0.25rem 0;">8.33 Tons</div>
+                    </div>
+                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #2b5c3f; padding: 1rem; border-radius: 6px;">
+                        <div style="font-size: 0.85rem; font-weight: 700; color: #718096;">Recommended Order (+5% Compaction)</div>
+                        <div id="gr-out-rec" style="font-size: 1.5rem; font-weight: 800; color: #2b5c3f; margin: 0.25rem 0;">6.50 yd³</div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer style="background: #1a202c; color: #ffffff; text-align: center; padding: 2.5rem 1rem; margin-top: 8rem; font-size: 0.9rem;">
+        <p>&copy; 2026 MaterialYardage. All corporate property protections reserved.</p>
+    </footer>
+
+    <script>
+        function calcStandaloneGravel() {
+            const l = parseFloat(document.getElementById('gr-len').value) || 0;
+            const w = parseFloat(document.getElementById('gr-wid').value) || 0;
+            const d = parseFloat(document.getElementById('gr-dep').value) || 0;
+            const factor = parseFloat(document.getElementById('gr-type').value) || 1.35;
+
+            const cubicFeet = l * w * (d / 12);
+            const cubicYards = cubicFeet / 27;
+            const tons = cubicYards * factor;
+            const recommended = Math.ceil(cubicYards * 1.05 * 2) / 2;
+
+            document.getElementById('gr-out-yd').innerText = cubicYards.toFixed(2) + " Cubic Yards";
+            document.getElementById('gr-out-tons').innerText = tons.toFixed(2) + " Tons";
+            document.getElementById('gr-out-rec').innerText = recommended.toFixed(2) + " yd³";
+        }
+        window.onload = function() { calcStandaloneGravel(); };
+    </script>
+</body>
+</html>
