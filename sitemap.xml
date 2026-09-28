@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://www.materialyardage.com/</loc><lastmod>2026-09-28</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://www.materialyardage.com/about.html</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://www.materialyardage.com/calculators.html</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.materialyardage.com/concrete/mix-proportions.html</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.materialyardage.com/concrete/slab.html</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.materialyardage.com/contact.html</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
-  <url><loc>https://www.materialyardage.com/gravel-calculator.html</loc><lastmod>2026-09-28</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.materialyardage.com/landscaping/compost-mix.html</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.materialyardage.com/landscaping/gravel.html</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.materialyardage.com/landscaping/mulch.html</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.materialyardage.com/landscaping/sod.html</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.materialyardage.com/masonry/block.html</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.materialyardage.com/masonry/brick.html</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.materialyardage.com/masonry/mortar.html</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.materialyardage.com/mulch-calculator.html</loc><lastmod>2026-09-28</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.materialyardage.com/privacy-policy.html</loc><lastmod>2026-09-28</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.materialyardage.com/about</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://www.materialyardage.com/calculators</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.materialyardage.com/concrete/mix-proportions</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.materialyardage.com/concrete/slab</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.materialyardage.com/contact</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://www.materialyardage.com/gravel-calculator</loc><lastmod>2026-09-28</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.materialyardage.com/landscaping/compost-mix</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.materialyardage.com/landscaping/gravel</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.materialyardage.com/landscaping/mulch</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.materialyardage.com/landscaping/sod</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.materialyardage.com/masonry/block</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.materialyardage.com/masonry/brick</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.materialyardage.com/masonry/mortar</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.materialyardage.com/methodology</loc><lastmod>2026-09-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.materialyardage.com/mulch-calculator</loc><lastmod>2026-09-28</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.materialyardage.com/privacy-policy</loc><lastmod>2026-09-28</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
