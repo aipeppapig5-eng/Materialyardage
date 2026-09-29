@@ -1,122 +1,104 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raised Bed Compost & Soil Mix Blend Calculator | MaterialYardage</title>
-    <meta name="description" content="Calculate professional soil-to-compost ratios for raised garden beds. Uses the industry standard 70/30 organic blend rules with built-in bag counts and mass weights.">
-    <link rel="canonical" href="https://www.materialyardage.com/landscaping/compost-mix">
-    
-    <!-- Google Analytics Module -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-08MTZ3F4Q1"></script>
-    <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Raised Bed Compost &amp; Soil Mix Blend Calculator | MaterialYardage</title>
+<meta content="Calculate professional soil-to-compost ratios for raised garden beds. Uses the industry standard 70/30 organic blend rules with built-in bag counts and mass weights." name="description"/>
+<link href="https://www.materialyardage.com/landscaping/compost-mix" rel="canonical"/>
+<meta content="Raised Bed Compost &amp; Soil Mix Blend Calculator | MaterialYardage" property="og:title"/>
+<meta content="Calculate professional soil-to-compost ratios for raised garden beds. Uses the industry standard 70/30 organic blend rules with built-in bag counts and mass weights." property="og:description"/>
+<meta content="https://www.materialyardage.com/landscaping/compost-mix" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="Raised Bed Compost &amp; Soil Mix Blend Calculator | MaterialYardage" name="twitter:title"/>
+<meta content="Calculate professional soil-to-compost ratios for raised garden beds. Uses the industry standard 70/30 organic blend rules with built-in bag counts and mass weights." name="twitter:description"/>
+<!-- Google Analytics Module -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-08MTZ3F4Q1"></script>
+<script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-08MTZ3F4Q1');
     </script>
-
-    <!-- Google AdSense Monetization Verification -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650221548917155" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/assets/css/styles.css">
+<!-- Google AdSense Monetization Verification -->
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650221548917155"></script>
+<link href="/assets/css/styles.css" rel="stylesheet"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.materialyardage.com/"}, {"@type": "ListItem", "position": 2, "name": "Landscaping", "item": "https://www.materialyardage.com/landscaping"}, {"@type": "ListItem", "position": 3, "name": "Compost & Soil Mix Blend Engine", "item": "https://www.materialyardage.com/landscaping/compost-mix"}]}</script>
 </head>
 <body>
-
-    <!-- Header Navigation Bar -->
-    <nav style="background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1rem; display: flex; justify-content: space-between; align-items: center; max-width: 100%;">
-        <a href="/" style="color: #2b5c3f; font-weight: 800; text-decoration: none; font-size: 1.2rem; letter-spacing: -0.02em;">MaterialYardage</a>
-        <div style="display: flex; gap: 1.25rem;">
-            <a href="/calculators" style="color: #2d3748; text-decoration: none; font-size: 0.95rem; font-weight: 600;">All Calculators</a>
-            <a href="/methodology" style="color: #718096; text-decoration: none; font-size: 0.95rem;">Methodology</a><a href="/contact" style="color: #718096; text-decoration: none; font-size: 0.95rem;">Contact</a><a href="/about" style="color: #718096; text-decoration: none; font-size: 0.95rem;">About</a>
-        </div>
-    </nav>
-
-    <header style="background: #2b5c3f; color: #ffffff; padding: 2.5rem 1rem; text-align: center;">
-        <h1 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem;">Compost & Soil Mix Blend Engine</h1>
-        <p style="font-size: 0.95rem; opacity: 0.9;">Formulate production-accurate 70/30 raised bed specifications instantly.</p>
-    </header>
-
-    <div class="container" style="max-width: 800px; margin: 2.5rem auto; padding: 0 1rem;">
-        <main class="card" style="background: #ffffff; padding: 2rem; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-            
-            <!-- User Input Parameters Grid -->
-            <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
-                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
-                    <label style="font-size: 0.9rem; font-weight: 600;" for="cmx-len">Bed Length (Feet)</label>
-                    <input type="number" id="cmx-len" value="12" step="any" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
-                </div>
-                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
-                    <label style="font-size: 0.9rem; font-weight: 600;" for="cmx-wid">Bed Width (Feet)</label>
-                    <input type="number" id="cmx-wid" value="4" step="any" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
-                </div>
-                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
-                    <label style="font-size: 0.9rem; font-weight: 600;" for="cmx-dep">Fill Depth (Inches)</label>
-                    <input type="number" id="cmx-dep" value="12" step="any" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
-                </div>
-                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
-                    <label style="font-size: 0.9rem; font-weight: 600;" for="cmx-waste">Waste Allowance (%)</label>
-                    <input type="number" id="cmx-waste" value="10" step="1" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
-                </div>
-            </div>
-
-            <!-- Volume Requirement Banner View -->
-            <div style="background: #e9f1ec; padding: 1.25rem; border-radius: 6px; border-left: 5px solid #2b5c3f; margin: 2rem 0; text-align: center;">
-                <span style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: #718096; letter-spacing: 0.05em;">Total Blended Volume Requirement:</span>
-                <div id="cmx-out-total-yd" style="font-size: 1.75rem; font-weight: 800; color: #2b5c3f; margin: 0.15rem 0;">0.00 Cubic Yards</div>
-                <span id="cmx-out-total-ft" style="font-size: 0.9rem; font-weight: 600; color: #2d3748;">0.00 Total Cubic Feet (Inc. Waste Allowance)</span>
-            </div>
-
-            <!-- Allocation Breakdown Card -->
-            <div class="results-box" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
-                <h3 style="font-size: 1rem; color: #2d3748; text-transform: uppercase; margin-bottom: 1.25rem; letter-spacing: 0.02em; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">Material Composition Allocation Breakdown</h3>
-                
-                <div class="results-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem;">
-                    <!-- Topsoil Card -->
-                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #b45309; padding: 1rem; border-radius: 6px;">
-                        <div style="font-size: 0.85rem; font-weight: 700; color: #718096;">🍂 Screened Loam Topsoil (70%)</div>
-                        <div id="cmx-out-soil-yd" style="font-size: 1.5rem; font-weight: 800; color: #b45309; margin: 0.25rem 0;">0.00 yd³</div>
-                        <div style="font-size: 0.85rem; color: #2d3748; line-height: 1.4;">
-                            Mass Weight: <span id="cmx-out-soil-tons" style="font-weight:700;">0.00</span> Tons<br>
+<!-- Header Navigation Bar -->
+<header class="site-header"><div class="wrap header-inner"><a class="brand" href="/">Material<span>Yardage</span></a><nav aria-label="Primary" class="nav"><a href="/calculators">Calculators</a><a href="/guides">Guides</a><a href="/reference">Reference</a><a href="/about">About</a><a href="/methodology">Methodology</a><a href="/contact">Contact</a></nav></div></header><div class="breadcrumbs"><a href="/">Home</a><span class="sep">›</span><a href="/landscaping">Landscaping</a><span class="sep">›</span><span>Compost &amp; Soil Mix Blend Engine</span></div>
+<header style="background: #2b5c3f; color: #ffffff; padding: 2.5rem 1rem; text-align: center;">
+<h1 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem;">Compost &amp; Soil Mix Blend Engine</h1>
+<p style="font-size: 0.95rem; opacity: 0.9;">Formulate production-accurate 70/30 raised bed specifications instantly.</p>
+</header>
+<div class="container" style="max-width: 800px; margin: 2.5rem auto; padding: 0 1rem;">
+<main class="card" style="background: #ffffff; padding: 2rem; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+<!-- User Input Parameters Grid -->
+<div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+<div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+<label for="cmx-len" style="font-size: 0.9rem; font-weight: 600;">Bed Length (Feet)</label>
+<input id="cmx-len" step="any" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;" type="number" value="12"/>
+</div>
+<div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+<label for="cmx-wid" style="font-size: 0.9rem; font-weight: 600;">Bed Width (Feet)</label>
+<input id="cmx-wid" step="any" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;" type="number" value="4"/>
+</div>
+<div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+<label for="cmx-dep" style="font-size: 0.9rem; font-weight: 600;">Fill Depth (Inches)</label>
+<input id="cmx-dep" step="any" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;" type="number" value="12"/>
+</div>
+<div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+<label for="cmx-waste" style="font-size: 0.9rem; font-weight: 600;">Waste Allowance (%)</label>
+<input id="cmx-waste" step="1" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;" type="number" value="10"/>
+</div>
+</div>
+<!-- Volume Requirement Banner View -->
+<div style="background: #e9f1ec; padding: 1.25rem; border-radius: 6px; border-left: 5px solid #2b5c3f; margin: 2rem 0; text-align: center;">
+<span style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: #718096; letter-spacing: 0.05em;">Total Blended Volume Requirement:</span>
+<div id="cmx-out-total-yd" style="font-size: 1.75rem; font-weight: 800; color: #2b5c3f; margin: 0.15rem 0;">0.00 Cubic Yards</div>
+<span id="cmx-out-total-ft" style="font-size: 0.9rem; font-weight: 600; color: #2d3748;">0.00 Total Cubic Feet (Inc. Waste Allowance)</span>
+</div>
+<!-- Allocation Breakdown Card -->
+<div class="results-box" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+<h3 style="font-size: 1rem; color: #2d3748; text-transform: uppercase; margin-bottom: 1.25rem; letter-spacing: 0.02em; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">Material Composition Allocation Breakdown</h3>
+<div class="results-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem;">
+<!-- Topsoil Card -->
+<div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #b45309; padding: 1rem; border-radius: 6px;">
+<div style="font-size: 0.85rem; font-weight: 700; color: #718096;">🍂 Screened Loam Topsoil (70%)</div>
+<div id="cmx-out-soil-yd" style="font-size: 1.5rem; font-weight: 800; color: #b45309; margin: 0.25rem 0;">0.00 yd³</div>
+<div style="font-size: 0.85rem; color: #2d3748; line-height: 1.4;">
+                            Mass Weight: <span id="cmx-out-soil-tons" style="font-weight:700;">0.00</span> Tons<br/>
                             Standard Retail Bags (0.75 ft³): <span id="cmx-out-soil-bags" style="font-weight:700;">0</span> Bags
                         </div>
-                    </div>
-
-                    <!-- Compost Card -->
-                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #15803d; padding: 1rem; border-radius: 6px;">
-                        <div style="font-size: 0.85rem; font-weight: 700; color: #718096;">🌿 High-Nutrient Compost (30%)</div>
-                        <div id="cmx-out-comp-yd" style="font-size: 1.5rem; font-weight: 800; color: #15803d; margin: 0.25rem 0;">0.00 yd³</div>
-                        <div style="font-size: 0.85rem; color: #2d3748; line-height: 1.4;">
-                            Mass Weight: <span id="cmx-out-comp-tons" style="font-weight:700;">0.00</span> Tons<br>
+</div>
+<!-- Compost Card -->
+<div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #15803d; padding: 1rem; border-radius: 6px;">
+<div style="font-size: 0.85rem; font-weight: 700; color: #718096;">🌿 High-Nutrient Compost (30%)</div>
+<div id="cmx-out-comp-yd" style="font-size: 1.5rem; font-weight: 800; color: #15803d; margin: 0.25rem 0;">0.00 yd³</div>
+<div style="font-size: 0.85rem; color: #2d3748; line-height: 1.4;">
+                            Mass Weight: <span id="cmx-out-comp-tons" style="font-weight:700;">0.00</span> Tons<br/>
                             Standard Loose Bags (1.0 ft³): <span id="cmx-out-comp-bags" style="font-weight:700;">0</span> Bags
                         </div>
-                    </div>
-                </div>
-            </div>
-
-        </main>
-    </div>
-
-    <footer style="background: #1a202c; color: #ffffff; text-align: center; padding: 2.5rem 1rem; margin-top: 8rem; font-size: 0.9rem;">
-        <p>&copy; 2026 MaterialYardage. All rights reserved.</p>
-        <p style="margin-top: 0.5rem; color: #a0aec0;">
-            <a href="/" style="color: #a0aec0; text-decoration: none; margin: 0 0.5rem;">Home</a> | 
-            <a href="/calculators" style="color: #a0aec0; text-decoration: none; margin: 0 0.5rem;">All Calculators</a> | 
-            <a href="/privacy-policy" style="color: #a0aec0; text-decoration: none; margin: 0 0.5rem;">Privacy Policy</a>
-        </p>
-    
+</div>
+</div>
+</div>
+</main>
+</div>
 <section class="wrap narrow block calculator-guide">
-  <h2>Compost &amp; Soil Mix Calculator Guide</h2>
-  <p>This calculator estimates the component volumes in a soil or compost blend from a target volume and selected proportions.</p>
-  <h3>How the estimate works</h3>
-  <p>The target volume is divided according to the entered blend percentages. Component totals should add to 100 percent before ordering. Final material behavior varies with moisture, particle size and product composition.</p>
-  <h3>Important assumptions</h3>
-  <ul><li>Percentages should total 100 percent for a complete blend.</li><li>Bulk densities vary substantially between compost, topsoil and amendments.</li><li>Use supplier product specifications when weight-based ordering is required.</li></ul>
-  <h3>Frequently asked questions</h3>
-  <details><summary>Can I enter any blend ratio?</summary><p>Yes, provided the component percentages form a complete blend and match your intended recipe.</p></details><details><summary>Does volume equal weight?</summary><p>No. Different materials have different bulk densities, so equal volumes can have very different weights.</p></details><details><summary>Will compost shrink after installation?</summary><p>Organic materials can settle and decompose over time. Consider the intended finished depth when deciding whether an allowance is appropriate.</p></details>
-  <p class="fine">For the calculation assumptions used on this site, see the <a href="/methodology">MaterialYardage methodology</a>.</p>
+<h2>Compost &amp; Soil Mix Calculator Guide</h2>
+<p>This calculator estimates the component volumes in a soil or compost blend from a target volume and selected proportions.</p>
+<h3>How the estimate works</h3>
+<p>The target volume is divided according to the entered blend percentages. Component totals should add to 100 percent before ordering. Final material behavior varies with moisture, particle size and product composition.</p>
+<h3>Important assumptions</h3>
+<ul><li>Percentages should total 100 percent for a complete blend.</li><li>Bulk densities vary substantially between compost, topsoil and amendments.</li><li>Use supplier product specifications when weight-based ordering is required.</li></ul>
+<h3>Frequently asked questions</h3>
+<details><summary>Can I enter any blend ratio?</summary><p>Yes, provided the component percentages form a complete blend and match your intended recipe.</p></details><details><summary>Does volume equal weight?</summary><p>No. Different materials have different bulk densities, so equal volumes can have very different weights.</p></details><details><summary>Will compost shrink after installation?</summary><p>Organic materials can settle and decompose over time. Consider the intended finished depth when deciding whether an allowance is appropriate.</p></details>
+<p class="fine">For the calculation assumptions used on this site, see the <a href="/methodology">MaterialYardage methodology</a>.</p>
 </section>
-</footer>
-
-    <script src="/assets/js/compost-calculator.js" defer></script>
+<section class="wrap narrow block calculator-guide v27-expansion"><h3>What the estimate means</h3><p>The calculator first determines the total fill volume from bed length, width and depth, then applies the selected soil and compost proportions. The result is a volume estimate; the displayed weight is only an approximation because compost and topsoil bulk density changes with moisture, screening and organic content.</p><h3>Worked example</h3><div class="example"><h3>12 ft × 4 ft bed at 12 in depth</h3><p>The geometric volume is 48 cubic feet, or about 1.78 cubic yards. With a 10% planning allowance, the order quantity becomes about 1.96 cubic yards. At a 70/30 blend, that is roughly 1.37 yd³ of topsoil and 0.59 yd³ of compost.</p></div><h3>Planning and ordering tips</h3><ul><li>Measure the finished internal bed dimensions rather than the outside frame when the walls are thick.</li><li>Use the supplier's stated bag volume when converting bulk volume to bags.</li><li>Do not assume compost and soil have the same weight per cubic yard.</li><li>For settling-prone organic material, discuss the appropriate allowance with the supplier or installer.</li></ul><h3>Common mistakes</h3><ul><li>Using the outside dimensions of a raised bed without accounting for wall thickness.</li><li>Confusing a 70/30 volume ratio with a weight ratio.</li><li>Using a generic density to place a weight-based order when the supplier publishes its own value.</li></ul><p class="review-line">Reviewed September 2026. Results are planning estimates; confirm product specifications and project requirements before ordering or construction.</p></section><section class="wrap narrow block v27-related"><h2>Related tools and resources</h2><div class="related-links"><a href="/">Topsoil Calculator</a><a href="/mulch-calculator">Mulch Calculator</a><a href="/landscaping/gravel">Gravel &amp; Road Base</a><a href="/guides/topsoil-depth-guide">Topsoil Depth Guide</a></div></section><footer class="site-footer"><div class="wrap"><nav aria-label="Footer" class="footer-nav"><a href="/">Home</a><a href="/calculators">Calculators</a><a href="/guides">Guides</a><a href="/reference">Reference</a><a href="/about">About</a><a href="/methodology">Methodology</a><a href="/contact">Contact</a><a href="/privacy-policy">Privacy Policy</a></nav><p>© <span id="year">2026</span> MaterialYardage. Calculation estimates are provided for planning purposes.</p></div></footer>
+<script defer="" src="/assets/js/compost-calculator.js"></script>
 </body>
 </html>

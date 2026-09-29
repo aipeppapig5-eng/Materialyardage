@@ -1,102 +1,88 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volumetric Concrete Mix Proportioning Calculator (1:2:4 Ratio) | MaterialYardage</title>
-    <meta name="description" content="Calculate the exact dry component breakout ingredients for site-mixed wet concrete. Uses the engineering standard 1:2:4 design rule for cement, sand, and aggregate stone ballast.">
-    <link rel="canonical" href="https://www.materialyardage.com/concrete/mix-proportions">
-    
-    <!-- Google Analytics Module -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-08MTZ3F4Q1"></script>
-    <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Volumetric Concrete Mix Proportioning Calculator (1:2:4 Ratio) | MaterialYardage</title>
+<meta content="Calculate the exact dry component breakout ingredients for site-mixed wet concrete. Uses the engineering standard 1:2:4 design rule for cement, sand, and aggregate stone ballast." name="description"/>
+<link href="https://www.materialyardage.com/concrete/mix-proportions" rel="canonical"/>
+<meta content="Volumetric Concrete Mix Proportioning Calculator (1:2:4 Ratio) | MaterialYardage" property="og:title"/>
+<meta content="Calculate the exact dry component breakout ingredients for site-mixed wet concrete. Uses the engineering standard 1:2:4 design rule for cement, sand, and aggregate stone ballast." property="og:description"/>
+<meta content="https://www.materialyardage.com/concrete/mix-proportions" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="Volumetric Concrete Mix Proportioning Calculator (1:2:4 Ratio) | MaterialYardage" name="twitter:title"/>
+<meta content="Calculate the exact dry component breakout ingredients for site-mixed wet concrete. Uses the engineering standard 1:2:4 design rule for cement, sand, and aggregate stone ballast." name="twitter:description"/>
+<!-- Google Analytics Module -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-08MTZ3F4Q1"></script>
+<script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-08MTZ3F4Q1');
     </script>
-
-    <!-- Google AdSense Monetization Verification -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650221548917155" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/assets/css/styles.css">
+<!-- Google AdSense Monetization Verification -->
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650221548917155"></script>
+<link href="/assets/css/styles.css" rel="stylesheet"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.materialyardage.com/"}, {"@type": "ListItem", "position": 2, "name": "Concrete", "item": "https://www.materialyardage.com/concrete"}, {"@type": "ListItem", "position": 3, "name": "Concrete Mix Design Proportions", "item": "https://www.materialyardage.com/concrete/mix-proportions"}]}</script>
 </head>
 <body>
-
-    <!-- Header Navigation Bar -->
-    <nav style="background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1rem; display: flex; justify-content: space-between; align-items: center; max-width: 100%;">
-        <a href="/" style="color: #2b5c3f; font-weight: 800; text-decoration: none; font-size: 1.2rem; letter-spacing: -0.02em;">MaterialYardage</a>
-        <div style="display: flex; gap: 1.25rem;">
-            <a href="/calculators" style="color: #2d3748; text-decoration: none; font-size: 0.95rem; font-weight: 600;">All Calculators</a>
-            <a href="/methodology" style="color: #718096; text-decoration: none; font-size: 0.95rem;">Methodology</a><a href="/contact" style="color: #718096; text-decoration: none; font-size: 0.95rem;">Contact</a><a href="/about" style="color: #718096; text-decoration: none; font-size: 0.95rem;">About</a>
-        </div>
-    </nav>
-
-    <header style="background: #2b5c3f; color: #ffffff; padding: 2.5rem 1rem; text-align: center;">
-        <h1 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem;">Concrete Mix Design Proportions</h1>
-        <p style="font-size: 0.95rem; opacity: 0.9;">Deconstruct target wet yardage requirements straight into discrete raw elements.</p>
-    </header>
-
-    <div class="container" style="max-width: 800px; margin: 2.5rem auto; padding: 0 1rem;">
-        <main class="card" style="background: #ffffff; padding: 2rem; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-            
-            <div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 2rem;">
-                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem; max-width: 400px; margin: 0 auto; width: 100%;">
-                    <label style="font-size: 0.9rem; font-weight: 600; text-align: center;" for="cm-yd">Target Wet Concrete Volume (Cubic Yards)</label>
-                    <input type="number" id="cm-yd" value="2.0" step="any" oninput="calcStandaloneMixProportions()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1.1rem; text-align: center;">
-                </div>
+<!-- Header Navigation Bar -->
+<header class="site-header"><div class="wrap header-inner"><a class="brand" href="/">Material<span>Yardage</span></a><nav aria-label="Primary" class="nav"><a href="/calculators">Calculators</a><a href="/guides">Guides</a><a href="/reference">Reference</a><a href="/about">About</a><a href="/methodology">Methodology</a><a href="/contact">Contact</a></nav></div></header><div class="breadcrumbs"><a href="/">Home</a><span class="sep">›</span><a href="/concrete">Concrete</a><span class="sep">›</span><span>Concrete Mix Design Proportions</span></div>
+<header style="background: #2b5c3f; color: #ffffff; padding: 2.5rem 1rem; text-align: center;">
+<h1 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem;">Concrete Mix Design Proportions</h1>
+<p style="font-size: 0.95rem; opacity: 0.9;">Deconstruct target wet yardage requirements straight into discrete raw elements.</p>
+</header>
+<div class="container" style="max-width: 800px; margin: 2.5rem auto; padding: 0 1rem;">
+<main class="card" style="background: #ffffff; padding: 2rem; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+<div class="form-grid" style="display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 2rem;">
+<div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem; max-width: 400px; margin: 0 auto; width: 100%;">
+<label for="cm-yd" style="font-size: 0.9rem; font-weight: 600; text-align: center;">Target Wet Concrete Volume (Cubic Yards)</label>
+<input id="cm-yd" oninput="calcStandaloneMixProportions()" step="any" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1.1rem; text-align: center;" type="number" value="2.0"/>
+</div>
+</div>
+<div class="results-box" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px;">
+<h3 style="font-size: 1rem; color: #2d3748; text-transform: uppercase; margin-bottom: 1.25rem; letter-spacing: 0.02em; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; text-align: center;">Dry Component Raw Ingredients Allocation</h3>
+<div class="results-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem;">
+<!-- Cement Card -->
+<div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #1a202c; padding: 1rem; border-radius: 6px; text-align: center;">
+<div style="font-size: 0.85rem; font-weight: 700; color: #718096;">⚪ Portland Cement (94lb Bags)</div>
+<div id="cm-out-cement" style="font-size: 1.5rem; font-weight: 800; color: #1a202c; margin: 0.25rem 0;">16 Bags</div>
+<p style="font-size: 0.75rem; color: #718096;">Standard Type I/II structural binder</p>
+</div>
+<!-- Sand Card -->
+<div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #dd6b20; padding: 1rem; border-radius: 6px; text-align: center;">
+<div style="font-size: 0.85rem; font-weight: 700; color: #718096;">⏳ Fine Masonry Sand</div>
+<div id="cm-out-sand" style="font-size: 1.5rem; font-weight: 800; color: #dd6b20; margin: 0.25rem 0;">1.06 yd³</div>
+<p style="font-size: 0.75rem; color: #718096;">Estimated Weight: <span id="cm-out-sand-weight" style="font-weight:700;">1.38</span> Tons</p>
+</div>
+<!-- Aggregate Card -->
+<div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #2b5c3f; padding: 1rem; border-radius: 6px; text-align: center;">
+<div style="font-size: 0.85rem; font-weight: 700; color: #718096;">🪨 Coarse Stone Aggregate</div>
+<div id="cm-out-agg" style="font-size: 1.5rem; font-weight: 800; color: #2b5c3f; margin: 0.25rem 0;">2.14 yd³</div>
+<p style="font-size: 0.75rem; color: #718096;">Estimated Weight: <span id="cm-out-agg-weight" style="font-weight:700;">3.00</span> Tons</p>
+</div>
+</div>
+</div>
+<div style="margin-top: 2rem; background: #e9f1ec; padding: 1rem; border-radius: 6px; font-size: 0.85rem; color: var(--text-main);">
+<strong>Engineering Ratio Notice:</strong> This configuration implements the standard volumetric engineering empirical shrinkage rules model where loose dry component total components shrink roughly 30-33% when water binder mixes are introduced. Values correspond to an approximate M15 class structural performance profile.
             </div>
-
-            <div class="results-box" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px;">
-                <h3 style="font-size: 1rem; color: #2d3748; text-transform: uppercase; margin-bottom: 1.25rem; letter-spacing: 0.02em; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; text-align: center;">Dry Component Raw Ingredients Allocation</h3>
-                
-                <div class="results-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem;">
-                    <!-- Cement Card -->
-                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #1a202c; padding: 1rem; border-radius: 6px; text-align: center;">
-                        <div style="font-size: 0.85rem; font-weight: 700; color: #718096;">⚪ Portland Cement (94lb Bags)</div>
-                        <div id="cm-out-cement" style="font-size: 1.5rem; font-weight: 800; color: #1a202c; margin: 0.25rem 0;">16 Bags</div>
-                        <p style="font-size: 0.75rem; color: #718096;">Standard Type I/II structural binder</p>
-                    </div>
-
-                    <!-- Sand Card -->
-                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #dd6b20; padding: 1rem; border-radius: 6px; text-align: center;">
-                        <div style="font-size: 0.85rem; font-weight: 700; color: #718096;">⏳ Fine Masonry Sand</div>
-                        <div id="cm-out-sand" style="font-size: 1.5rem; font-weight: 800; color: #dd6b20; margin: 0.25rem 0;">1.06 yd³</div>
-                        <p style="font-size: 0.75rem; color: #718096;">Estimated Weight: <span id="cm-out-sand-weight" style="font-weight:700;">1.38</span> Tons</p>
-                    </div>
-
-                    <!-- Aggregate Card -->
-                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #2b5c3f; padding: 1rem; border-radius: 6px; text-align: center;">
-                        <div style="font-size: 0.85rem; font-weight: 700; color: #718096;">🪨 Coarse Stone Aggregate</div>
-                        <div id="cm-out-agg" style="font-size: 1.5rem; font-weight: 800; color: #2b5c3f; margin: 0.25rem 0;">2.14 yd³</div>
-                        <p style="font-size: 0.75rem; color: #718096;">Estimated Weight: <span id="cm-out-agg-weight" style="font-weight:700;">3.00</span> Tons</p>
-                    </div>
-                </div>
-            </div>
-
-            <div style="margin-top: 2rem; background: #e9f1ec; padding: 1rem; border-radius: 6px; font-size: 0.85rem; color: var(--text-main);">
-                <strong>Engineering Ratio Notice:</strong> This configuration implements the standard volumetric engineering empirical shrinkage rules model where loose dry component total components shrink roughly 30-33% when water binder mixes are introduced. Values correspond to an approximate M15 class structural performance profile.
-            </div>
-
-        </main>
-    </div>
-
-    <footer style="background: #1a202c; color: #ffffff; text-align: center; padding: 2rem 1rem; margin-top: 8rem; font-size: 0.9rem;">
-        <p>&copy; 2026 MaterialYardage. All rights reserved.</p>
-    
+</main>
+</div>
 <section class="wrap narrow block calculator-guide">
-  <h2>Concrete Mix Proportion Guide</h2>
-  <p>This tool illustrates a 1:2:4 volumetric mix allocation for planning raw material quantities. It is an estimating aid, not a substitute for a designed concrete mix or laboratory-tested specification.</p>
-  <h3>How the estimate works</h3>
-  <p>Start with the target wet concrete volume. The calculator allocates the target into cement, fine aggregate and coarse aggregate using the stated volumetric model and an assumed dry-volume adjustment. Actual batching quantities depend on aggregate moisture, grading, cement type, water content and the required strength.</p>
-  <h3>Important assumptions</h3>
-  <ul><li>Do not treat a nominal 1:2:4 ratio as a universal structural specification.</li><li>Concrete strength and durability should be based on the project specification and applicable local standards.</li><li>Supplier or engineer mix designs may produce substantially different cement, water and aggregate quantities.</li></ul>
-  <h3>Frequently asked questions</h3>
-  <details><summary>Can I use this for structural concrete?</summary><p>Use the result only as a preliminary quantity estimate. Structural concrete should follow the approved mix design and project specification.</p></details><details><summary>Why is dry material volume greater than wet volume?</summary><p>Loose ingredients contain voids and pack differently. Mix-design methods therefore use an adjustment rather than simply dividing the wet volume equally.</p></details><details><summary>Does aggregate moisture matter?</summary><p>Yes. Moisture changes both mass and effective water content, which is why production batching requires material-specific corrections.</p></details>
-  <p class="fine">For the calculation assumptions used on this site, see the <a href="/methodology">MaterialYardage methodology</a>.</p>
+<h2>Concrete Mix Proportion Guide</h2>
+<p>This tool illustrates a 1:2:4 volumetric mix allocation for planning raw material quantities. It is an estimating aid, not a substitute for a designed concrete mix or laboratory-tested specification.</p>
+<h3>How the estimate works</h3>
+<p>Start with the target wet concrete volume. The calculator allocates the target into cement, fine aggregate and coarse aggregate using the stated volumetric model and an assumed dry-volume adjustment. Actual batching quantities depend on aggregate moisture, grading, cement type, water content and the required strength.</p>
+<h3>Important assumptions</h3>
+<ul><li>Do not treat a nominal 1:2:4 ratio as a universal structural specification.</li><li>Concrete strength and durability should be based on the project specification and applicable local standards.</li><li>Supplier or engineer mix designs may produce substantially different cement, water and aggregate quantities.</li></ul>
+<h3>Frequently asked questions</h3>
+<details><summary>Can I use this for structural concrete?</summary><p>Use the result only as a preliminary quantity estimate. Structural concrete should follow the approved mix design and project specification.</p></details><details><summary>Why is dry material volume greater than wet volume?</summary><p>Loose ingredients contain voids and pack differently. Mix-design methods therefore use an adjustment rather than simply dividing the wet volume equally.</p></details><details><summary>Does aggregate moisture matter?</summary><p>Yes. Moisture changes both mass and effective water content, which is why production batching requires material-specific corrections.</p></details>
+<p class="fine">For the calculation assumptions used on this site, see the <a href="/methodology">MaterialYardage methodology</a>.</p>
 </section>
-</footer>
-
-    <script>
+<section class="wrap narrow block calculator-guide v27-expansion"><h3>What a 1:2:4 volumetric ratio represents</h3><p>A 1:2:4 ratio describes relative volumes of cement, sand and coarse aggregate before water and other mix-design adjustments. It is a simplified estimating convention, not a performance-certified concrete mix design.</p><h3>Worked example</h3><div class="example"><h3>Planning a small batch</h3><p>If the dry ingredient ratio is treated as seven equal parts, one part represents cement, two parts represent sand and four parts represent coarse aggregate. The actual finished concrete yield is lower than the sum of loose dry ingredient volumes because particles pack together.</p></div><h3>Why yield differs from simple volume addition</h3><p>Dry materials contain voids between particles. Water, cement paste and aggregate packing change the final yield. For structural concrete, use a specified mix design and supplier or engineer guidance rather than relying on a nominal ratio.</p><h3>Use this calculator for</h3><ul><li>Early-stage quantity planning.</li><li>Small non-structural projects where a specified recipe is appropriate.</li><li>Comparing relative component quantities.</li></ul><h3>Do not use it to determine</h3><ul><li>Required concrete strength or durability.</li><li>Water-cement ratio or admixture dosage.</li><li>Structural reinforcement or code compliance.</li></ul><p class="review-line">Reviewed September 2026. Results are planning estimates; confirm product specifications and project requirements before ordering or construction.</p></section><section class="wrap narrow block v27-related"><h2>Related tools and resources</h2><div class="related-links"><a href="/concrete/calculator">Concrete Calculator</a><a href="/concrete/slab">Concrete Slab Calculator</a><a href="/materials/sand">Sand Calculator</a><a href="/materials/aggregate">Aggregate Calculator</a></div></section><footer class="site-footer"><div class="wrap"><nav aria-label="Footer" class="footer-nav"><a href="/">Home</a><a href="/calculators">Calculators</a><a href="/guides">Guides</a><a href="/reference">Reference</a><a href="/about">About</a><a href="/methodology">Methodology</a><a href="/contact">Contact</a><a href="/privacy-policy">Privacy Policy</a></nav><p>© <span id="year">2026</span> MaterialYardage. Calculation estimates are provided for planning purposes.</p></div></footer>
+<script>
         function calcStandaloneMixProportions() {
             const yd = parseFloat(document.getElementById('cm-yd').value) || 0;
             

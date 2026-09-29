@@ -1,85 +1,75 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMU Concrete block Wall Calculator | MaterialYardage</title>
-    <meta name="description" content="Calculate exactly how many standard 8x8x16 CMU concrete masonry blocks are needed for a wall construction layout. Includes cutting edge waste multipliers.">
-    <link rel="canonical" href="https://www.materialyardage.com/masonry/block">
-    
-    <!-- Google Analytics Module -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-08MTZ3F4Q1"></script>
-    <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CMU Concrete block Wall Calculator | MaterialYardage</title>
+<meta content="Calculate exactly how many standard 8x8x16 CMU concrete masonry blocks are needed for a wall construction layout. Includes cutting edge waste multipliers." name="description"/>
+<link href="https://www.materialyardage.com/masonry/block" rel="canonical"/>
+<meta content="CMU Concrete block Wall Calculator | MaterialYardage" property="og:title"/>
+<meta content="Calculate exactly how many standard 8x8x16 CMU concrete masonry blocks are needed for a wall construction layout. Includes cutting edge waste multipliers." property="og:description"/>
+<meta content="https://www.materialyardage.com/masonry/block" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="CMU Concrete block Wall Calculator | MaterialYardage" name="twitter:title"/>
+<meta content="Calculate exactly how many standard 8x8x16 CMU concrete masonry blocks are needed for a wall construction layout. Includes cutting edge waste multipliers." name="twitter:description"/>
+<!-- Google Analytics Module -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-08MTZ3F4Q1"></script>
+<script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-08MTZ3F4Q1');
     </script>
-
-    <!-- Google AdSense Monetization Verification -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650221548917155" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/assets/css/styles.css">
+<!-- Google AdSense Monetization Verification -->
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650221548917155"></script>
+<link href="/assets/css/styles.css" rel="stylesheet"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.materialyardage.com/"}, {"@type": "ListItem", "position": 2, "name": "Masonry", "item": "https://www.materialyardage.com/masonry"}, {"@type": "ListItem", "position": 3, "name": "Concrete CMU Block Wall Calculator", "item": "https://www.materialyardage.com/masonry/block"}]}</script>
 </head>
 <body>
-
-    <!-- Header Navigation Bar -->
-    <nav style="background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1rem; display: flex; justify-content: space-between; align-items: center; max-width: 100%;">
-        <a href="/" style="color: #2b5c3f; font-weight: 800; text-decoration: none; font-size: 1.2rem; letter-spacing: -0.02em;">MaterialYardage</a>
-        <div style="display: flex; gap: 1.25rem;">
-            <a href="/calculators" style="color: #2d3748; text-decoration: none; font-size: 0.95rem; font-weight: 600;">All Calculators</a>
-            <a href="/methodology" style="color: #718096; text-decoration: none; font-size: 0.95rem;">Methodology</a><a href="/contact" style="color: #718096; text-decoration: none; font-size: 0.95rem;">Contact</a><a href="/about" style="color: #718096; text-decoration: none; font-size: 0.95rem;">About</a>
-        </div>
-    </nav>
-
-    <header style="background: #2b5c3f; color: #ffffff; padding: 2.5rem 1rem; text-align: center;">
-        <h1 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem;">Concrete CMU Block Wall Calculator</h1>
-        <p style="font-size: 0.95rem; opacity: 0.9;">Establishes structural blocks counts based on the industry-standard 8x8x16 specification rule matrix.</p>
-    </header>
-
-    <div class="container" style="max-width: 800px; margin: 2.5rem auto; padding: 0 1rem;">
-        <main class="card" style="background: #ffffff; padding: 2rem; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-            
-            <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
-                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
-                    <label style="font-size: 0.9rem; font-weight: 600;" for="bl-len">Wall Surface Length (Feet)</label>
-                    <input type="number" id="bl-len" value="40" step="any" oninput="calcStandaloneBlock()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
-                </div>
-                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
-                    <label style="font-size: 0.9rem; font-weight: 600;" for="bl-hi">Wall Surface Height (Feet)</label>
-                    <input type="number" id="bl-hi" value="10" step="any" oninput="calcStandaloneBlock()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
-                </div>
-                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
-                    <label style="font-size: 0.9rem; font-weight: 600;" for="bl-waste">Structural Waste Allowance (%)</label>
-                    <input type="number" id="bl-waste" value="5" step="1" oninput="calcStandaloneBlock()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
-                </div>
-            </div>
-
-            <div style="background: #e9f1ec; padding: 1.25rem; border-radius: 6px; border-left: 5px solid #2b5c3f; margin: 2rem 0; text-align: center;">
-                <span style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: #718096; letter-spacing: 0.05em;">Gross Blocks Recommended:</span>
-                <div id="bl-out-gross" style="font-size: 1.75rem; font-weight: 800; color: #2b5c3f; margin: 0.15rem 0;">473 Blocks</div>
-                <span id="bl-out-net" style="font-size: 0.9rem; font-weight: 600; color: #2d3748;">450 Blocks Net Structural (Assuming 8"x8"x16" Standard Blocks)</span>
-            </div>
-
-        </main>
-    </div>
-
-    <footer style="background: #1a202c; color: #ffffff; text-align: center; padding: 2rem 1rem; margin-top: 8rem; font-size: 0.9rem;">
-        <p>&copy; 2026 MaterialYardage. All rights reserved.</p>
-    
+<!-- Header Navigation Bar -->
+<header class="site-header"><div class="wrap header-inner"><a class="brand" href="/">Material<span>Yardage</span></a><nav aria-label="Primary" class="nav"><a href="/calculators">Calculators</a><a href="/guides">Guides</a><a href="/reference">Reference</a><a href="/about">About</a><a href="/methodology">Methodology</a><a href="/contact">Contact</a></nav></div></header><div class="breadcrumbs"><a href="/">Home</a><span class="sep">›</span><a href="/masonry">Masonry</a><span class="sep">›</span><span>Concrete CMU Block Wall Calculator</span></div>
+<header style="background: #2b5c3f; color: #ffffff; padding: 2.5rem 1rem; text-align: center;">
+<h1 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem;">Concrete CMU Block Wall Calculator</h1>
+<p style="font-size: 0.95rem; opacity: 0.9;">Establishes structural blocks counts based on the industry-standard 8x8x16 specification rule matrix.</p>
+</header>
+<div class="container" style="max-width: 800px; margin: 2.5rem auto; padding: 0 1rem;">
+<main class="card" style="background: #ffffff; padding: 2rem; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+<div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+<div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+<label for="bl-len" style="font-size: 0.9rem; font-weight: 600;">Wall Surface Length (Feet)</label>
+<input id="bl-len" oninput="calcStandaloneBlock()" step="any" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;" type="number" value="40"/>
+</div>
+<div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+<label for="bl-hi" style="font-size: 0.9rem; font-weight: 600;">Wall Surface Height (Feet)</label>
+<input id="bl-hi" oninput="calcStandaloneBlock()" step="any" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;" type="number" value="10"/>
+</div>
+<div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+<label for="bl-waste" style="font-size: 0.9rem; font-weight: 600;">Structural Waste Allowance (%)</label>
+<input id="bl-waste" oninput="calcStandaloneBlock()" step="1" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;" type="number" value="5"/>
+</div>
+</div>
+<div style="background: #e9f1ec; padding: 1.25rem; border-radius: 6px; border-left: 5px solid #2b5c3f; margin: 2rem 0; text-align: center;">
+<span style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: #718096; letter-spacing: 0.05em;">Gross Blocks Recommended:</span>
+<div id="bl-out-gross" style="font-size: 1.75rem; font-weight: 800; color: #2b5c3f; margin: 0.15rem 0;">473 Blocks</div>
+<span id="bl-out-net" style="font-size: 0.9rem; font-weight: 600; color: #2d3748;">450 Blocks Net Structural (Assuming 8"x8"x16" Standard Blocks)</span>
+</div>
+</main>
+</div>
 <section class="wrap narrow block calculator-guide">
-  <h2>Concrete Block Wall Calculator Guide</h2>
-  <p>This estimator converts block wall dimensions into approximate concrete masonry unit quantities and applies a selected waste allowance.</p>
-  <h3>How the estimate works</h3>
-  <p>Wall face area is multiplied by the selected block coverage factor. The allowance accounts for cuts, breakage and handling, then the result is rounded up to whole units.</p>
-  <h3>Important assumptions</h3>
-  <ul><li>Block sizes and nominal coverage differ by manufacturer and region.</li><li>Subtract major openings for doors, windows and service penetrations when they materially affect the wall area.</li><li>Use the actual manufacturer&#x27;s block dimensions and coverage for a purchase order.</li></ul>
-  <h3>Frequently asked questions</h3>
-  <details><summary>Does this calculate concrete fill?</summary><p>No. Block quantity and structural/grout fill are separate calculations.</p></details><details><summary>Why can block counts differ between suppliers?</summary><p>Nominal dimensions, mortar joints and block profiles change the coverage per square foot.</p></details><details><summary>How much waste should I allow?</summary><p>A modest allowance is common, but the right value depends on wall geometry, openings and cutting requirements.</p></details>
-  <p class="fine">For the calculation assumptions used on this site, see the <a href="/methodology">MaterialYardage methodology</a>.</p>
+<h2>Concrete Block Wall Calculator Guide</h2>
+<p>This estimator converts block wall dimensions into approximate concrete masonry unit quantities and applies a selected waste allowance.</p>
+<h3>How the estimate works</h3>
+<p>Wall face area is multiplied by the selected block coverage factor. The allowance accounts for cuts, breakage and handling, then the result is rounded up to whole units.</p>
+<h3>Important assumptions</h3>
+<ul><li>Block sizes and nominal coverage differ by manufacturer and region.</li><li>Subtract major openings for doors, windows and service penetrations when they materially affect the wall area.</li><li>Use the actual manufacturer's block dimensions and coverage for a purchase order.</li></ul>
+<h3>Frequently asked questions</h3>
+<details><summary>Does this calculate concrete fill?</summary><p>No. Block quantity and structural/grout fill are separate calculations.</p></details><details><summary>Why can block counts differ between suppliers?</summary><p>Nominal dimensions, mortar joints and block profiles change the coverage per square foot.</p></details><details><summary>How much waste should I allow?</summary><p>A modest allowance is common, but the right value depends on wall geometry, openings and cutting requirements.</p></details>
+<p class="fine">For the calculation assumptions used on this site, see the <a href="/methodology">MaterialYardage methodology</a>.</p>
 </section>
-</footer>
-
-    <script>
+<section class="wrap narrow block calculator-guide v27-expansion"><h3>How block quantity is estimated</h3><p>The calculator uses wall dimensions and the selected block face size to estimate the number of CMU units. Openings reduce the wall area, while waste and cutting allowance increase the practical order quantity.</p><h3>Worked example</h3><div class="example"><h3>Wall area calculation</h3><p>A 30 ft × 8 ft wall has 240 ft² of gross area. A 4 ft × 7 ft opening removes 28 ft², leaving 212 ft² of net wall area before the block count and allowance are calculated.</p></div><h3>Project checks</h3><ul><li>Confirm whether the specified block is nominal or actual size.</li><li>Include corners, pilasters and returns when measuring the project.</li><li>Subtract doors and windows accurately.</li><li>Use the supplier's stated coverage when it differs from the calculator assumption.</li></ul><h3>Structural limitation</h3><p>Quantity estimation is not structural design. Reinforcement, grout, bond beams, lintels and wall requirements must follow the project drawings and applicable building requirements.</p><p class="review-line">Reviewed September 2026. Results are planning estimates; confirm product specifications and project requirements before ordering or construction.</p></section><section class="wrap narrow block v27-related"><h2>Related tools and resources</h2><div class="related-links"><a href="/masonry/brick">Brick Calculator</a><a href="/masonry/mortar">Mortar Calculator</a><a href="/concrete/calculator">Concrete Calculator</a><a href="/materials/material-cost">Material Cost Calculator</a></div></section><footer class="site-footer"><div class="wrap"><nav aria-label="Footer" class="footer-nav"><a href="/">Home</a><a href="/calculators">Calculators</a><a href="/guides">Guides</a><a href="/reference">Reference</a><a href="/about">About</a><a href="/methodology">Methodology</a><a href="/contact">Contact</a><a href="/privacy-policy">Privacy Policy</a></nav><p>© <span id="year">2026</span> MaterialYardage. Calculation estimates are provided for planning purposes.</p></div></footer>
+<script>
         function calcStandaloneBlock() {
             const l = parseFloat(document.getElementById('bl-len').value) || 0;
             const h = parseFloat(document.getElementById('bl-hi').value) || 0;

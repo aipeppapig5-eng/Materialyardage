@@ -1,0 +1,11 @@
+MaterialYardage v2.7 deployment manifest
+
+New clean routes:
+/landscaping
+/masonry
+/concrete
+/materials
+/paving
+
+Existing guide/reference clean routes remain mapped in vercel.json.
+Sitemap regenerated from canonical links.

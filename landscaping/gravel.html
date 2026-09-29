@@ -1,106 +1,95 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aggregated Gravel & Sub-Base Weight Estimator | MaterialYardage</title>
-    <meta name="description" content="Calculate volume and heavy tonnage weight allocations for river stones, pea gravel, quarry gravel, and compactable road bases.">
-    <link rel="canonical" href="https://www.materialyardage.com/landscaping/gravel">
-    
-    <!-- Google Analytics Module -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-08MTZ3F4Q1"></script>
-    <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aggregated Gravel &amp; Sub-Base Weight Estimator | MaterialYardage</title>
+<meta content="Calculate volume and heavy tonnage weight allocations for river stones, pea gravel, quarry gravel, and compactable road bases." name="description"/>
+<link href="https://www.materialyardage.com/landscaping/gravel" rel="canonical"/>
+<meta content="Aggregated Gravel &amp; Sub-Base Weight Estimator | MaterialYardage" property="og:title"/>
+<meta content="Calculate volume and heavy tonnage weight allocations for river stones, pea gravel, quarry gravel, and compactable road bases." property="og:description"/>
+<meta content="https://www.materialyardage.com/landscaping/gravel" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="Aggregated Gravel &amp; Sub-Base Weight Estimator | MaterialYardage" name="twitter:title"/>
+<meta content="Calculate volume and heavy tonnage weight allocations for river stones, pea gravel, quarry gravel, and compactable road bases." name="twitter:description"/>
+<!-- Google Analytics Module -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-08MTZ3F4Q1"></script>
+<script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-08MTZ3F4Q1');
     </script>
-
-    <!-- Google AdSense Monetization Verification -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650221548917155" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/assets/css/styles.css">
+<!-- Google AdSense Monetization Verification -->
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650221548917155"></script>
+<link href="/assets/css/styles.css" rel="stylesheet"/>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.materialyardage.com/"}, {"@type": "ListItem", "position": 2, "name": "Landscaping", "item": "https://www.materialyardage.com/landscaping"}, {"@type": "ListItem", "position": 3, "name": "Gravel & Road Base Analyzer", "item": "https://www.materialyardage.com/landscaping/gravel"}]}</script>
 </head>
 <body>
-
-    <!-- Header Navigation Bar -->
-    <nav style="background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1rem; display: flex; justify-content: space-between; align-items: center; max-width: 100%;">
-        <a href="/" style="color: #2b5c3f; font-weight: 800; text-decoration: none; font-size: 1.2rem; letter-spacing: -0.02em;">MaterialYardage</a>
-        <div style="display: flex; gap: 1.25rem;">
-            <a href="/calculators" style="color: #2d3748; text-decoration: none; font-size: 0.95rem; font-weight: 600;">All Calculators</a>
-            <a href="/methodology" style="color: #718096; text-decoration: none; font-size: 0.95rem;">Methodology</a><a href="/contact" style="color: #718096; text-decoration: none; font-size: 0.95rem;">Contact</a><a href="/about" style="color: #718096; text-decoration: none; font-size: 0.95rem;">About</a>
-        </div>
-    </nav>
-
-    <header style="background: #2b5c3f; color: #ffffff; padding: 2.5rem 1rem; text-align: center;">
-        <h1 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem;">Gravel & Road Base Analyzer</h1>
-        <p style="font-size: 0.95rem; opacity: 0.9;">Analyze high-mass structural volume metrics alongside tonnage outputs.</p>
-    </header>
-
-    <div class="container" style="max-width: 800px; margin: 2.5rem auto; padding: 0 1rem;">
-        <main class="card" style="background: #ffffff; padding: 2rem; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-            
-            <div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
-                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
-                    <label style="font-size: 0.9rem; font-weight: 600;" for="gr-len">Layout Length (Feet)</label>
-                    <input type="number" id="gr-len" value="50" step="any" oninput="calcStandaloneGravel()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
-                </div>
-                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
-                    <label style="font-size: 0.9rem; font-weight: 600;" for="gr-wid">Layout Width (Feet)</label>
-                    <input type="number" id="gr-wid" value="10" step="any" oninput="calcStandaloneGravel()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
-                </div>
-                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
-                    <label style="font-size: 0.9rem; font-weight: 600;" for="gr-dep">Target Depth (Inches)</label>
-                    <input type="number" id="gr-dep" value="4" step="any" oninput="calcStandaloneGravel()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;">
-                </div>
-                <div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
-                    <label style="font-size: 0.9rem; font-weight: 600;" for="gr-type">Aggregate Material Geometry</label>
-                    <select id="gr-type" onchange="calcStandaloneGravel()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem; background: white;">
-                        <option value="1.35" selected>Pea Gravel / River Rock (1.35 tons/yd³)</option>
-                        <option value="1.40">Crushed Quarry Stone (1.40 tons/yd³)</option>
-                        <option value="1.50">Dense Graded Road Base (1.50 tons/yd³)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div style="background: #e9f1ec; padding: 1.25rem; border-radius: 6px; border-left: 5px solid #2b5c3f; margin: 2rem 0; text-align: center;">
-                <span style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: #718096; letter-spacing: 0.05em;">Net Requirement Volume:</span>
-                <div id="gr-out-yd" style="font-size: 1.75rem; font-weight: 800; color: #2b5c3f; margin: 0.15rem 0;">6.17 Cubic Yards</div>
-            </div>
-
-            <div class="results-box" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
-                <h3 style="font-size: 1rem; color: #2d3748; text-transform: uppercase; margin-bottom: 1.25rem; letter-spacing: 0.02em; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">Mass Weight & Shipping Thresholds</h3>
-                <div class="results-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem;">
-                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #dd6b20; padding: 1rem; border-radius: 6px;">
-                        <div style="font-size: 0.85rem; font-weight: 700; color: #718096;">Estimated Payload Mass</div>
-                        <div id="gr-out-tons" style="font-size: 1.5rem; font-weight: 800; color: #dd6b20; margin: 0.25rem 0;">8.33 Tons</div>
-                    </div>
-                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #2b5c3f; padding: 1rem; border-radius: 6px;">
-                        <div style="font-size: 0.85rem; font-weight: 700; color: #718096;">Recommended Order (+5% Compaction)</div>
-                        <div id="gr-out-rec" style="font-size: 1.5rem; font-weight: 800; color: #2b5c3f; margin: 0.25rem 0;">6.50 yd³</div>
-                    </div>
-                </div>
-            </div>
-
-        </main>
-    </div>
-
-    <footer style="background: #1a202c; color: #ffffff; text-align: center; padding: 2.5rem 1rem; margin-top: 8rem; font-size: 0.9rem;">
-        <p>&copy; 2026 MaterialYardage. All rights reserved.</p>
-    
+<!-- Header Navigation Bar -->
+<header class="site-header"><div class="wrap header-inner"><a class="brand" href="/">Material<span>Yardage</span></a><nav aria-label="Primary" class="nav"><a href="/calculators">Calculators</a><a href="/guides">Guides</a><a href="/reference">Reference</a><a href="/about">About</a><a href="/methodology">Methodology</a><a href="/contact">Contact</a></nav></div></header><div class="breadcrumbs"><a href="/">Home</a><span class="sep">›</span><a href="/landscaping">Landscaping</a><span class="sep">›</span><span>Gravel &amp; Road Base Analyzer</span></div>
+<header style="background: #2b5c3f; color: #ffffff; padding: 2.5rem 1rem; text-align: center;">
+<h1 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.25rem;">Gravel &amp; Road Base Analyzer</h1>
+<p style="font-size: 0.95rem; opacity: 0.9;">Analyze high-mass structural volume metrics alongside tonnage outputs.</p>
+</header>
+<div class="container" style="max-width: 800px; margin: 2.5rem auto; padding: 0 1rem;">
+<main class="card" style="background: #ffffff; padding: 2rem; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+<div class="form-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+<div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+<label for="gr-len" style="font-size: 0.9rem; font-weight: 600;">Layout Length (Feet)</label>
+<input id="gr-len" oninput="calcStandaloneGravel()" step="any" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;" type="number" value="50"/>
+</div>
+<div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+<label for="gr-wid" style="font-size: 0.9rem; font-weight: 600;">Layout Width (Feet)</label>
+<input id="gr-wid" oninput="calcStandaloneGravel()" step="any" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;" type="number" value="10"/>
+</div>
+<div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+<label for="gr-dep" style="font-size: 0.9rem; font-weight: 600;">Target Depth (Inches)</label>
+<input id="gr-dep" oninput="calcStandaloneGravel()" step="any" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem;" type="number" value="4"/>
+</div>
+<div class="form-group" style="display: flex; flex-direction: column; gap: 0.4rem;">
+<label for="gr-type" style="font-size: 0.9rem; font-weight: 600;">Aggregate Material Geometry</label>
+<select id="gr-type" onchange="calcStandaloneGravel()" style="padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 1rem; background: white;">
+<option selected="" value="1.35">Pea Gravel / River Rock (1.35 tons/yd³)</option>
+<option value="1.40">Crushed Quarry Stone (1.40 tons/yd³)</option>
+<option value="1.50">Dense Graded Road Base (1.50 tons/yd³)</option>
+</select>
+</div>
+</div>
+<div style="background: #e9f1ec; padding: 1.25rem; border-radius: 6px; border-left: 5px solid #2b5c3f; margin: 2rem 0; text-align: center;">
+<span style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700; color: #718096; letter-spacing: 0.05em;">Net Requirement Volume:</span>
+<div id="gr-out-yd" style="font-size: 1.75rem; font-weight: 800; color: #2b5c3f; margin: 0.15rem 0;">6.17 Cubic Yards</div>
+</div>
+<div class="results-box" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+<h3 style="font-size: 1rem; color: #2d3748; text-transform: uppercase; margin-bottom: 1.25rem; letter-spacing: 0.02em; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem;">Mass Weight &amp; Shipping Thresholds</h3>
+<div class="results-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem;">
+<div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #dd6b20; padding: 1rem; border-radius: 6px;">
+<div style="font-size: 0.85rem; font-weight: 700; color: #718096;">Estimated Payload Mass</div>
+<div id="gr-out-tons" style="font-size: 1.5rem; font-weight: 800; color: #dd6b20; margin: 0.25rem 0;">8.33 Tons</div>
+</div>
+<div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #2b5c3f; padding: 1rem; border-radius: 6px;">
+<div style="font-size: 0.85rem; font-weight: 700; color: #718096;">Recommended Order (+5% Compaction)</div>
+<div id="gr-out-rec" style="font-size: 1.5rem; font-weight: 800; color: #2b5c3f; margin: 0.25rem 0;">6.50 yd³</div>
+</div>
+</div>
+</div>
+</main>
+</div>
 <section class="wrap narrow block calculator-guide">
-  <h2>Gravel &amp; Road Base Calculator Guide</h2>
-  <p>This estimator helps convert aggregate dimensions into cubic yards and approximate weight for gravel, crushed stone and road-base materials.</p>
-  <h3>How the estimate works</h3>
-  <p>Calculate rectangular volume first, then multiply cubic yards by the selected bulk-density assumption to estimate tons. Density is approximate because aggregate moisture, grading and compaction affect delivered weight.</p>
-  <h3>Important assumptions</h3>
-  <ul><li>Use the supplier&#x27;s density or delivered weight information when available.</li><li>Driveways and compacted base courses may require a design-specific thickness and compaction allowance.</li><li>Do not assume all gravel products have the same tons-per-yard value.</li></ul>
-  <h3>Frequently asked questions</h3>
-  <details><summary>How accurate is the tonnage?</summary><p>It is an estimate based on an assumed bulk density. Actual delivered weight can differ.</p></details><details><summary>Should I add waste?</summary><p>A modest ordering allowance can cover grading, uneven subgrade and handling losses. Compacted base work may need a separate compaction consideration.</p></details><details><summary>Can this calculate a driveway?</summary><p>Yes for a preliminary rectangular estimate. Split irregular driveways into sections for better accuracy.</p></details>
-  <p class="fine">For the calculation assumptions used on this site, see the <a href="/methodology">MaterialYardage methodology</a>.</p>
+<h2>Gravel &amp; Road Base Calculator Guide</h2>
+<p>This estimator helps convert aggregate dimensions into cubic yards and approximate weight for gravel, crushed stone and road-base materials.</p>
+<h3>How the estimate works</h3>
+<p>Calculate rectangular volume first, then multiply cubic yards by the selected bulk-density assumption to estimate tons. Density is approximate because aggregate moisture, grading and compaction affect delivered weight.</p>
+<h3>Important assumptions</h3>
+<ul><li>Use the supplier's density or delivered weight information when available.</li><li>Driveways and compacted base courses may require a design-specific thickness and compaction allowance.</li><li>Do not assume all gravel products have the same tons-per-yard value.</li></ul>
+<h3>Frequently asked questions</h3>
+<details><summary>How accurate is the tonnage?</summary><p>It is an estimate based on an assumed bulk density. Actual delivered weight can differ.</p></details><details><summary>Should I add waste?</summary><p>A modest ordering allowance can cover grading, uneven subgrade and handling losses. Compacted base work may need a separate compaction consideration.</p></details><details><summary>Can this calculate a driveway?</summary><p>Yes for a preliminary rectangular estimate. Split irregular driveways into sections for better accuracy.</p></details>
+<p class="fine">For the calculation assumptions used on this site, see the <a href="/methodology">MaterialYardage methodology</a>.</p>
 </section>
-</footer>
-
-    <script>
+<section class="wrap narrow block calculator-guide v27-expansion"><h3>What the estimate means</h3><p>The calculator converts the measured project area and layer depth into cubic volume, then uses an approximate bulk-density assumption to estimate weight. Aggregate weight is not fixed: moisture, stone size, grading and compaction all affect the delivered tonnage.</p><h3>Worked example</h3><div class="example"><h3>40 ft × 10 ft area at 4 in depth</h3><p>The geometric requirement is about 133.3 cubic feet, or 4.94 cubic yards. At an assumed 1.4 tons per cubic yard, the unadjusted weight is about 6.91 tons. A supplier may quote a different density, so confirm the product specification before ordering by weight.</p></div><h3>Base versus decorative gravel</h3><p>Road base, crusher run and compactable aggregate are usually selected for structural layers, while decorative stone is commonly specified for appearance and drainage. The same volume can produce different weights and coverage depending on the material.</p><h3>Ordering tips</h3><ul><li>State the intended layer depth when requesting a supplier quote.</li><li>Allow for compaction where the material is installed as a structural base.</li><li>Check whether the supplier sells by cubic yard, ton, tonne, or truckload.</li><li>Use a measured test area when a precise finished depth matters.</li></ul><p class="review-line">Reviewed September 2026. Results are planning estimates; confirm product specifications and project requirements before ordering or construction.</p></section><section class="wrap narrow block v27-related"><h2>Related tools and resources</h2><div class="related-links"><a href="/gravel-calculator">Gravel Calculator</a><a href="/guides/gravel-driveway-guide">Gravel Driveway Guide</a><a href="/reference/material-density-chart">Material Density Chart</a><a href="/materials/material-cost">Material Cost Calculator</a></div></section><footer class="site-footer"><div class="wrap"><nav aria-label="Footer" class="footer-nav"><a href="/">Home</a><a href="/calculators">Calculators</a><a href="/guides">Guides</a><a href="/reference">Reference</a><a href="/about">About</a><a href="/methodology">Methodology</a><a href="/contact">Contact</a><a href="/privacy-policy">Privacy Policy</a></nav><p>© <span id="year">2026</span> MaterialYardage. Calculation estimates are provided for planning purposes.</p></div></footer>
+<script>
         function calcStandaloneGravel() {
             const l = parseFloat(document.getElementById('gr-len').value) || 0;
             const w = parseFloat(document.getElementById('gr-wid').value) || 0;
