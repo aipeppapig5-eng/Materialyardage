@@ -1,14 +1,21 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    { "source": "/guides/topsoil-depth-guide", "destination": "/guides/topsoil-depth-guide.html" },
+    { "source": "/guides/mulch-depth-guide", "destination": "/guides/mulch-depth-guide.html" },
+    { "source": "/guides/gravel-driveway-guide", "destination": "/guides/gravel-driveway-guide.html" },
+    { "source": "/guides/concrete-calculator-guide", "destination": "/guides/concrete-calculator-guide.html" },
+    { "source": "/guides/paver-calculator-guide", "destination": "/guides/paver-calculator-guide.html" },
+    { "source": "/reference/material-density-chart", "destination": "/reference/material-density-chart.html" },
+    { "source": "/reference/conversion-tables", "destination": "/reference/conversion-tables.html" },
+    { "source": "/reference/coverage-tables", "destination": "/reference/coverage-tables.html" }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",
       "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     }
   ]
