@@ -1,0 +1,18 @@
+MaterialYardage v2.5.2 Deployment Manifest
+
+New hub:
+- /guides -> /guides.html
+
+Guide pages:
+- /guides/topsoil-depth-guide
+- /guides/mulch-depth-guide
+- /guides/gravel-driveway-guide
+- /guides/concrete-calculator-guide
+- /guides/paver-calculator-guide
+
+Reference pages:
+- /reference/material-density-chart
+- /reference/conversion-tables
+- /reference/coverage-tables
+
+All site navigation and guide breadcrumbs point to /guides. Sitemap contains the /guides hub and all child resources.

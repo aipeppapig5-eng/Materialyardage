@@ -2,6 +2,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
+    { "source": "/guides", "destination": "/guides.html" },
     { "source": "/guides/topsoil-depth-guide", "destination": "/guides/topsoil-depth-guide.html" },
     { "source": "/guides/mulch-depth-guide", "destination": "/guides/mulch-depth-guide.html" },
     { "source": "/guides/gravel-driveway-guide", "destination": "/guides/gravel-driveway-guide.html" },
