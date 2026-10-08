@@ -3,6 +3,10 @@
   "trailingSlash": false,
   "rewrites": [
     {
+      "source": "/topsoil-calculator",
+      "destination": "/topsoil-calculator.html"
+    },
+    {
       "source": "/guides",
       "destination": "/guides.html"
     },
@@ -72,6 +76,18 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/calculators",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/calculators.html",
+      "destination": "/",
+      "permanent": true
     }
   ]
 }
