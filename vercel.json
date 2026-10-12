@@ -7,6 +7,10 @@
       "destination": "/topsoil-calculator.html"
     },
     {
+      "source": "/fabric-yardage-calculator",
+      "destination": "/fabric-yardage-calculator.html"
+    },
+    {
       "source": "/guides",
       "destination": "/guides.html"
     },
