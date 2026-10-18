@@ -68,7 +68,7 @@
     },
     {
       "source": "/fabric",
-      "destination": "/fabric/fabric.html"
+      "destination": "/fabric/index.html"
     },
     {
       "source": "/fabric/yardage-calculator",
