@@ -7,10 +7,6 @@
       "destination": "/topsoil-calculator.html"
     },
     {
-      "source": "/fabric-yardage-calculator",
-      "destination": "/fabric-yardage-calculator.html"
-    },
-    {
       "source": "/guides",
       "destination": "/guides.html"
     },
@@ -69,6 +65,34 @@
     {
       "source": "/paving",
       "destination": "/paving.html"
+    },
+    {
+      "source": "/fabric",
+      "destination": "/fabric/fabric.html"
+    },
+    {
+      "source": "/fabric/yardage-calculator",
+      "destination": "/fabric/yardage-calculator.html"
+    },
+    {
+      "source": "/fabric/curtain-calculator",
+      "destination": "/fabric/curtain-calculator.html"
+    },
+    {
+      "source": "/fabric/upholstery-calculator",
+      "destination": "/fabric/upholstery-calculator.html"
+    },
+    {
+      "source": "/fabric/quilt-backing-binding-calculator",
+      "destination": "/fabric/quilt-backing-binding-calculator.html"
+    },
+    {
+      "source": "/fabric/cutting-layout-calculator",
+      "destination": "/fabric/cutting-layout-calculator.html"
+    },
+    {
+      "source": "/fabric/unit-converter",
+      "destination": "/fabric/unit-converter.html"
     }
   ],
   "headers": [
@@ -91,6 +115,36 @@
     {
       "source": "/calculators.html",
       "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/fabric-yardage-calculator",
+      "destination": "/fabric/yardage-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/fabric-curtain-calculator",
+      "destination": "/fabric/curtain-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/fabric-upholstery-calculator",
+      "destination": "/fabric/upholstery-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/fabric-quilt-backing-binding-calculator",
+      "destination": "/fabric/quilt-backing-binding-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/fabric-cutting-layout-calculator",
+      "destination": "/fabric/cutting-layout-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/fabric-unit-converter",
+      "destination": "/fabric/unit-converter",
       "permanent": true
     }
   ]
