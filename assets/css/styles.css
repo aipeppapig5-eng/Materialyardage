@@ -391,3 +391,77 @@ details p { margin: 0.6rem 0 0; color: var(--muted); }
   html { scroll-behavior: auto; }
   .resource-card:hover { transform: none; }
 }
+
+
+/* ---------- V16 visual refresh: clearer hierarchy, calmer surfaces, accessible controls ---------- */
+:root {
+  --bg: #07130f;
+  --surface: #10221b;
+  --surface-2: #172e24;
+  --line: #294438;
+  --text: #e6f0e9;
+  --muted: #afc3b6;
+  --faint: #829b8b;
+  --accent: #a9d68b;
+  --accent-strong: #4d9569;
+  --white: #f8fff9;
+  --radius: 16px;
+  --maxw: 70rem;
+}
+body { background: radial-gradient(ellipse at 50% -12rem, rgba(56,111,77,.24), transparent 42rem), var(--bg); }
+.site-header { background: rgba(7,19,15,.9); border-bottom-color: rgba(169,214,139,.18); }
+.header-inner { min-height: 4.5rem; }
+.brand { font-size: 1.25rem; letter-spacing: -.04em; }
+.nav { gap: .35rem; }
+.nav a { padding: .42rem .65rem; border-radius: 9px; transition: background .16s ease, color .16s ease; }
+.nav a:hover, .nav a[aria-current="page"] { color: var(--white); background: rgba(169,214,139,.11); text-decoration: none; }
+main { padding-top: 2.6rem; }
+h1 { font-size: clamp(2rem, 4vw, 3.25rem); letter-spacing: -.045em; line-height: 1.1; max-width: 19ch; }
+h2 { letter-spacing: -.03em; }
+.lede { font-size: clamp(1.05rem, 1.6vw, 1.2rem); line-height: 1.65; }
+main > .wrap > h1, main#main-content > .wrap > h1 { margin-top: .3rem; }
+main > .wrap > h1:first-child::before, main#main-content > .wrap > h1:first-child::before { content: "FREE PROJECT PLANNING TOOLS"; display: block; color: var(--accent); font-size: .72rem; font-weight: 800; letter-spacing: .16em; margin-bottom: 1rem; }
+section.block { padding: 2rem 0; border-top-color: rgba(169,214,139,.16); }
+section.block > h2 { margin-bottom: .85rem; }
+.cards { gap: .85rem; }
+.cards a { height: 100%; min-height: 118px; padding: 1.05rem 1.1rem; border: 1px solid var(--line); border-radius: 15px; background: linear-gradient(145deg, rgba(23,46,36,.94), rgba(16,34,27,.88)); transition: transform .16s ease, border-color .16s ease, background .16s ease; }
+.cards a:hover { border-color: var(--accent-strong); background: var(--surface-2); transform: translateY(-2px); }
+.cards strong { color: var(--white); font-size: 1rem; line-height: 1.4; }
+.cards span { display: block; line-height: 1.55; margin-top: .35rem; }
+.resource-card, .card { background: linear-gradient(145deg, rgba(23,46,36,.92), rgba(16,34,27,.96)); border-color: var(--line); box-shadow: 0 12px 30px rgba(0,0,0,.12); }
+.resource-card h3 { line-height: 1.35; }
+input, select, textarea { max-width: 100%; border-radius: 10px !important; }
+button, .button, .link-btn { border-radius: 10px; }
+button { min-height: 42px; }
+.results, .result, .formula, .note, .example { border-radius: 14px; }
+table { border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: 12px; }
+th { background: var(--surface-2); color: var(--white); }
+th, td { border-color: var(--line); }
+.site-footer { border-top-color: var(--line); }
+:focus-visible { outline-color: #c9f2a8; outline-offset: 3px; }
+@media (min-width: 900px) {
+  .home-intro { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(250px,.75fr); gap: 2rem; align-items: end; }
+  .home-intro p { max-width: 62ch; }
+}
+@media (max-width: 639px) {
+  main { padding-top: 1.5rem; }
+  .header-inner { align-items: center; }
+  .brand { font-size: 1.05rem; }
+  .nav { max-width: 65%; }
+  .nav a { padding: .35rem .48rem; font-size: .8rem; }
+  section.block { padding: 1.5rem 0; }
+  .cards { gap: .65rem; }
+  .cards a { min-height: 0; padding: .95rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+.home-promise { padding: 1.4rem; border-color: rgba(169,214,139,.35); }
+.home-promise h2 { font-size: 1.45rem; margin: .2rem 0 .6rem; }
+.eyebrow { color: var(--accent); font-size: .73rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-bottom: .5rem; }
+.trust-points { display: grid; gap: .45rem; margin-top: .9rem; }
+.trust-points span { display: block; color: var(--text); font-size: .88rem; }
+.trust-points span::before { content: "✓"; color: var(--accent); font-weight: 900; margin-right: .55rem; }
+.fabric-feature { padding: 1.4rem; margin: .6rem 0; border: 1px solid rgba(169,214,139,.28); border-radius: 20px; background: linear-gradient(145deg, rgba(28,58,42,.45), rgba(7,19,15,.18)); }
+.fabric-feature > h2 { margin-top: 0; }
