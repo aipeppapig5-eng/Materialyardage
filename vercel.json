@@ -31,6 +31,38 @@
       "destination": "/guides/paver-calculator-guide.html"
     },
     {
+      "source": "/guides/sand-volume-guide",
+      "destination": "/guides/sand-volume-guide.html"
+    },
+    {
+      "source": "/guides/aggregate-volume-guide",
+      "destination": "/guides/aggregate-volume-guide.html"
+    },
+    {
+      "source": "/guides/cement-concrete-materials-guide",
+      "destination": "/guides/cement-concrete-materials-guide.html"
+    },
+    {
+      "source": "/guides/compost-volume-guide",
+      "destination": "/guides/compost-volume-guide.html"
+    },
+    {
+      "source": "/guides/sod-area-guide",
+      "destination": "/guides/sod-area-guide.html"
+    },
+    {
+      "source": "/guides/masonry-block-brick-guide",
+      "destination": "/guides/masonry-block-brick-guide.html"
+    },
+    {
+      "source": "/guides/paver-layout-guide",
+      "destination": "/guides/paver-layout-guide.html"
+    },
+    {
+      "source": "/guides/fabric-yardage-planning-guide",
+      "destination": "/guides/fabric-yardage-planning-guide.html"
+    },
+    {
       "source": "/reference",
       "destination": "/reference.html"
     },
