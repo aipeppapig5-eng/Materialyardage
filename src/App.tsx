@@ -81,22 +81,31 @@ export default function App() {
     { id: 'sod_turf', label: 'Sod & Turf Grass', category: 'construction', desc: 'Lawn square footage, 2\'×5\' sod rolls, whole pallets, and edge cutting waste' },
   ];
 
-  // Hash router sync for direct URL navigation & SEO ranking
+  // Clean URL Router sync for direct URL navigation, back/forward buttons, and SEO
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace('#/', '').replace('#', '');
-      if (!hash) return;
+    const handleRouteChange = () => {
+      // 1. Check pathname (e.g. /concrete-calculator)
+      const pathname = window.location.pathname.replace(/^\/+|\/+$/g, '');
+      // 2. Check hash as fallback for legacy links (e.g. #/concrete-calculator)
+      const hash = window.location.hash.replace(/^#\/?/, '').replace(/\/+$/, '');
 
-      if (hash === 'privacy-policy' || hash === 'privacy') {
+      const currentRoute = pathname || hash;
+      if (!currentRoute || currentRoute === 'index.html') {
+        setActiveCalculator('fabric_cut');
+        setCategoryMode('fabric');
+        return;
+      }
+
+      if (currentRoute === 'privacy-policy' || currentRoute === 'privacy') {
         setActiveCalculator('privacy');
-      } else if (hash === 'about' || hash === 'about-us') {
+      } else if (currentRoute === 'about' || currentRoute === 'about-us') {
         setActiveCalculator('about');
-      } else if (hash === 'contact') {
+      } else if (currentRoute === 'contact') {
         setActiveCalculator('contact');
       } else {
         // Find calculator by slug or id
         const matched = Object.entries(SEO_PAGES).find(
-          ([id, seo]) => seo.slug === hash || id === hash
+          ([id, seo]) => seo.slug === currentRoute || id === currentRoute
         );
         if (matched) {
           setActiveCalculator(matched[0]);
@@ -106,35 +115,38 @@ export default function App() {
       }
     };
 
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    handleRouteChange();
+    window.addEventListener('popstate', handleRouteChange);
+    window.addEventListener('hashchange', handleRouteChange);
+    return () => {
+      window.removeEventListener('popstate', handleRouteChange);
+      window.removeEventListener('hashchange', handleRouteChange);
+    };
   }, []);
 
-  // Update document title, meta tags, OpenGraph, and Schema JSON-LD on route change
+  // Update document title, meta tags, OpenGraph, and Schema JSON-LD with clean URL
   useEffect(() => {
+    let targetPath = '/';
     if (activeCalculator === 'privacy') {
       document.title = 'Privacy Policy — Material Yardage';
-      window.location.hash = '#/privacy-policy';
-      return;
-    }
-    if (activeCalculator === 'about') {
+      targetPath = '/privacy-policy';
+    } else if (activeCalculator === 'about') {
       document.title = 'About Us & Calculation Methodology — Material Yardage';
-      window.location.hash = '#/about';
-      return;
-    }
-    if (activeCalculator === 'contact') {
+      targetPath = '/about';
+    } else if (activeCalculator === 'contact') {
       document.title = 'Contact Support & Editors — Material Yardage';
-      window.location.hash = '#/contact';
-      return;
+      targetPath = '/contact';
+    } else {
+      const currentSeo = SEO_PAGES[activeCalculator];
+      if (currentSeo) {
+        updateDocumentSEO(currentSeo);
+        targetPath = `/${currentSeo.slug}`;
+      }
     }
 
-    const currentSeo = SEO_PAGES[activeCalculator];
-    if (currentSeo) {
-      updateDocumentSEO(currentSeo);
-      if (window.location.hash !== `#/${currentSeo.slug}`) {
-        window.history.replaceState(null, '', `#/${currentSeo.slug}`);
-      }
+    // Upgrade URL to clean path without '#'
+    if (window.location.pathname !== targetPath || window.location.hash) {
+      window.history.replaceState(null, '', targetPath);
     }
   }, [activeCalculator]);
 
@@ -162,26 +174,26 @@ export default function App() {
 
   const handleSelectTab = (tabId: string) => {
     setActiveCalculator(tabId);
+    let targetPath = '/';
     if (tabId === 'privacy') {
-      window.location.hash = '#/privacy-policy';
-      return;
-    }
-    if (tabId === 'about') {
-      window.location.hash = '#/about';
-      return;
-    }
-    if (tabId === 'contact') {
-      window.location.hash = '#/contact';
-      return;
-    }
-
-    const tool = tools.find(t => t.id === tabId);
-    if (tool) {
-      setCategoryMode(tool.category as CategoryMode);
+      targetPath = '/privacy-policy';
+    } else if (tabId === 'about') {
+      targetPath = '/about';
+    } else if (tabId === 'contact') {
+      targetPath = '/contact';
+    } else {
+      const tool = tools.find(t => t.id === tabId);
+      if (tool) {
+        setCategoryMode(tool.category as CategoryMode);
+      }
       const seo = SEO_PAGES[tabId];
       if (seo) {
-        window.location.hash = `#/${seo.slug}`;
+        targetPath = `/${seo.slug}`;
       }
+    }
+
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState(null, '', targetPath);
     }
   };
 
