@@ -3,6 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Defensive guard against browser extension injection errors (e.g. ImageAssistant inspector.js)
+      (function() {
+        try {
+          var originalFetch = window.fetch;
+          var customFetch = originalFetch;
+          Object.defineProperty(window, 'fetch', {
+            configurable: true,
+            enumerable: true,
+            get: function() {
+              return customFetch || originalFetch;
+            },
+            set: function(fn) {
+              customFetch = fn;
+            }
+          });
+        } catch (e) {}
+
+        window.addEventListener('error', function(event) {
+          if (event && event.filename && event.filename.indexOf('chrome-extension://') !== -1) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        }, true);
+      })();
+    </script>
     <title>Material Yardage — Material & Fabric Yardage Calculator</title>
     <meta name="description" content="Advanced material, landscaping, concrete, and fabric yardage calculators with interactive 2D cut diagrams, multi-zone project estimator, and cost planning." />
     <meta property="og:title" content="Material Yardage — Material & Fabric Yardage Calculator" />

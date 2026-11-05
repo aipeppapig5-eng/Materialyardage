@@ -1,0 +1,334 @@
+import React, { useState } from 'react';
+import { BOMItem } from '../types';
+import { X, Trash2, Printer, Download, Copy, Check, ShoppingBag, FileDown, Box } from 'lucide-react';
+import { generateBOMPDF } from '../utils/pdfGenerator';
+
+interface ProjectBOMModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  items: BOMItem[];
+  onRemoveItem: (id: string) => void;
+  onClearAll: () => void;
+  onUpdateItemPrice: (id: string, price: number) => void;
+  onOpen3DPreview?: () => void;
+}
+
+export const ProjectBOMModal: React.FC<ProjectBOMModalProps> = ({
+  isOpen,
+  onClose,
+  items,
+  onRemoveItem,
+  onClearAll,
+  onUpdateItemPrice,
+  onOpen3DPreview,
+}) => {
+  const [deliveryFee, setDeliveryFee] = useState<number>(65);
+  const [taxRatePercent, setTaxRatePercent] = useState<number>(7.5);
+  const [copied, setCopied] = useState<boolean>(false);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState<boolean>(false);
+  const [projectName, setProjectName] = useState<string>('My Project Material Estimate');
+
+  if (!isOpen) return null;
+
+  const subtotal = items.reduce((sum, item) => sum + item.primaryQuantity * item.unitPrice, 0);
+  const taxAmount = (subtotal + deliveryFee) * (taxRatePercent / 100);
+  const totalBudget = subtotal + deliveryFee + taxAmount;
+
+  const handleCopySummary = () => {
+    let summary = `MATERIAL ESTIMATE: ${projectName}\n`;
+    summary += `Generated on: ${new Date().toLocaleDateString()}\n\n`;
+    items.forEach((item, i) => {
+      summary += `${i + 1}. ${item.name}\n`;
+      summary += `   Quantity: ${item.primaryQuantity} ${item.primaryUnit} @ $${item.unitPrice.toFixed(2)} = $${(item.primaryQuantity * item.unitPrice).toFixed(2)}\n`;
+      summary += `   Details: ${item.secondarySummary}\n`;
+      if (item.notes) summary += `   Notes: ${item.notes}\n`;
+      summary += `\n`;
+    });
+    summary += `----------------------------------------\n`;
+    summary += `Material Subtotal: $${subtotal.toFixed(2)}\n`;
+    summary += `Delivery Fee: $${deliveryFee.toFixed(2)}\n`;
+    summary += `Estimated Tax (${taxRatePercent}%): $${taxAmount.toFixed(2)}\n`;
+    summary += `TOTAL ESTIMATED BUDGET: $${totalBudget.toFixed(2)}\n`;
+
+    navigator.clipboard.writeText(summary);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleExportCSV = () => {
+    let csv = 'Item,Category,Calculator,Quantity,Unit,Unit Price ($),Subtotal ($),Details,Notes\n';
+    items.forEach(item => {
+      const line = [
+        `"${item.name.replace(/"/g, '""')}"`,
+        `"${item.category}"`,
+        `"${item.calculatorType}"`,
+        item.primaryQuantity,
+        `"${item.primaryUnit}"`,
+        item.unitPrice.toFixed(2),
+        (item.primaryQuantity * item.unitPrice).toFixed(2),
+        `"${(item.secondarySummary || '').replace(/"/g, '""')}"`,
+        `"${(item.notes || '').replace(/"/g, '""')}"`,
+      ].join(',');
+      csv += line + '\n';
+    });
+    csv += `\n"Material Subtotal",,,,,,"${subtotal.toFixed(2)}",,\n`;
+    csv += `"Delivery Fee",,,,,,"${deliveryFee.toFixed(2)}",,\n`;
+    csv += `"Estimated Tax (${taxRatePercent}%)",,,,,,"${taxAmount.toFixed(2)}",,\n`;
+    csv += `"Total Budget",,,,,,"${totalBudget.toFixed(2)}",,\n`;
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `material_estimate_${Date.now()}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleDownloadPDF = () => {
+    if (items.length === 0) return;
+    setIsGeneratingPDF(true);
+    try {
+      generateBOMPDF({
+        projectName,
+        items,
+        deliveryFee,
+        taxRatePercent,
+      });
+    } catch (err) {
+      console.error('Failed to generate PDF estimate:', err);
+    } finally {
+      setIsGeneratingPDF(false);
+    }
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 overflow-y-auto">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in duration-150">
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/80">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-emerald-100 text-emerald-800 rounded-lg">
+              <ShoppingBag className="w-5 h-5" />
+            </div>
+            <div>
+              <input
+                type="text"
+                value={projectName}
+                onChange={e => setProjectName(e.target.value)}
+                className="text-base font-bold text-slate-900 bg-transparent border-b border-dashed border-slate-300 hover:border-slate-500 focus:border-emerald-600 focus:outline-hidden pb-0.5"
+              />
+              <p className="text-xs text-slate-500">
+                Consolidated Bill of Materials, supplier order quantities & cost breakdown
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            {onOpen3DPreview && (
+              <button
+                onClick={onOpen3DPreview}
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-emerald-50 border border-emerald-300 text-emerald-800 rounded-lg hover:bg-emerald-100 transition-colors shadow-2xs"
+                title="Open interactive 3D cross-section and schematic model"
+              >
+                <Box className="w-3.5 h-3.5 text-emerald-700" />
+                <span>3D Schematic</span>
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 rounded-lg transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Content Body */}
+        <div className="p-6 overflow-y-auto space-y-6 flex-1">
+          {items.length === 0 ? (
+            <div className="text-center py-12 px-4 space-y-3">
+              <div className="w-12 h-12 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto">
+                <ShoppingBag className="w-6 h-6" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-800">Your Project Estimate is Empty</h3>
+              <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                Use any of our fabric, mulch, concrete, or aggregate calculators and click "Add to Project BOM" to build your complete supply list.
+              </p>
+            </div>
+          ) : (
+            <>
+              {/* Item List Table */}
+              <div className="border border-slate-200 rounded-xl overflow-hidden shadow-2xs">
+                <table className="w-full text-xs text-left">
+                  <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 font-semibold">
+                    <tr>
+                      <th className="py-2.5 px-3">Item & Category</th>
+                      <th className="py-2.5 px-3">Quantity</th>
+                      <th className="py-2.5 px-3">Unit Price ($)</th>
+                      <th className="py-2.5 px-3">Subtotal</th>
+                      <th className="py-2.5 px-3 text-right">Remove</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {items.map(item => (
+                      <tr key={item.id} className="hover:bg-slate-50/50">
+                        <td className="py-3 px-3">
+                          <div className="font-semibold text-slate-900">{item.name}</div>
+                          <div className="text-[11px] text-slate-500">{item.secondarySummary}</div>
+                          {item.notes && (
+                            <div className="text-[10px] text-slate-400 italic mt-0.5">{item.notes}</div>
+                          )}
+                        </td>
+                        <td className="py-3 px-3 font-mono font-bold text-slate-800 tabular-nums">
+                          {item.primaryQuantity} {item.primaryUnit}
+                        </td>
+                        <td className="py-3 px-3">
+                          <div className="relative w-24">
+                            <span className="absolute left-2 top-1.5 text-slate-400 text-xs">$</span>
+                            <input
+                              type="number"
+                              min="0"
+                              step="0.1"
+                              value={item.unitPrice}
+                              onChange={e => onUpdateItemPrice(item.id, Number(e.target.value))}
+                              className="w-full pl-5 pr-2 py-1 text-xs border border-slate-300 rounded font-mono tabular-nums"
+                            />
+                          </div>
+                        </td>
+                        <td className="py-3 px-3 font-mono font-bold text-emerald-800 tabular-nums">
+                          ${(item.primaryQuantity * item.unitPrice).toFixed(2)}
+                        </td>
+                        <td className="py-3 px-3 text-right">
+                          <button
+                            onClick={() => onRemoveItem(item.id)}
+                            className="p-1 text-slate-400 hover:text-red-600 transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Delivery, Tax, and Budget Totals */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
+                  <h4 className="text-xs font-semibold text-slate-800">Additional Charges</h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs text-slate-600 block mb-1">Supplier Delivery Fee ($)</label>
+                      <input
+                        type="number"
+                        min="0"
+                        step="5"
+                        value={deliveryFee}
+                        onChange={e => setDeliveryFee(Number(e.target.value))}
+                        className="w-full px-2.5 py-1.5 text-xs bg-white border border-slate-300 rounded-lg font-mono"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs text-slate-600 block mb-1">Sales Tax Rate (%)</label>
+                      <input
+                        type="number"
+                        min="0"
+                        step="0.25"
+                        value={taxRatePercent}
+                        onChange={e => setTaxRatePercent(Number(e.target.value))}
+                        className="w-full px-2.5 py-1.5 text-xs bg-white border border-slate-300 rounded-lg font-mono"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-emerald-950 text-white rounded-xl p-5 space-y-2">
+                  <div className="flex justify-between text-xs text-emerald-200">
+                    <span>Materials Subtotal:</span>
+                    <span className="font-mono tabular-nums">${subtotal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between text-xs text-emerald-200">
+                    <span>Delivery Fee:</span>
+                    <span className="font-mono tabular-nums">${deliveryFee.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between text-xs text-emerald-200 border-b border-emerald-800 pb-2">
+                    <span>Estimated Tax ({taxRatePercent}%):</span>
+                    <span className="font-mono tabular-nums">${taxAmount.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between text-base font-bold text-white pt-1">
+                    <span>Total Estimated Budget:</span>
+                    <span className="font-mono tabular-nums">${totalBudget.toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Footer Actions */}
+        <div className="px-6 py-4 border-t border-slate-200 bg-slate-50/80 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            {items.length > 0 && (
+              <button
+                onClick={onClearAll}
+                className="text-xs text-red-600 hover:text-red-800 font-medium px-2 py-1"
+              >
+                Clear All Items
+              </button>
+            )}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {onOpen3DPreview && (
+              <button
+                onClick={onOpen3DPreview}
+                className="px-3 py-1.5 text-xs font-semibold bg-emerald-50 border border-emerald-300 text-emerald-800 rounded-lg hover:bg-emerald-100 flex items-center gap-1.5 transition-colors shadow-2xs"
+                title="Open 3D schematic & exploded layer view"
+              >
+                <Box className="w-3.5 h-3.5 text-emerald-700" />
+                <span>3D Schematic</span>
+              </button>
+            )}
+            <button
+              onClick={handleCopySummary}
+              disabled={items.length === 0}
+              className="px-3 py-1.5 text-xs font-semibold bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 flex items-center gap-1.5 disabled:opacity-50"
+            >
+              {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{copied ? 'Copied!' : 'Copy Summary'}</span>
+            </button>
+            <button
+              onClick={handleExportCSV}
+              disabled={items.length === 0}
+              className="px-3 py-1.5 text-xs font-semibold bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 flex items-center gap-1.5 disabled:opacity-50"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Export CSV</span>
+            </button>
+            <button
+              onClick={handlePrint}
+              disabled={items.length === 0}
+              className="px-3 py-1.5 text-xs font-semibold bg-white border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 flex items-center gap-1.5 disabled:opacity-50"
+            >
+              <Printer className="w-3.5 h-3.5 text-slate-500" />
+              <span>Print</span>
+            </button>
+            <button
+              onClick={handleDownloadPDF}
+              disabled={items.length === 0 || isGeneratingPDF}
+              className="px-4 py-1.5 text-xs font-semibold bg-emerald-800 text-white rounded-lg hover:bg-emerald-900 flex items-center gap-1.5 shadow-xs disabled:opacity-50 transition-colors"
+            >
+              <FileDown className="w-3.5 h-3.5" />
+              <span>{isGeneratingPDF ? 'Generating...' : 'Download PDF'}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

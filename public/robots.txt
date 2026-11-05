@@ -1,0 +1,6 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Canonical Sitemaps
+Sitemap: https://www.materialyardage.com/sitemap.xml
