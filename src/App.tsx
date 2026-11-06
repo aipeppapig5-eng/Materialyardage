@@ -15,10 +15,14 @@ import { UnitConverterModal } from './components/UnitConverterModal';
 import { ReferenceGuidesModal } from './components/ReferenceGuidesModal';
 import { Project3DPreviewModal } from './components/Project3DPreviewModal';
 import { SEOGuideSection } from './components/SEOGuideSection';
+import { RelatedCalculators } from './components/RelatedCalculators';
 import { AdSlot } from './components/AdSlot';
 import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
 import { AboutPage } from './components/pages/AboutPage';
 import { ContactPage } from './components/pages/ContactPage';
+import { GuidesHubPage } from './components/pages/GuidesHubPage';
+import { GuideDetailPage } from './components/pages/GuideDetailPage';
+import { GUIDES_DATA } from './data/guidesData';
 import { SEO_PAGES } from './data/seoData';
 import { updateDocumentSEO } from './utils/useSEO';
 import {
@@ -44,6 +48,7 @@ export default function App() {
   const [isConverterOpen, setIsConverterOpen] = useState<boolean>(false);
   const [isGuidesOpen, setIsGuidesOpen] = useState<boolean>(false);
   const [is3DPreviewOpen, setIs3DPreviewOpen] = useState<boolean>(false);
+  const [activeGuideSlug, setActiveGuideSlug] = useState<string | null>(null);
 
   // Search query
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -84,25 +89,42 @@ export default function App() {
   // Clean URL Router sync for direct URL navigation, back/forward buttons, and SEO
   useEffect(() => {
     const handleRouteChange = () => {
-      // 1. Check pathname (e.g. /concrete-calculator)
+      // 1. Check pathname (e.g. /concrete-calculator or /guides/how-to-calculate-cubic-yards)
       const pathname = window.location.pathname.replace(/^\/+|\/+$/g, '');
-      // 2. Check hash as fallback for legacy links (e.g. #/concrete-calculator)
+      // 2. Check hash as fallback for legacy links
       const hash = window.location.hash.replace(/^#\/?/, '').replace(/\/+$/, '');
 
       const currentRoute = pathname || hash;
       if (!currentRoute || currentRoute === 'index.html') {
         setActiveCalculator('fabric_cut');
+        setActiveGuideSlug(null);
         setCategoryMode('fabric');
         return;
       }
 
       if (currentRoute === 'privacy-policy' || currentRoute === 'privacy') {
         setActiveCalculator('privacy');
+        setActiveGuideSlug(null);
       } else if (currentRoute === 'about' || currentRoute === 'about-us') {
         setActiveCalculator('about');
+        setActiveGuideSlug(null);
       } else if (currentRoute === 'contact') {
         setActiveCalculator('contact');
+        setActiveGuideSlug(null);
+      } else if (currentRoute === 'guides' || currentRoute === 'guides-library' || currentRoute === 'reference') {
+        setActiveCalculator('guides');
+        setActiveGuideSlug(null);
+      } else if (currentRoute.startsWith('guides/')) {
+        const slug = currentRoute.replace(/^guides\//, '');
+        if (GUIDES_DATA[slug]) {
+          setActiveCalculator('guide_detail');
+          setActiveGuideSlug(slug);
+        } else {
+          setActiveCalculator('guides');
+          setActiveGuideSlug(null);
+        }
       } else {
+        setActiveGuideSlug(null);
         // Find calculator by slug or id
         const matched = Object.entries(SEO_PAGES).find(
           ([id, seo]) => seo.slug === currentRoute || id === currentRoute
@@ -136,6 +158,13 @@ export default function App() {
     } else if (activeCalculator === 'contact') {
       document.title = 'Contact Support & Editors — Material Yardage';
       targetPath = '/contact';
+    } else if (activeCalculator === 'guides') {
+      document.title = 'Material Calculation Guides & Engineering Reference — Material Yardage';
+      targetPath = '/guides';
+    } else if (activeCalculator === 'guide_detail' && activeGuideSlug && GUIDES_DATA[activeGuideSlug]) {
+      const guide = GUIDES_DATA[activeGuideSlug];
+      document.title = `${guide.metaTitle} — Material Yardage`;
+      targetPath = `/guides/${guide.slug}`;
     } else {
       const currentSeo = SEO_PAGES[activeCalculator];
       if (currentSeo) {
@@ -148,7 +177,7 @@ export default function App() {
     if (window.location.pathname !== targetPath || window.location.hash) {
       window.history.replaceState(null, '', targetPath);
     }
-  }, [activeCalculator]);
+  }, [activeCalculator, activeGuideSlug]);
 
   const handleAddToBOM = (item: Omit<BOMItem, 'id' | 'timestamp'>) => {
     const newItem: BOMItem = {
@@ -172,7 +201,18 @@ export default function App() {
     setBomItems(prev => prev.map(i => i.id === id ? { ...i, unitPrice: price } : i));
   };
 
+  const handleSelectGuide = (slug: string) => {
+    setActiveGuideSlug(slug);
+    setActiveCalculator('guide_detail');
+    const targetPath = `/guides/${slug}`;
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState(null, '', targetPath);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleSelectTab = (tabId: string) => {
+    setActiveGuideSlug(null);
     setActiveCalculator(tabId);
     let targetPath = '/';
     if (tabId === 'privacy') {
@@ -181,6 +221,8 @@ export default function App() {
       targetPath = '/about';
     } else if (tabId === 'contact') {
       targetPath = '/contact';
+    } else if (tabId === 'guides') {
+      targetPath = '/guides';
     } else {
       const tool = tools.find(t => t.id === tabId);
       if (tool) {
@@ -195,6 +237,7 @@ export default function App() {
     if (window.location.pathname !== targetPath) {
       window.history.pushState(null, '', targetPath);
     }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const filteredTools = searchQuery.trim()
@@ -224,8 +267,23 @@ export default function App() {
       {activeCalculator === 'about' && <AboutPage />}
       {activeCalculator === 'contact' && <ContactPage />}
 
+      {/* Render Guides Hub & Individual Guide Pages */}
+      {activeCalculator === 'guides' && (
+        <GuidesHubPage
+          onSelectGuide={handleSelectGuide}
+          onSelectCalculator={handleSelectTab}
+        />
+      )}
+      {activeCalculator === 'guide_detail' && activeGuideSlug && GUIDES_DATA[activeGuideSlug] && (
+        <GuideDetailPage
+          guide={GUIDES_DATA[activeGuideSlug]}
+          onBackToGuides={() => handleSelectTab('guides')}
+          onOpenCalculator={handleSelectTab}
+        />
+      )}
+
       {/* Main Calculator Workspace */}
-      {activeCalculator !== 'privacy' && activeCalculator !== 'about' && activeCalculator !== 'contact' && (
+      {activeCalculator !== 'privacy' && activeCalculator !== 'about' && activeCalculator !== 'contact' && activeCalculator !== 'guides' && activeCalculator !== 'guide_detail' && (
         <>
           {/* Hero Section */}
           <section className="bg-white border-b border-slate-200 py-8 px-4 sm:px-6 lg:px-8">
@@ -412,6 +470,12 @@ export default function App() {
 
             {/* On-Page SEO Guide, Formulas, Worked Example, and Rich FAQ Accordion */}
             {activeSeo && <SEOGuideSection seo={activeSeo} />}
+
+            {/* Up Next & Related Calculators for Internal Link Equity & SEO Authority */}
+            <RelatedCalculators
+              currentId={activeCalculator}
+              onSelectCalculator={handleSelectTab}
+            />
           </main>
 
           {/* Feature Highlights */}
@@ -484,6 +548,10 @@ export default function App() {
               <button onClick={() => handleSelectTab('privacy')} className="hover:text-white transition-colors flex items-center gap-1">
                 <ShieldCheck className="w-3.5 h-3.5" />
                 <span>Privacy Policy</span>
+              </button>
+              <button onClick={() => handleSelectTab('guides')} className="hover:text-white transition-colors flex items-center gap-1 font-semibold text-emerald-300">
+                <BookOpen className="w-3.5 h-3.5" />
+                <span>Guides Library</span>
               </button>
               <button onClick={() => setIsGuidesOpen(true)} className="hover:text-white transition-colors">
                 Density Guide

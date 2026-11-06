@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  <!-- Homepage / Main App -->
+  <!-- Primary Homepage & Tools -->
   <url>
     <loc>https://www.materialyardage.com/</loc>
     <lastmod>2026-11-05</lastmod>
@@ -68,6 +68,64 @@
     <lastmod>2026-11-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+  </url>
+
+  <!-- Master Educational Guides & Knowledge Base Hub -->
+  <url>
+    <loc>https://www.materialyardage.com/guides</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <!-- In-Depth Material Guides & Formulas (SEO Topical Authority) -->
+  <url>
+    <loc>https://www.materialyardage.com/guides/how-to-calculate-cubic-yards</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.materialyardage.com/guides/concrete-bag-calculator-guide</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.materialyardage.com/guides/mulch-depth-and-coverage-guide</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.materialyardage.com/guides/gravel-tonnage-and-density-guide</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.materialyardage.com/guides/fabric-bolt-widths-and-yardage-guide</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.materialyardage.com/guides/curtain-fullness-and-measurement-guide</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.materialyardage.com/guides/paver-patio-base-and-sand-depth-guide</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.materialyardage.com/guides/upholstery-fabric-yardage-guide</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
 
   <!-- Informational & Legal Pages for AdSense & Google E-E-A-T Compliance -->

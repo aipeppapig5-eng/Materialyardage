@@ -91,6 +91,17 @@ export const Header: React.FC<HeaderProps> = ({
             Contact
           </button>
           <button
+            onClick={() => handleNavClick('guides')}
+            className={`flex items-center gap-1 whitespace-nowrap shrink-0 transition-colors py-1 ${
+              activeTab === 'guides' || activeTab === 'guide_detail'
+                ? 'text-emerald-800 font-bold border-b-2 border-emerald-700'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <BookOpen className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Guides Library</span>
+          </button>
+          <button
             onClick={onOpenConverter}
             className="flex items-center gap-1 text-slate-600 hover:text-slate-900 whitespace-nowrap shrink-0"
           >
@@ -173,6 +184,10 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
             <button onClick={() => handleNavClick('privacy')} className="text-slate-700 font-medium py-1">
               Privacy Policy
+            </button>
+            <button onClick={() => handleNavClick('guides')} className="text-emerald-800 font-bold py-1 flex items-center gap-1">
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>Guides Library</span>
             </button>
             <button onClick={() => { onOpenConverter(); setMobileMenuOpen(false); }} className="text-slate-700 font-medium py-1">
               Unit Converter

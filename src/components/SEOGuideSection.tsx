@@ -21,9 +21,17 @@ export const SEOGuideSection: React.FC<SEOGuideSectionProps> = ({ seo }) => {
 
       {/* Guide Header */}
       <div className="space-y-2">
-        <div className="flex items-center gap-2 text-xs font-bold text-emerald-800 uppercase tracking-wider">
-          <BookOpen className="w-4 h-4" />
-          <span>Calculation Methodology & Guide</span>
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-xs font-bold text-emerald-800 uppercase tracking-wider">
+            <BookOpen className="w-4 h-4" />
+            <span>Calculation Methodology & Guide</span>
+          </div>
+          <a
+            href="/guides"
+            className="text-xs font-semibold text-emerald-700 hover:text-emerald-900 underline flex items-center gap-1"
+          >
+            <span>Browse All Guides & Formulas &rarr;</span>
+          </a>
         </div>
         <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
           How to Calculate {seo.h1}
