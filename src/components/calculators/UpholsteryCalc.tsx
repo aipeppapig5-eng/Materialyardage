@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { BOMItem, MeasurementSystem } from '../../types';
 import { calculateBoxCushions, CushionParams } from '../../utils/fabricMath';
 import { ShoppingCart } from 'lucide-react';
+import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
+import { DynamicSEOPresets } from '../DynamicSEOPresets';
 
 interface UpholsteryCalcProps {
   system: MeasurementSystem;
@@ -13,11 +15,12 @@ export const UpholsteryCalc: React.FC<UpholsteryCalcProps> = ({
   onAddToBOM,
 }) => {
   const units = system === 'imperial' ? 'in' : 'cm';
+  const initialParams = useMemo(() => readCalculatorQueryParams(), []);
 
-  const [cushionWidth, setCushionWidth] = useState<number>(24);
-  const [cushionDepth, setCushionDepth] = useState<number>(24);
-  const [foamThickness, setFoamThickness] = useState<number>(4);
-  const [cushionCount, setCushionCount] = useState<number>(4);
+  const [cushionWidth, setCushionWidth] = useState<number>(Number(initialParams.w) || 24);
+  const [cushionDepth, setCushionDepth] = useState<number>(Number(initialParams.d) || 24);
+  const [foamThickness, setFoamThickness] = useState<number>(Number(initialParams.t) || 4);
+  const [cushionCount, setCushionCount] = useState<number>(Number(initialParams.count) || 4);
   const [fabricWidth, setFabricWidth] = useState<number>(54);
   const [includePiping, setIncludePiping] = useState<boolean>(true);
   const [pricePerYard, setPricePerYard] = useState<number>(36);
@@ -34,6 +37,80 @@ export const UpholsteryCalc: React.FC<UpholsteryCalcProps> = ({
 
   const res = useMemo(() => calculateBoxCushions(params), [params]);
 
+  // Dynamically generate and inject long-tail SEO metadata
+  const dynamicSEO = useDynamicCalculatorSEO(
+    {
+      calculatorId: 'upholstery_cushions',
+      cushionWidth,
+      cushionDepth,
+      foamThickness,
+      cushionCount,
+      fabricWidth,
+      totalFabricYards: res.totalFabricYards,
+      pipingCordYards: res.pipingYardsOfCord,
+      unitPrice: pricePerYard,
+    },
+    { updateUrlQuery: true }
+  );
+
+  const presets = [
+    {
+      label: '2 Dining Cushions',
+      sublabel: '18" × 18" × 2" · 2.5 yds',
+      active: cushionCount === 2 && cushionWidth === 18 && cushionDepth === 18 && foamThickness === 2,
+      onClick: () => {
+        setCushionCount(2);
+        setCushionWidth(18);
+        setCushionDepth(18);
+        setFoamThickness(2);
+      },
+    },
+    {
+      label: '4 Standard Cushions',
+      sublabel: '20" × 20" × 3" · 4.8 yds',
+      active: cushionCount === 4 && cushionWidth === 20 && cushionDepth === 20 && foamThickness === 3,
+      onClick: () => {
+        setCushionCount(4);
+        setCushionWidth(20);
+        setCushionDepth(20);
+        setFoamThickness(3);
+      },
+    },
+    {
+      label: '4 Deep Lounge Cushions',
+      sublabel: '24" × 24" × 4" · 7.5 yds',
+      active: cushionCount === 4 && cushionWidth === 24 && cushionDepth === 24 && foamThickness === 4,
+      onClick: () => {
+        setCushionCount(4);
+        setCushionWidth(24);
+        setCushionDepth(24);
+        setFoamThickness(4);
+      },
+    },
+    {
+      label: '6 Sectional Cushions',
+      sublabel: '26" × 26" × 5" · 11.2 yds',
+      active: cushionCount === 6 && cushionWidth === 26 && cushionDepth === 26 && foamThickness === 5,
+      onClick: () => {
+        setCushionCount(6);
+        setCushionWidth(26);
+        setCushionDepth(26);
+        setFoamThickness(5);
+      },
+    },
+    {
+      label: '1 Long Entry Bench',
+      sublabel: '48" × 18" × 3" · 2.2 yds',
+      active: cushionCount === 1 && cushionWidth === 48 && cushionDepth === 18 && foamThickness === 3,
+      onClick: () => {
+        setCushionCount(1);
+        setCushionWidth(48);
+        setCushionDepth(18);
+        setFoamThickness(3);
+      },
+    },
+  ];
+
   const handleAddEstimateToBOM = () => {
     onAddToBOM({
       name: `Upholstery Cushions (${cushionCount}x Box Cushions ${cushionWidth}"×${cushionDepth}"×${foamThickness}")`,
@@ -49,6 +126,14 @@ export const UpholsteryCalc: React.FC<UpholsteryCalcProps> = ({
 
   return (
     <div className="space-y-6">
+      <DynamicSEOPresets
+        presetsTitle="Common Long-Tail Box Cushion Sizes"
+        presets={presets}
+        canonicalPath="/upholstery-calculator"
+        currentQuery={dynamicSEO?.queryString}
+        currentSummary={dynamicSEO?.h1Context}
+      />
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-5 shadow-xs space-y-4">
           <h2 className="text-base font-semibold text-slate-900 border-b border-slate-100 pb-2">

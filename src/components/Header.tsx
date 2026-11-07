@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingBag, ArrowRightLeft, BookOpen, Menu, X, Box } from 'lucide-react';
+import { ShoppingBag, ArrowRightLeft, BookOpen, Menu, X, Box, Printer } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: string;
@@ -9,6 +9,7 @@ interface HeaderProps {
   onOpenConverter: () => void;
   onOpenGuides: () => void;
   onOpen3DPreview?: () => void;
+  onOpenPrintSheet?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -19,6 +20,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenConverter,
   onOpenGuides,
   onOpen3DPreview,
+  onOpenPrintSheet,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -129,6 +131,16 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Zone 3: Actions */}
         <div className="flex items-center gap-2 shrink-0">
+          {onOpenPrintSheet && (
+            <button
+              onClick={onOpenPrintSheet}
+              className="hidden md:flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors whitespace-nowrap shadow-2xs cursor-pointer"
+              title="Open printable job-site specification sheet"
+            >
+              <Printer className="w-3.5 h-3.5 text-slate-600" />
+              <span>Print Sheet</span>
+            </button>
+          )}
           {onOpen3DPreview && (
             <button
               onClick={onOpen3DPreview}

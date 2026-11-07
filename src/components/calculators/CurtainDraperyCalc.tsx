@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { BOMItem, MeasurementSystem } from '../../types';
 import { calculateCurtains, CurtainParams } from '../../utils/fabricMath';
 import { ShoppingCart } from 'lucide-react';
+import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
+import { DynamicSEOPresets } from '../DynamicSEOPresets';
 
 interface CurtainDraperyCalcProps {
   system: MeasurementSystem;
@@ -13,12 +15,13 @@ export const CurtainDraperyCalc: React.FC<CurtainDraperyCalcProps> = ({
   onAddToBOM,
 }) => {
   const units = system === 'imperial' ? 'in' : 'cm';
+  const initialParams = useMemo(() => readCalculatorQueryParams(), []);
 
-  const [trackWidth, setTrackWidth] = useState<number>(72);
-  const [finishedDrop, setFinishedDrop] = useState<number>(84);
+  const [trackWidth, setTrackWidth] = useState<number>(Number(initialParams.rod) || 72);
+  const [finishedDrop, setFinishedDrop] = useState<number>(Number(initialParams.drop) || 84);
   const [pairOfCurtains, setPairOfCurtains] = useState<boolean>(true);
-  const [fullness, setFullness] = useState<number>(2.0);
-  const [fabricWidth, setFabricWidth] = useState<number>(54);
+  const [fullness, setFullness] = useState<number>(Number(initialParams.fullness) || 2.0);
+  const [fabricWidth, setFabricWidth] = useState<number>(Number(initialParams.bolt) || 54);
   const [headerAllowance, setHeaderAllowance] = useState<number>(6);
   const [bottomHem, setBottomHem] = useState<number>(8);
   const [puddle, setPuddle] = useState<number>(0);
@@ -40,6 +43,66 @@ export const CurtainDraperyCalc: React.FC<CurtainDraperyCalcProps> = ({
 
   const res = useMemo(() => calculateCurtains(params), [params]);
 
+  // Dynamically generate and inject long-tail SEO metadata
+  const dynamicSEO = useDynamicCalculatorSEO(
+    {
+      calculatorId: 'curtains_drapery',
+      trackWidthInches: trackWidth,
+      finishedDropInches: finishedDrop,
+      fullness,
+      pairOfCurtains,
+      fabricWidthInches: fabricWidth,
+      totalYards: res.totalYards,
+      totalWidthsNeeded: res.totalWidthsNeeded,
+      includeLining,
+      unitPrice: pricePerYard,
+    },
+    { updateUrlQuery: true }
+  );
+
+  const presets = [
+    {
+      label: '63" Sill Drop (72" Rod)',
+      sublabel: '2x Fullness · 8.3 yds',
+      active: finishedDrop === 63 && trackWidth === 72,
+      onClick: () => {
+        setFinishedDrop(63);
+        setTrackWidth(72);
+        setFullness(2.0);
+      },
+    },
+    {
+      label: '84" Floor Drop (72" Rod)',
+      sublabel: '2x Fullness · 10.9 yds',
+      active: finishedDrop === 84 && trackWidth === 72,
+      onClick: () => {
+        setFinishedDrop(84);
+        setTrackWidth(72);
+        setFullness(2.0);
+      },
+    },
+    {
+      label: '96" High Ceiling (72" Rod)',
+      sublabel: '2x Fullness · 12.2 yds',
+      active: finishedDrop === 96 && trackWidth === 72,
+      onClick: () => {
+        setFinishedDrop(96);
+        setTrackWidth(72);
+        setFullness(2.0);
+      },
+    },
+    {
+      label: '108" Luxury Puddle (96" Rod)',
+      sublabel: '2.5x Fullness · 20.3 yds',
+      active: finishedDrop === 108 && trackWidth === 96 && fullness === 2.5,
+      onClick: () => {
+        setFinishedDrop(108);
+        setTrackWidth(96);
+        setFullness(2.5);
+      },
+    },
+  ];
+
   const handleAddEstimateToBOM = () => {
     onAddToBOM({
       name: `Curtain Fabric (${pairOfCurtains ? 'Pair' : 'Single'} - ${finishedDrop}" Drop × ${fullness}x Fullness)`,
@@ -55,6 +118,14 @@ export const CurtainDraperyCalc: React.FC<CurtainDraperyCalcProps> = ({
 
   return (
     <div className="space-y-6">
+      <DynamicSEOPresets
+        presetsTitle="Common Long-Tail Curtain Drops & Rod Sizes"
+        presets={presets}
+        canonicalPath="/curtain-fabric-calculator"
+        currentQuery={dynamicSEO?.queryString}
+        currentSummary={dynamicSEO?.h1Context}
+      />
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Columns: Inputs */}
         <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-5 shadow-xs space-y-4">

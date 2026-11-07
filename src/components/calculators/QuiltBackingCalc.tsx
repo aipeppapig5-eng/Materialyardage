@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { BOMItem, MeasurementSystem } from '../../types';
 import { calculateQuiltBacking, QuiltParams } from '../../utils/fabricMath';
 import { ShoppingCart } from 'lucide-react';
+import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
+import { DynamicSEOPresets } from '../DynamicSEOPresets';
 
 interface QuiltBackingCalcProps {
   system: MeasurementSystem;
@@ -13,11 +15,12 @@ export const QuiltBackingCalc: React.FC<QuiltBackingCalcProps> = ({
   onAddToBOM,
 }) => {
   const units = system === 'imperial' ? 'in' : 'cm';
+  const initialParams = useMemo(() => readCalculatorQueryParams(), []);
 
-  const [topWidth, setTopWidth] = useState<number>(60);
-  const [topLength, setTopLength] = useState<number>(80);
+  const [topWidth, setTopWidth] = useState<number>(Number(initialParams.w) || 60);
+  const [topLength, setTopLength] = useState<number>(Number(initialParams.l) || 80);
   const [overhang, setOverhang] = useState<number>(4); // 4" on all sides
-  const [fabricWidth, setFabricWidth] = useState<number>(44);
+  const [fabricWidth, setFabricWidth] = useState<number>(Number(initialParams.bolt) || 44);
   const [bindingWidth, setBindingWidth] = useState<number>(2.5);
   const [pricePerYard, setPricePerYard] = useState<number>(14);
 
@@ -31,6 +34,70 @@ export const QuiltBackingCalc: React.FC<QuiltBackingCalcProps> = ({
   };
 
   const res = useMemo(() => calculateQuiltBacking(params), [params]);
+
+  // Dynamically generate and inject long-tail SEO metadata
+  const dynamicSEO = useDynamicCalculatorSEO(
+    {
+      calculatorId: 'quilt_backing',
+      topWidthInches: topWidth,
+      topLengthInches: topLength,
+      fabricWidthInches: fabricWidth,
+      totalYards: res.totalProjectYards,
+      backingYards: res.backingYards,
+      bindingYards: res.bindingYards,
+      seamOrientation: res.seamOrientation,
+      unitPrice: pricePerYard,
+    },
+    { updateUrlQuery: true }
+  );
+
+  const presets = [
+    {
+      label: 'Baby / Crib (36" × 52")',
+      sublabel: '2.5 yds on 44"',
+      active: topWidth === 36 && topLength === 52,
+      onClick: () => {
+        setTopWidth(36);
+        setTopLength(52);
+      },
+    },
+    {
+      label: 'Throw Quilt (60" × 80")',
+      sublabel: '5.6 yds on 44"',
+      active: topWidth === 60 && topLength === 80,
+      onClick: () => {
+        setTopWidth(60);
+        setTopLength(80);
+      },
+    },
+    {
+      label: 'Twin Quilt (70" × 90")',
+      sublabel: '6.2 yds on 44"',
+      active: topWidth === 70 && topLength === 90,
+      onClick: () => {
+        setTopWidth(70);
+        setTopLength(90);
+      },
+    },
+    {
+      label: 'Queen Quilt (90" × 108")',
+      sublabel: '9.2 yds on 44"',
+      active: topWidth === 90 && topLength === 108,
+      onClick: () => {
+        setTopWidth(90);
+        setTopLength(108);
+      },
+    },
+    {
+      label: 'King Quilt (110" × 108")',
+      sublabel: '10.1 yds on 44"',
+      active: topWidth === 110 && topLength === 108,
+      onClick: () => {
+        setTopWidth(110);
+        setTopLength(108);
+      },
+    },
+  ];
 
   const handleAddEstimateToBOM = () => {
     onAddToBOM({
@@ -47,6 +114,14 @@ export const QuiltBackingCalc: React.FC<QuiltBackingCalcProps> = ({
 
   return (
     <div className="space-y-6">
+      <DynamicSEOPresets
+        presetsTitle="Standard Quilt Size Dimensions"
+        presets={presets}
+        canonicalPath="/quilt-backing-calculator"
+        currentQuery={dynamicSEO?.queryString}
+        currentSummary={dynamicSEO?.h1Context}
+      />
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-5 shadow-xs space-y-4">
           <h2 className="text-base font-semibold text-slate-900 border-b border-slate-100 pb-2">

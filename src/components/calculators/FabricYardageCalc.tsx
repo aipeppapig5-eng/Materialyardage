@@ -4,6 +4,8 @@ import { FABRIC_WIDTH_PRESETS } from '../../data/materialsData';
 import { calculateFabricPacking } from '../../utils/fabricMath';
 import { FabricCutVisualizer } from '../FabricCutVisualizer';
 import { Plus, Trash2, ShoppingCart, HelpCircle } from 'lucide-react';
+import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
+import { DynamicSEOPresets } from '../DynamicSEOPresets';
 
 interface FabricYardageCalcProps {
   system: MeasurementSystem;
@@ -15,10 +17,13 @@ export const FabricYardageCalc: React.FC<FabricYardageCalcProps> = ({
   onAddToBOM,
 }) => {
   const units = system === 'imperial' ? 'in' : 'cm';
+  const initialParams = useMemo(() => readCalculatorQueryParams(), []);
 
   // Usable fabric width
-  const [selectedWidthPreset, setSelectedWidthPreset] = useState<number>(54);
-  const [customWidth, setCustomWidth] = useState<number>(54);
+  const [selectedWidthPreset, setSelectedWidthPreset] = useState<number>(
+    Number(initialParams.bolt) || 54
+  );
+  const [customWidth, setCustomWidth] = useState<number>(Number(initialParams.bolt) || 54);
   const [isCustomWidth, setIsCustomWidth] = useState<boolean>(false);
 
   // Allowances & Repeats
@@ -57,6 +62,63 @@ export const FabricYardageCalc: React.FC<FabricYardageCalcProps> = ({
     );
   }, [pieces, activeWidth, seamAllowance, rowBuffer, wastePercent, verticalRepeat]);
 
+  const totalPiecesCount = useMemo(() => pieces.reduce((s, p) => s + p.quantity, 0), [pieces]);
+
+  // Dynamically generate and inject long-tail SEO metadata
+  const dynamicSEO = useDynamicCalculatorSEO(
+    {
+      calculatorId: 'fabric_cut',
+      usableWidth: activeWidth,
+      totalPieces: totalPiecesCount,
+      totalYards: result.yardsNeeded,
+      wastePercent,
+      unitPrice: pricePerYard,
+    },
+    { updateUrlQuery: true }
+  );
+
+  const presets = [
+    {
+      label: '6 Chair Cushions (54" Bolt)',
+      sublabel: '6 pieces · 2.3 yds',
+      active: pieces.length === 1 && pieces[0]?.label === 'Chair Cushion',
+      onClick: () => {
+        setIsCustomWidth(false);
+        setSelectedWidthPreset(54);
+        setPieces([
+          { id: '1', label: 'Chair Cushion', length: 22, width: 20, quantity: 6, allowRotation: true, color: '#2563EB' },
+        ]);
+      },
+    },
+    {
+      label: 'Tote Bag Pattern Set (44" Bolt)',
+      sublabel: '5 pieces · 1.6 yds',
+      active: pieces.length === 3 && pieces[0]?.label === 'Tote Body',
+      onClick: () => {
+        setIsCustomWidth(false);
+        setSelectedWidthPreset(44);
+        setPieces([
+          { id: '1', label: 'Tote Body', length: 18, width: 16, quantity: 2, allowRotation: false, color: '#2563EB' },
+          { id: '2', label: 'Lining Panel', length: 18, width: 16, quantity: 2, allowRotation: false, color: '#059669' },
+          { id: '3', label: 'Shoulder Strap', length: 30, width: 4, quantity: 2, allowRotation: true, color: '#D97706' },
+        ]);
+      },
+    },
+    {
+      label: 'Pillow Trio (18" & 20")',
+      sublabel: '6 panels · 2.1 yds',
+      active: pieces.length === 2 && pieces[0]?.label === '20" Pillow Top',
+      onClick: () => {
+        setIsCustomWidth(false);
+        setSelectedWidthPreset(54);
+        setPieces([
+          { id: '1', label: '20" Pillow Top', length: 20, width: 20, quantity: 2, allowRotation: true, color: '#2563EB' },
+          { id: '2', label: '18" Accent Pillow', length: 18, width: 18, quantity: 4, allowRotation: true, color: '#7C3AED' },
+        ]);
+      },
+    },
+  ];
+
   const handleAddPiece = () => {
     if (!newLabel.trim() || newLength <= 0 || newWidth <= 0 || newQty <= 0) return;
     const newPiece: FabricCutPiece = {
@@ -92,6 +154,14 @@ export const FabricYardageCalc: React.FC<FabricYardageCalcProps> = ({
 
   return (
     <div className="space-y-6">
+      <DynamicSEOPresets
+        presetsTitle="Popular Pattern Cuts & Long-Tail Sewing Projects"
+        presets={presets}
+        canonicalPath="/fabric-yardage-calculator"
+        currentQuery={dynamicSEO?.queryString}
+        currentSummary={dynamicSEO?.h1Context}
+      />
+
       {/* Configuration Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column: Bolt Width & Pattern Repeat */}

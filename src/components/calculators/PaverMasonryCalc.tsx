@@ -3,6 +3,8 @@ import { BOMItem, MeasurementSystem } from '../../types';
 import { PAVER_PRESETS } from '../../data/materialsData';
 import { calculatePavers, calculateMasonry } from '../../utils/constructionMath';
 import { ShoppingCart } from 'lucide-react';
+import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
+import { DynamicSEOPresets } from '../DynamicSEOPresets';
 
 interface PaverMasonryCalcProps {
   system: MeasurementSystem;
@@ -13,20 +15,27 @@ export const PaverMasonryCalc: React.FC<PaverMasonryCalcProps> = ({
   system,
   onAddToBOM,
 }) => {
-  const [activeTab, setActiveTab] = useState<'pavers' | 'masonry'>('pavers');
+  const initialParams = useMemo(() => readCalculatorQueryParams(), []);
+  const [activeTab, setActiveTab] = useState<'pavers' | 'masonry'>(
+    initialParams.type === 'masonry' ? 'masonry' : 'pavers'
+  );
 
   // Pavers
-  const [patioLength, setPatioLength] = useState<number>(20);
-  const [patioWidth, setPatioWidth] = useState<number>(15);
-  const [selectedPaverId, setSelectedPaverId] = useState<string>('holland_4x8');
+  const [patioLength, setPatioLength] = useState<number>(Number(initialParams.l) || 20);
+  const [patioWidth, setPatioWidth] = useState<number>(Number(initialParams.w) || 15);
+  const [selectedPaverId, setSelectedPaverId] = useState<string>(
+    initialParams.paver || 'holland_4x8'
+  );
   const [jointGap, setJointGap] = useState<number>(0.125); // 1/8"
   const [paverWaste, setPaverWaste] = useState<number>(10);
   const [paverCostPerUnit, setPaverCostPerUnit] = useState<number>(0.85);
 
   // Masonry
-  const [wallLength, setWallLength] = useState<number>(30);
-  const [wallHeight, setWallHeight] = useState<number>(4);
-  const [masonryType, setMasonryType] = useState<'brick' | 'cmu'>('cmu');
+  const [wallLength, setWallLength] = useState<number>(Number(initialParams.wl) || 30);
+  const [wallHeight, setWallHeight] = useState<number>(Number(initialParams.wh) || 4);
+  const [masonryType, setMasonryType] = useState<'brick' | 'cmu'>(
+    initialParams.m === 'brick' ? 'brick' : 'cmu'
+  );
   const [masonryWaste, setMasonryWaste] = useState<number>(8);
 
   const selectedPaver = useMemo(() => {
@@ -48,6 +57,82 @@ export const PaverMasonryCalc: React.FC<PaverMasonryCalcProps> = ({
   const masonryRes = useMemo(() => {
     return calculateMasonry(wallLength, wallHeight, masonryType, masonryWaste);
   }, [wallLength, wallHeight, masonryType, masonryWaste]);
+
+  // Dynamically generate and inject long-tail SEO metadata
+  const dynamicSEO = useDynamicCalculatorSEO(
+    {
+      calculatorId: 'paver_masonry',
+      subType: activeTab,
+      patioLength,
+      patioWidth,
+      patioAreaSqFt,
+      paverName: selectedPaver.name,
+      totalPavers: paverRes.totalPavers,
+      beddingSandTons: paverRes.beddingSandTons,
+      polymericSandBags: paverRes.polymericSandBags,
+      wallLength,
+      wallHeight,
+      masonryType,
+      totalUnits: masonryRes.unitCount,
+      mortarBags: masonryRes.mortarBags80lb,
+      unitPrice: activeTab === 'pavers' ? paverCostPerUnit : undefined,
+    },
+    { updateUrlQuery: true }
+  );
+
+  const presets = [
+    {
+      label: "10' × 10' Patio",
+      sublabel: '100 sq ft · 495 pavers',
+      active: activeTab === 'pavers' && patioLength === 10 && patioWidth === 10,
+      onClick: () => {
+        setActiveTab('pavers');
+        setPatioLength(10);
+        setPatioWidth(10);
+      },
+    },
+    {
+      label: "12' × 15' Patio",
+      sublabel: '180 sq ft · 891 pavers',
+      active: activeTab === 'pavers' && patioLength === 12 && patioWidth === 15,
+      onClick: () => {
+        setActiveTab('pavers');
+        setPatioLength(12);
+        setPatioWidth(15);
+      },
+    },
+    {
+      label: "15' × 20' Backyard Patio",
+      sublabel: '300 sq ft · 1,485 pavers',
+      active: activeTab === 'pavers' && patioLength === 15 && patioWidth === 20,
+      onClick: () => {
+        setActiveTab('pavers');
+        setPatioLength(15);
+        setPatioWidth(20);
+      },
+    },
+    {
+      label: "20' × 25' Large Patio",
+      sublabel: '500 sq ft · 2,475 pavers',
+      active: activeTab === 'pavers' && patioLength === 20 && patioWidth === 25,
+      onClick: () => {
+        setActiveTab('pavers');
+        setPatioLength(20);
+        setPatioWidth(25);
+      },
+    },
+    {
+      label: "30' × 4' CMU Wall",
+      sublabel: '135 blocks',
+      active: activeTab === 'masonry' && wallLength === 30 && wallHeight === 4 && masonryType === 'cmu',
+      onClick: () => {
+        setActiveTab('masonry');
+        setWallLength(30);
+        setWallHeight(4);
+        setMasonryType('cmu');
+      },
+    },
+  ];
 
   const handleAddPaversToBOM = () => {
     onAddToBOM({
@@ -77,6 +162,14 @@ export const PaverMasonryCalc: React.FC<PaverMasonryCalcProps> = ({
 
   return (
     <div className="space-y-6">
+      <DynamicSEOPresets
+        presetsTitle="Common Long-Tail Paver & Wall Sizes"
+        presets={presets}
+        canonicalPath="/paver-calculator"
+        currentQuery={dynamicSEO?.queryString}
+        currentSummary={dynamicSEO?.h1Context}
+      />
+
       {/* Sub-mode tabs */}
       <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
         <button

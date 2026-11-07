@@ -78,6 +78,26 @@ export const SEOGuideSection: React.FC<SEOGuideSectionProps> = ({ seo }) => {
       </div>
 
       {/* Frequently Asked Questions (FAQPage Schema target for Google Rich Snippets) */}
+      {seo.faqs && seo.faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: seo.faqs.map(faq => ({
+                '@type': 'Question',
+                name: faq.question,
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: faq.answer,
+                },
+              })),
+            }),
+          }}
+        />
+      )}
+
       <div className="space-y-4 pt-4">
         <div className="flex items-center gap-2 text-slate-900 font-bold text-lg">
           <HelpCircle className="w-5 h-5 text-emerald-700" />

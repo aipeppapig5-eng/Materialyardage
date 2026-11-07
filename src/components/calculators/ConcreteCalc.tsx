@@ -1,7 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { BOMItem, MeasurementSystem } from '../../types';
 import { calculateConcrete, ConcreteParams, ConcreteType } from '../../utils/constructionMath';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Printer } from 'lucide-react';
+import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
+import { DynamicSEOPresets } from '../DynamicSEOPresets';
 
 interface ConcreteCalcProps {
   system: MeasurementSystem;
@@ -12,17 +14,20 @@ export const ConcreteCalc: React.FC<ConcreteCalcProps> = ({
   system,
   onAddToBOM,
 }) => {
-  const [concreteType, setConcreteType] = useState<ConcreteType>('slab');
+  const initialParams = useMemo(() => readCalculatorQueryParams(), []);
+  const [concreteType, setConcreteType] = useState<ConcreteType>(
+    initialParams.type === 'column' || initialParams.type === 'steps' ? initialParams.type : 'slab'
+  );
 
   // Slab
-  const [slabLength, setSlabLength] = useState<number>(20);
-  const [slabWidth, setSlabWidth] = useState<number>(10);
-  const [slabThickness, setSlabThickness] = useState<number>(4);
+  const [slabLength, setSlabLength] = useState<number>(Number(initialParams.l) || 20);
+  const [slabWidth, setSlabWidth] = useState<number>(Number(initialParams.w) || 10);
+  const [slabThickness, setSlabThickness] = useState<number>(Number(initialParams.t) || 4);
 
   // Column / Pier
-  const [colDiameter, setColDiameter] = useState<number>(12);
-  const [colDepth, setColDepth] = useState<number>(48);
-  const [colCount, setColCount] = useState<number>(6);
+  const [colDiameter, setColDiameter] = useState<number>(Number(initialParams.dia) || 12);
+  const [colDepth, setColDepth] = useState<number>(Number(initialParams.depth) || 48);
+  const [colCount, setColCount] = useState<number>(Number(initialParams.count) || 6);
 
   // Steps
   const [stepCount, setStepCount] = useState<number>(3);
@@ -51,6 +56,87 @@ export const ConcreteCalc: React.FC<ConcreteCalcProps> = ({
 
   const res = useMemo(() => calculateConcrete(params), [params]);
 
+  // Dynamically generate and inject long-tail SEO metadata
+  const dynamicSEO = useDynamicCalculatorSEO(
+    {
+      calculatorId: 'concrete_calc',
+      concreteType,
+      slabLength,
+      slabWidth,
+      slabThickness,
+      colDiameter,
+      colDepth,
+      colCount,
+      stepCount,
+      stepWidth,
+      volumeCuYd: res.volumeCuYd,
+      bags80lb: res.bags80lb,
+      bags60lb: res.bags60lb,
+      weightTons: Number((res.volumeCuYd * 2.025).toFixed(2)),
+      spillageWaste,
+      unitPrice: pricePerCuYd,
+    },
+    { updateUrlQuery: true }
+  );
+
+  const presets = [
+    {
+      label: "10' × 10' Patio",
+      sublabel: '4" thick · 1.2 yd³',
+      active: concreteType === 'slab' && slabLength === 10 && slabWidth === 10 && slabThickness === 4,
+      onClick: () => {
+        setConcreteType('slab');
+        setSlabLength(10);
+        setSlabWidth(10);
+        setSlabThickness(4);
+      },
+    },
+    {
+      label: "12' × 12' Shed Slab",
+      sublabel: '4" thick · 1.8 yd³',
+      active: concreteType === 'slab' && slabLength === 12 && slabWidth === 12 && slabThickness === 4,
+      onClick: () => {
+        setConcreteType('slab');
+        setSlabLength(12);
+        setSlabWidth(12);
+        setSlabThickness(4);
+      },
+    },
+    {
+      label: "20' × 20' Driveway",
+      sublabel: '4" thick · 4.9 yd³',
+      active: concreteType === 'slab' && slabLength === 20 && slabWidth === 20 && slabThickness === 4,
+      onClick: () => {
+        setConcreteType('slab');
+        setSlabLength(20);
+        setSlabWidth(20);
+        setSlabThickness(4);
+      },
+    },
+    {
+      label: "24' × 24' 2-Car Garage",
+      sublabel: '5" thick · 8.9 yd³',
+      active: concreteType === 'slab' && slabLength === 24 && slabWidth === 24 && slabThickness === 5,
+      onClick: () => {
+        setConcreteType('slab');
+        setSlabLength(24);
+        setSlabWidth(24);
+        setSlabThickness(5);
+      },
+    },
+    {
+      label: '4x Sonotubes (12" Ø)',
+      sublabel: '48" depth',
+      active: concreteType === 'column' && colCount === 4 && colDiameter === 12 && colDepth === 48,
+      onClick: () => {
+        setConcreteType('column');
+        setColCount(4);
+        setColDiameter(12);
+        setColDepth(48);
+      },
+    },
+  ];
+
   const handleAddEstimateToBOM = () => {
     let desc = '';
     if (concreteType === 'slab') desc = `Slab ${slabLength}'×${slabWidth}'×${slabThickness}"`;
@@ -71,6 +157,14 @@ export const ConcreteCalc: React.FC<ConcreteCalcProps> = ({
 
   return (
     <div className="space-y-6">
+      <DynamicSEOPresets
+        presetsTitle="Common Long-Tail Concrete Projects"
+        presets={presets}
+        canonicalPath="/concrete-calculator"
+        currentQuery={dynamicSEO?.queryString}
+        currentSummary={dynamicSEO?.h1Context}
+      />
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-5 shadow-xs space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-2">
@@ -348,13 +442,26 @@ export const ConcreteCalc: React.FC<ConcreteCalcProps> = ({
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-slate-200">
+          <div className="mt-4 pt-3 border-t border-slate-200 space-y-2">
             <button
               onClick={handleAddEstimateToBOM}
               className="w-full py-2 px-3 bg-emerald-600 text-white rounded-lg text-xs font-semibold hover:bg-emerald-700 transition-colors flex items-center justify-center gap-1.5 shadow-2xs"
             >
               <ShoppingCart className="w-3.5 h-3.5" />
               <span>Add Concrete to Project BOM</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('open-job-sheet-modal'));
+                }
+              }}
+              className="w-full py-1.5 px-3 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer"
+            >
+              <Printer className="w-3.5 h-3.5 text-slate-500" />
+              <span>Print Job-Site Spec Sheet</span>
             </button>
           </div>
         </div>

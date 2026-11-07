@@ -265,3 +265,250 @@ export function generateBOMPDF({
 
   doc.save(`${cleanFilename}_${new Date().toISOString().slice(0, 10)}.pdf`);
 }
+
+export interface JobSheetPDFData {
+  jobTitle: string;
+  category: string;
+  clientName: string;
+  siteAddress: string;
+  contractorName: string;
+  referenceNo: string;
+  workDate: string;
+  dimensions: { label: string; value: string }[];
+  primaryQuantity: { label: string; value: string; unit: string };
+  secondaryBreakdown: { label: string; value: string }[];
+  allowanceNote?: string;
+  costEstimate?: {
+    unitPrice: number;
+    subtotal: number;
+    tax: number;
+    total: number;
+  };
+  jobSiteNotes?: string;
+}
+
+export function generateJobSheetPDF(data: JobSheetPDFData) {
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'pt',
+    format: 'a4',
+  });
+
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const margin = 36;
+  const contentWidth = pageWidth - margin * 2;
+
+  const emeraldPrimary = [6, 95, 70];
+  const slate900 = [15, 23, 42];
+  const slate600 = [71, 85, 105];
+  const slate400 = [148, 163, 184];
+
+  // 1. Header Banner
+  doc.setFillColor(emeraldPrimary[0], emeraldPrimary[1], emeraldPrimary[2]);
+  doc.rect(0, 0, pageWidth, 80, 'F');
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(18);
+  doc.text('MATERIAL YARDAGE', margin, 36);
+
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(209, 250, 229);
+  doc.text('Engineering Takeoff & Field Specification Sheet', margin, 50);
+  doc.text('www.materialyardage.com', margin, 62);
+
+  doc.setFontSize(13);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(255, 255, 255);
+  doc.text('JOB-SITE SPEC SHEET', pageWidth - margin, 36, { align: 'right' });
+
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(209, 250, 229);
+  doc.text(`Ref: ${data.referenceNo}`, pageWidth - margin, 50, { align: 'right' });
+  doc.text(`Date: ${data.workDate}`, pageWidth - margin, 62, { align: 'right' });
+
+  let currentY = 100;
+
+  // 2. Project & Site Info Box
+  doc.setFillColor(248, 250, 252);
+  doc.setDrawColor(226, 232, 240);
+  doc.roundedRect(margin, currentY, contentWidth, 54, 4, 4, 'FD');
+
+  const halfWidth = contentWidth / 2;
+  doc.setTextColor(slate400[0], slate400[1], slate400[2]);
+  doc.setFontSize(7.5);
+  doc.text('PROJECT / CLIENT:', margin + 12, currentY + 16);
+  doc.text('SITE ADDRESS:', margin + 12, currentY + 38);
+  doc.text('CONTRACTOR / PREPARED BY:', margin + halfWidth + 8, currentY + 16);
+  doc.text('CATEGORY / WORK ORDER:', margin + halfWidth + 8, currentY + 38);
+
+  doc.setTextColor(slate900[0], slate900[1], slate900[2]);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.text(data.clientName || 'General Project', margin + 12, currentY + 28);
+  doc.text(data.siteAddress || 'Job Site Location', margin + 12, currentY + 48);
+  doc.text(data.contractorName || 'Material Yardage User', margin + halfWidth + 8, currentY + 28);
+  doc.text(data.category.toUpperCase(), margin + halfWidth + 8, currentY + 48);
+
+  currentY += 70;
+
+  // 3. Calculator Title
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(13);
+  doc.setTextColor(slate900[0], slate900[1], slate900[2]);
+  doc.text(data.jobTitle, margin, currentY);
+  currentY += 16;
+
+  // 4. Primary Quantity Highlight Box
+  doc.setFillColor(236, 253, 245);
+  doc.setDrawColor(167, 243, 208);
+  doc.roundedRect(margin, currentY, contentWidth, 50, 4, 4, 'FD');
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10);
+  doc.setTextColor(emeraldPrimary[0], emeraldPrimary[1], emeraldPrimary[2]);
+  doc.text('TOTAL MATERIAL REQUIREMENT (INCL. JOB-SITE BUFFER)', margin + 14, currentY + 20);
+
+  doc.setFontSize(18);
+  doc.setTextColor(emeraldPrimary[0], emeraldPrimary[1], emeraldPrimary[2]);
+  doc.text(`${data.primaryQuantity.value} ${data.primaryQuantity.unit}`, margin + 14, currentY + 40);
+
+  if (data.allowanceNote) {
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(slate600[0], slate600[1], slate600[2]);
+    doc.text(data.allowanceNote, margin + contentWidth - 14, currentY + 36, { align: 'right' });
+  }
+
+  currentY += 66;
+
+  // 5. Dimension Specifications Table
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9.5);
+  doc.setTextColor(slate900[0], slate900[1], slate900[2]);
+  doc.text('1. Dimensional Input Specifications', margin, currentY);
+  currentY += 10;
+
+  doc.setFillColor(slate900[0], slate900[1], slate900[2]);
+  doc.rect(margin, currentY, contentWidth, 20, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(8);
+  doc.text('PARAMETER', margin + 12, currentY + 13);
+  doc.text('SPECIFIED VALUE', margin + contentWidth - 14, currentY + 13, { align: 'right' });
+  currentY += 20;
+
+  data.dimensions.forEach((dim, idx) => {
+    doc.setFillColor(idx % 2 === 0 ? 255 : 248, idx % 2 === 0 ? 255 : 250, idx % 2 === 0 ? 255 : 252);
+    doc.rect(margin, currentY, contentWidth, 18, 'F');
+    doc.setDrawColor(226, 232, 240);
+    doc.line(margin, currentY + 18, margin + contentWidth, currentY + 18);
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(slate600[0], slate600[1], slate600[2]);
+    doc.text(dim.label, margin + 12, currentY + 12);
+
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(slate900[0], slate900[1], slate900[2]);
+    doc.text(dim.value, margin + contentWidth - 14, currentY + 12, { align: 'right' });
+    currentY += 18;
+  });
+
+  currentY += 14;
+
+  // 6. Packaging & Unit Breakdown
+  if (data.secondaryBreakdown.length > 0) {
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9.5);
+    doc.setTextColor(slate900[0], slate900[1], slate900[2]);
+    doc.text('2. Packaging, Logistics & Delivery Breakdown', margin, currentY);
+    currentY += 10;
+
+    doc.setFillColor(slate900[0], slate900[1], slate900[2]);
+    doc.rect(margin, currentY, contentWidth, 20, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(8);
+    doc.text('PACKAGING / UNIT EQUIVALENT', margin + 12, currentY + 13);
+    doc.text('ESTIMATED QUANTITY', margin + contentWidth - 14, currentY + 13, { align: 'right' });
+    currentY += 20;
+
+    data.secondaryBreakdown.forEach((sec, idx) => {
+      doc.setFillColor(idx % 2 === 0 ? 255 : 248, idx % 2 === 0 ? 255 : 250, idx % 2 === 0 ? 255 : 252);
+      doc.rect(margin, currentY, contentWidth, 18, 'F');
+      doc.setDrawColor(226, 232, 240);
+      doc.line(margin, currentY + 18, margin + contentWidth, currentY + 18);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.setTextColor(slate600[0], slate600[1], slate600[2]);
+      doc.text(sec.label, margin + 12, currentY + 12);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(slate900[0], slate900[1], slate900[2]);
+      doc.text(sec.value, margin + contentWidth - 14, currentY + 12, { align: 'right' });
+      currentY += 18;
+    });
+
+    currentY += 14;
+  }
+
+  // 7. Cost Breakdown (if included)
+  if (data.costEstimate && data.costEstimate.total > 0) {
+    doc.setFillColor(248, 250, 252);
+    doc.setDrawColor(226, 232, 240);
+    doc.roundedRect(margin, currentY, contentWidth, 42, 3, 3, 'FD');
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(slate600[0], slate600[1], slate600[2]);
+    doc.text(`Unit Price: $${data.costEstimate.unitPrice.toFixed(2)} / unit`, margin + 14, currentY + 16);
+    doc.text(`Subtotal: $${data.costEstimate.subtotal.toFixed(2)}  ·  Tax (8%): $${data.costEstimate.tax.toFixed(2)}`, margin + 14, currentY + 30);
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(emeraldPrimary[0], emeraldPrimary[1], emeraldPrimary[2]);
+    doc.text(`Estimated Total: $${data.costEstimate.total.toFixed(2)}`, margin + contentWidth - 14, currentY + 24, { align: 'right' });
+
+    currentY += 52;
+  }
+
+  // 8. Job Site Notes
+  if (data.jobSiteNotes) {
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8.5);
+    doc.setTextColor(slate900[0], slate900[1], slate900[2]);
+    doc.text('Job-Site Delivery & Access Notes:', margin, currentY);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(slate600[0], slate600[1], slate600[2]);
+    doc.text(data.jobSiteNotes, margin, currentY + 12);
+    currentY += 28;
+  }
+
+  // 9. Signatures Block
+  const sigBoxY = pageHeight - 95;
+  doc.setDrawColor(203, 213, 225);
+  doc.line(margin, sigBoxY, margin + 220, sigBoxY);
+  doc.line(margin + contentWidth - 220, sigBoxY, margin + contentWidth, sigBoxY);
+
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(slate600[0], slate600[1], slate600[2]);
+  doc.text('Authorized By (Contractor / Foreman)', margin, sigBoxY + 12);
+  doc.text('Date', margin + 180, sigBoxY + 12);
+
+  doc.text('Accepted / Verified By (Owner / Client)', margin + contentWidth - 220, sigBoxY + 12);
+  doc.text('Date', margin + contentWidth - 40, sigBoxY + 12);
+
+  // 10. Footer
+  const footerY = pageHeight - 20;
+  doc.setFontSize(7.5);
+  doc.setTextColor(slate400[0], slate400[1], slate400[2]);
+  doc.text('Generated with Material Yardage — www.materialyardage.com', margin, footerY);
+  doc.text(`Job Sheet #${data.referenceNo}`, margin + contentWidth, footerY, { align: 'right' });
+
+  doc.save(`JobSite_SpecSheet_${data.referenceNo}.pdf`);
+}

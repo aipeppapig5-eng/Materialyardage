@@ -4,6 +4,8 @@ import { LANDSCAPE_MATERIALS } from '../../data/materialsData';
 import { calculateAreaSqFt, calculateMulch, generateCoverageMatrix } from '../../utils/constructionMath';
 import { VisualShapePreview } from '../VisualShapePreview';
 import { ShoppingCart } from 'lucide-react';
+import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
+import { DynamicSEOPresets } from '../DynamicSEOPresets';
 
 interface MulchSoilCalcProps {
   system: MeasurementSystem;
@@ -14,11 +16,16 @@ export const MulchSoilCalc: React.FC<MulchSoilCalcProps> = ({
   system,
   onAddToBOM,
 }) => {
-  const [shape, setShape] = useState<BedShape>('rectangle');
-  const [dim1, setDim1] = useState<number>(20); // Length, Diameter, or Base
-  const [dim2, setDim2] = useState<number>(15); // Width, Inner Diameter, or Height
-  const [depthInches, setDepthInches] = useState<number>(3);
-  const [selectedMaterialId, setSelectedMaterialId] = useState<string>('bark_shredded');
+  const initialParams = useMemo(() => readCalculatorQueryParams(), []);
+  const [shape, setShape] = useState<BedShape>(
+    (initialParams.shape as BedShape) || 'rectangle'
+  );
+  const [dim1, setDim1] = useState<number>(Number(initialParams.l || initialParams.dim1) || 20); // Length, Diameter, or Base
+  const [dim2, setDim2] = useState<number>(Number(initialParams.w || initialParams.dim2) || 15); // Width, Inner Diameter, or Height
+  const [depthInches, setDepthInches] = useState<number>(Number(initialParams.depth) || 3);
+  const [selectedMaterialId, setSelectedMaterialId] = useState<string>(
+    initialParams.mat || 'bark_shredded'
+  );
   const [compactionPercent, setCompactionPercent] = useState<number>(5);
   const [pricePerCuYd, setPricePerCuYd] = useState<number>(38);
 
@@ -37,6 +44,82 @@ export const MulchSoilCalc: React.FC<MulchSoilCalcProps> = ({
   const res = useMemo(() => {
     return calculateMulch(areaSqFt, depthInches, activeMaterial.tonsPerCuYd, compactionPercent);
   }, [areaSqFt, depthInches, activeMaterial, compactionPercent]);
+
+  // Dynamically generate and inject long-tail SEO metadata
+  const dynamicSEO = useDynamicCalculatorSEO(
+    {
+      calculatorId: 'mulch_soil',
+      materialName: activeMaterial.name,
+      shape,
+      dim1,
+      dim2,
+      areaSqFt,
+      depthInches,
+      volumeCuYd: res.volumeCuYd,
+      bags2CuFt: res.bags2CuFt,
+      weightTons: res.weightTons,
+      unitPrice: pricePerCuYd,
+    },
+    { updateUrlQuery: true }
+  );
+
+  const presets = [
+    {
+      label: '100 Sq Ft Flowerbed',
+      sublabel: '3" depth · 0.9 yd³',
+      active: shape === 'rectangle' && dim1 === 10 && dim2 === 10 && depthInches === 3,
+      onClick: () => {
+        setShape('rectangle');
+        setDim1(10);
+        setDim2(10);
+        setDepthInches(3);
+      },
+    },
+    {
+      label: '250 Sq Ft Island Bed',
+      sublabel: '3" depth · 2.3 yd³',
+      active: shape === 'rectangle' && dim1 === 25 && dim2 === 10 && depthInches === 3,
+      onClick: () => {
+        setShape('rectangle');
+        setDim1(25);
+        setDim2(10);
+        setDepthInches(3);
+      },
+    },
+    {
+      label: '500 Sq Ft Yard Border',
+      sublabel: '3" depth · 4.6 yd³',
+      active: shape === 'rectangle' && dim1 === 50 && dim2 === 10 && depthInches === 3,
+      onClick: () => {
+        setShape('rectangle');
+        setDim1(50);
+        setDim2(10);
+        setDepthInches(3);
+      },
+    },
+    {
+      label: '1,000 Sq Ft Landscape',
+      sublabel: '2" depth · 6.2 yd³',
+      active: shape === 'rectangle' && dim1 === 50 && dim2 === 20 && depthInches === 2,
+      onClick: () => {
+        setShape('rectangle');
+        setDim1(50);
+        setDim2(20);
+        setDepthInches(2);
+      },
+    },
+    {
+      label: '14 Ft Tree Ring Bed',
+      sublabel: 'Outer Ø 14\', Inner Ø 4\'',
+      active: shape === 'ring' && dim1 === 14 && dim2 === 4,
+      onClick: () => {
+        setShape('ring');
+        setDim1(14);
+        setDim2(4);
+        setDepthInches(3);
+      },
+    },
+  ];
 
   const coverageMatrix = useMemo(() => {
     return generateCoverageMatrix(areaSqFt, activeMaterial.tonsPerCuYd);
@@ -57,6 +140,14 @@ export const MulchSoilCalc: React.FC<MulchSoilCalcProps> = ({
 
   return (
     <div className="space-y-6">
+      <DynamicSEOPresets
+        presetsTitle="Common Long-Tail Mulch & Soil Projects"
+        presets={presets}
+        canonicalPath="/mulch-calculator"
+        currentQuery={dynamicSEO?.queryString}
+        currentSummary={dynamicSEO?.h1Context}
+      />
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Cols: Form Controls */}
         <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-5 shadow-xs space-y-4">

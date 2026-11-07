@@ -4,6 +4,8 @@ import { LANDSCAPE_MATERIALS } from '../../data/materialsData';
 import { calculateAreaSqFt, calculateAggregate } from '../../utils/constructionMath';
 import { VisualShapePreview } from '../VisualShapePreview';
 import { ShoppingCart } from 'lucide-react';
+import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
+import { DynamicSEOPresets } from '../DynamicSEOPresets';
 
 interface GravelAggregateCalcProps {
   system: MeasurementSystem;
@@ -14,11 +16,16 @@ export const GravelAggregateCalc: React.FC<GravelAggregateCalcProps> = ({
   system,
   onAddToBOM,
 }) => {
-  const [shape, setShape] = useState<BedShape>('rectangle');
-  const [dim1, setDim1] = useState<number>(30); // length or diameter
-  const [dim2, setDim2] = useState<number>(10); // width or height
-  const [depthInches, setDepthInches] = useState<number>(3);
-  const [selectedMaterialId, setSelectedMaterialId] = useState<string>('crushed_stone_57');
+  const initialParams = useMemo(() => readCalculatorQueryParams(), []);
+  const [shape, setShape] = useState<BedShape>(
+    (initialParams.shape as BedShape) || 'rectangle'
+  );
+  const [dim1, setDim1] = useState<number>(Number(initialParams.l || initialParams.dim1) || 30); // length or diameter
+  const [dim2, setDim2] = useState<number>(Number(initialParams.w || initialParams.dim2) || 10); // width or height
+  const [depthInches, setDepthInches] = useState<number>(Number(initialParams.depth) || 3);
+  const [selectedMaterialId, setSelectedMaterialId] = useState<string>(
+    initialParams.mat || 'crushed_stone_57'
+  );
   const [compactionPercent, setCompactionPercent] = useState<number>(12);
   const [pricePerTon, setPricePerTon] = useState<number>(45);
 
@@ -38,6 +45,72 @@ export const GravelAggregateCalc: React.FC<GravelAggregateCalcProps> = ({
     return calculateAggregate(areaSqFt, depthInches, activeMaterial.tonsPerCuYd, compactionPercent);
   }, [areaSqFt, depthInches, activeMaterial, compactionPercent]);
 
+  // Dynamically generate and inject long-tail SEO metadata
+  const dynamicSEO = useDynamicCalculatorSEO(
+    {
+      calculatorId: 'gravel_aggregate',
+      materialName: activeMaterial.name,
+      shape,
+      dim1,
+      dim2,
+      areaSqFt,
+      depthInches,
+      weightTons: res.weightTons,
+      volumeCuYd: res.volumeCuYd,
+      bags50lb: res.bags50lb,
+      truckloads: res.truckLoads10Yd,
+      unitPrice: pricePerTon,
+    },
+    { updateUrlQuery: true }
+  );
+
+  const presets = [
+    {
+      label: "30' × 10' Pathway",
+      sublabel: '3" depth · 3.8 tons',
+      active: shape === 'rectangle' && dim1 === 30 && dim2 === 10 && depthInches === 3,
+      onClick: () => {
+        setShape('rectangle');
+        setDim1(30);
+        setDim2(10);
+        setDepthInches(3);
+      },
+    },
+    {
+      label: "50' × 10' Single Driveway",
+      sublabel: '4" depth · 8.4 tons',
+      active: shape === 'rectangle' && dim1 === 50 && dim2 === 10 && depthInches === 4,
+      onClick: () => {
+        setShape('rectangle');
+        setDim1(50);
+        setDim2(10);
+        setDepthInches(4);
+      },
+    },
+    {
+      label: "100' × 12' Rural Driveway",
+      sublabel: '4" depth · 20.2 tons',
+      active: shape === 'rectangle' && dim1 === 100 && dim2 === 12 && depthInches === 4,
+      onClick: () => {
+        setShape('rectangle');
+        setDim1(100);
+        setDim2(12);
+        setDepthInches(4);
+      },
+    },
+    {
+      label: "20' × 20' Paver Sub-Base",
+      sublabel: '4" depth · 6.7 tons',
+      active: shape === 'rectangle' && dim1 === 20 && dim2 === 20 && depthInches === 4,
+      onClick: () => {
+        setShape('rectangle');
+        setDim1(20);
+        setDim2(20);
+        setDepthInches(4);
+      },
+    },
+  ];
+
   const handleAddEstimateToBOM = () => {
     onAddToBOM({
       name: `${activeMaterial.name} (${areaSqFt.toFixed(0)} sq ft @ ${depthInches}" depth)`,
@@ -53,6 +126,14 @@ export const GravelAggregateCalc: React.FC<GravelAggregateCalcProps> = ({
 
   return (
     <div className="space-y-6">
+      <DynamicSEOPresets
+        presetsTitle="Common Long-Tail Driveway & Pathway Sizes"
+        presets={presets}
+        canonicalPath="/gravel-calculator"
+        currentQuery={dynamicSEO?.queryString}
+        currentSummary={dynamicSEO?.h1Context}
+      />
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-5 shadow-xs space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-2">

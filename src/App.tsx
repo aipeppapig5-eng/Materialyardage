@@ -14,6 +14,8 @@ import { ProjectBOMModal } from './components/ProjectBOMModal';
 import { UnitConverterModal } from './components/UnitConverterModal';
 import { ReferenceGuidesModal } from './components/ReferenceGuidesModal';
 import { Project3DPreviewModal } from './components/Project3DPreviewModal';
+import { PrintJobSheetModal } from './components/PrintJobSheetModal';
+import { CalculatorSkeleton } from './components/CalculatorSkeleton';
 import { SEOGuideSection } from './components/SEOGuideSection';
 import { RelatedCalculators } from './components/RelatedCalculators';
 import { AdSlot } from './components/AdSlot';
@@ -36,6 +38,7 @@ import {
   Compass,
   MessageSquare,
   Box,
+  Printer,
 } from 'lucide-react';
 
 export default function App() {
@@ -48,7 +51,9 @@ export default function App() {
   const [isConverterOpen, setIsConverterOpen] = useState<boolean>(false);
   const [isGuidesOpen, setIsGuidesOpen] = useState<boolean>(false);
   const [is3DPreviewOpen, setIs3DPreviewOpen] = useState<boolean>(false);
+  const [isPrintModalOpen, setIsPrintModalOpen] = useState<boolean>(false);
   const [activeGuideSlug, setActiveGuideSlug] = useState<string | null>(null);
+  const [isCalculatorLoading, setIsCalculatorLoading] = useState<boolean>(false);
 
   // Search query
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -140,9 +145,14 @@ export default function App() {
     handleRouteChange();
     window.addEventListener('popstate', handleRouteChange);
     window.addEventListener('hashchange', handleRouteChange);
+
+    const handleOpenPrintModal = () => setIsPrintModalOpen(true);
+    window.addEventListener('open-job-sheet-modal', handleOpenPrintModal);
+
     return () => {
       window.removeEventListener('popstate', handleRouteChange);
       window.removeEventListener('hashchange', handleRouteChange);
+      window.removeEventListener('open-job-sheet-modal', handleOpenPrintModal);
     };
   }, []);
 
@@ -176,6 +186,20 @@ export default function App() {
     // Upgrade URL to clean path without '#'
     if (window.location.pathname !== targetPath || window.location.hash) {
       window.history.replaceState(null, '', targetPath);
+    }
+
+    // Background Google Analytics page view tracking (strictly non-visual)
+    try {
+      const win = window as unknown as { gtag?: (...args: unknown[]) => void };
+      if (typeof win.gtag === 'function') {
+        win.gtag('event', 'page_view', {
+          page_title: document.title,
+          page_location: window.location.href,
+          page_path: targetPath,
+        });
+      }
+    } catch {
+      // Ignore background analytics errors
     }
   }, [activeCalculator, activeGuideSlug]);
 
@@ -213,6 +237,7 @@ export default function App() {
 
   const handleSelectTab = (tabId: string) => {
     setActiveGuideSlug(null);
+    setIsCalculatorLoading(true);
     setActiveCalculator(tabId);
     let targetPath = '/';
     if (tabId === 'privacy') {
@@ -238,6 +263,11 @@ export default function App() {
       window.history.pushState(null, '', targetPath);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Smooth transition timeout to allow clean skeleton rendering
+    setTimeout(() => {
+      setIsCalculatorLoading(false);
+    }, 160);
   };
 
   const filteredTools = searchQuery.trim()
@@ -260,6 +290,7 @@ export default function App() {
         onOpenConverter={() => setIsConverterOpen(true)}
         onOpenGuides={() => setIsGuidesOpen(true)}
         onOpen3DPreview={() => setIs3DPreviewOpen(true)}
+        onOpenPrintSheet={() => setIsPrintModalOpen(true)}
       />
 
       {/* Render Dedicated Legal / Company Pages */}
@@ -353,6 +384,16 @@ export default function App() {
                     <Box className="w-3.5 h-3.5 text-emerald-700" />
                     <span>3D Schematic</span>
                   </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsPrintModalOpen(true)}
+                    className="px-3 py-2 text-xs font-semibold bg-white border border-slate-300 hover:bg-slate-50 text-slate-800 rounded-lg flex items-center gap-1.5 shadow-2xs transition-colors cursor-pointer"
+                    title="Open print-friendly job-site specification sheet"
+                  >
+                    <Printer className="w-3.5 h-3.5 text-slate-600" />
+                    <span>Print Spec Sheet</span>
+                  </button>
                 </div>
               </div>
 
@@ -431,41 +472,47 @@ export default function App() {
             {/* Top Responsive Leaderboard Ad Slot (Google AdSense) */}
             <AdSlot slotId="5928371920" format="auto" label="Sponsored Suppliers & Equipment" />
 
-            {/* Active Calculator Component */}
-            {activeCalculator === 'fabric_cut' && (
-              <FabricYardageCalc system={system} onAddToBOM={handleAddToBOM} />
-            )}
+            {/* Active Calculator Component with Smooth Loading Skeleton */}
+            {isCalculatorLoading ? (
+              <CalculatorSkeleton />
+            ) : (
+              <>
+                {activeCalculator === 'fabric_cut' && (
+                  <FabricYardageCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
 
-            {activeCalculator === 'curtains_drapery' && (
-              <CurtainDraperyCalc system={system} onAddToBOM={handleAddToBOM} />
-            )}
+                {activeCalculator === 'curtains_drapery' && (
+                  <CurtainDraperyCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
 
-            {activeCalculator === 'quilt_backing' && (
-              <QuiltBackingCalc system={system} onAddToBOM={handleAddToBOM} />
-            )}
+                {activeCalculator === 'quilt_backing' && (
+                  <QuiltBackingCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
 
-            {activeCalculator === 'upholstery_cushions' && (
-              <UpholsteryCalc system={system} onAddToBOM={handleAddToBOM} />
-            )}
+                {activeCalculator === 'upholstery_cushions' && (
+                  <UpholsteryCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
 
-            {activeCalculator === 'mulch_soil' && (
-              <MulchSoilCalc system={system} onAddToBOM={handleAddToBOM} />
-            )}
+                {activeCalculator === 'mulch_soil' && (
+                  <MulchSoilCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
 
-            {activeCalculator === 'gravel_aggregate' && (
-              <GravelAggregateCalc system={system} onAddToBOM={handleAddToBOM} />
-            )}
+                {activeCalculator === 'gravel_aggregate' && (
+                  <GravelAggregateCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
 
-            {activeCalculator === 'concrete_calc' && (
-              <ConcreteCalc system={system} onAddToBOM={handleAddToBOM} />
-            )}
+                {activeCalculator === 'concrete_calc' && (
+                  <ConcreteCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
 
-            {activeCalculator === 'paver_masonry' && (
-              <PaverMasonryCalc system={system} onAddToBOM={handleAddToBOM} />
-            )}
+                {activeCalculator === 'paver_masonry' && (
+                  <PaverMasonryCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
 
-            {activeCalculator === 'sod_turf' && (
-              <SodTurfCalc system={system} onAddToBOM={handleAddToBOM} />
+                {activeCalculator === 'sod_turf' && (
+                  <SodTurfCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
+              </>
             )}
 
             {/* On-Page SEO Guide, Formulas, Worked Example, and Rich FAQ Accordion */}
@@ -563,6 +610,10 @@ export default function App() {
                 <Box className="w-3.5 h-3.5 text-emerald-400" />
                 <span>3D Preview</span>
               </button>
+              <button onClick={() => setIsPrintModalOpen(true)} className="hover:text-white transition-colors flex items-center gap-1 text-emerald-400 font-semibold cursor-pointer">
+                <Printer className="w-3.5 h-3.5" />
+                <span>Print Spec Sheet</span>
+              </button>
               <button onClick={() => setIsBOMOpen(true)} className="hover:text-white transition-colors">
                 Project BOM ({bomItems.length})
               </button>
@@ -608,6 +659,12 @@ export default function App() {
         onClose={() => setIs3DPreviewOpen(false)}
         items={bomItems}
         projectName="Project 3D Material Schematic"
+      />
+
+      <PrintJobSheetModal
+        isOpen={isPrintModalOpen}
+        onClose={() => setIsPrintModalOpen(false)}
+        system={system}
       />
     </div>
   );

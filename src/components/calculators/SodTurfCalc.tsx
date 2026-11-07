@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { BOMItem, MeasurementSystem } from '../../types';
 import { calculateSod } from '../../utils/constructionMath';
 import { ShoppingCart } from 'lucide-react';
+import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
+import { DynamicSEOPresets } from '../DynamicSEOPresets';
 
 interface SodTurfCalcProps {
   system: MeasurementSystem;
@@ -12,9 +14,10 @@ export const SodTurfCalc: React.FC<SodTurfCalcProps> = ({
   system,
   onAddToBOM,
 }) => {
-  const [lawnLength, setLawnLength] = useState<number>(50);
-  const [lawnWidth, setLawnWidth] = useState<number>(30);
-  const [palletSizeSqFt, setPalletSizeSqFt] = useState<number>(450);
+  const initialParams = useMemo(() => readCalculatorQueryParams(), []);
+  const [lawnLength, setLawnLength] = useState<number>(Number(initialParams.l) || 50);
+  const [lawnWidth, setLawnWidth] = useState<number>(Number(initialParams.w) || 30);
+  const [palletSizeSqFt, setPalletSizeSqFt] = useState<number>(Number(initialParams.yield) || 450);
   const [cuttingWaste, setCuttingWaste] = useState<number>(8);
   const [costPerPallet, setCostPerPallet] = useState<number>(250);
 
@@ -22,6 +25,70 @@ export const SodTurfCalc: React.FC<SodTurfCalcProps> = ({
   const res = useMemo(() => {
     return calculateSod(rawArea, 2, 5, palletSizeSqFt, cuttingWaste);
   }, [rawArea, palletSizeSqFt, cuttingWaste]);
+
+  // Dynamically generate and inject long-tail SEO metadata
+  const dynamicSEO = useDynamicCalculatorSEO(
+    {
+      calculatorId: 'sod_turf',
+      lawnLength,
+      lawnWidth,
+      areaSqFt: rawArea,
+      palletSizeSqFt,
+      wholePallets: res.wholePallets,
+      rollsNeeded: res.rollsNeeded,
+      totalAreaWithWaste: res.totalAreaWithWaste,
+      unitPrice: costPerPallet,
+    },
+    { updateUrlQuery: true }
+  );
+
+  const presets = [
+    {
+      label: '500 Sq Ft Front Lawn',
+      sublabel: '2 pallets · 54 rolls',
+      active: lawnLength === 25 && lawnWidth === 20,
+      onClick: () => {
+        setLawnLength(25);
+        setLawnWidth(20);
+      },
+    },
+    {
+      label: '1,000 Sq Ft Lawn',
+      sublabel: '3 pallets · 108 rolls',
+      active: lawnLength === 40 && lawnWidth === 25,
+      onClick: () => {
+        setLawnLength(40);
+        setLawnWidth(25);
+      },
+    },
+    {
+      label: "1,500 Sq Ft (50'×30')",
+      sublabel: '4 pallets · 162 rolls',
+      active: lawnLength === 50 && lawnWidth === 30,
+      onClick: () => {
+        setLawnLength(50);
+        setLawnWidth(30);
+      },
+    },
+    {
+      label: '2,500 Sq Ft Back Lawn',
+      sublabel: '6 pallets · 270 rolls',
+      active: lawnLength === 50 && lawnWidth === 50,
+      onClick: () => {
+        setLawnLength(50);
+        setLawnWidth(50);
+      },
+    },
+    {
+      label: '5,000 Sq Ft Large Lot',
+      sublabel: '12 pallets · 540 rolls',
+      active: lawnLength === 100 && lawnWidth === 50,
+      onClick: () => {
+        setLawnLength(100);
+        setLawnWidth(50);
+      },
+    },
+  ];
 
   const handleAddEstimateToBOM = () => {
     onAddToBOM({
@@ -38,6 +105,14 @@ export const SodTurfCalc: React.FC<SodTurfCalcProps> = ({
 
   return (
     <div className="space-y-6">
+      <DynamicSEOPresets
+        presetsTitle="Common Long-Tail Lawn Sizes"
+        presets={presets}
+        canonicalPath="/sod-calculator"
+        currentQuery={dynamicSEO?.queryString}
+        currentSummary={dynamicSEO?.h1Context}
+      />
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-5 shadow-xs space-y-4">
           <h2 className="text-base font-semibold text-slate-900 border-b border-slate-100 pb-2">

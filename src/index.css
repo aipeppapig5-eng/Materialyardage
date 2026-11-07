@@ -12,3 +12,107 @@ body {
   color: #0f172a;
   -webkit-font-smoothing: antialiased;
 }
+
+/* ==========================================================================
+   PRINT-FRIENDLY STYLESHEET (Stripped UI, Ads, Nav, Footer & Crisp Job-Site Layout)
+   ========================================================================== */
+@media print {
+  @page {
+    size: portrait;
+    margin: 12mm 10mm;
+  }
+
+  /* 1. Strip all non-essential UI elements: ads, navigation, header, footer, sidebars */
+  header,
+  footer,
+  nav,
+  aside,
+  [data-ad-slot],
+  .adsbygoogle,
+  .no-print,
+  #seo-guide-section,
+  #related-calculators-section,
+  .quick-ribbon,
+  .domain-switcher,
+  .search-container,
+  .fixed.bottom-0,
+  button:not(.print-keep),
+  input[type="range"] {
+    display: none !important;
+  }
+
+  /* 2. Reset document background and typography for ink-saving high contrast */
+  html, body {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-size: 10pt !important;
+    line-height: 1.35 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 3. When Job Sheet Modal is open, make the sheet fill the page without modal backdrop */
+  .print-modal-backdrop {
+    background: transparent !important;
+    position: static !important;
+    inset: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  .print-modal-dialog {
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .print-controls-bar {
+    display: none !important;
+  }
+
+  .print-sheet-paper {
+    box-shadow: none !important;
+    border: 1px solid #1e293b !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 18pt !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background: #ffffff !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* 4. Page break avoidance for cards and tables */
+  .break-inside-avoid,
+  table,
+  tr,
+  .print-avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* 5. Clean link styling */
+  a {
+    color: #000000 !important;
+    text-decoration: none !important;
+  }
+
+  /* 6. Clean borders and contrast */
+  .border,
+  .border-slate-200,
+  .border-slate-300 {
+    border-color: #cbd5e1 !important;
+  }
+}
