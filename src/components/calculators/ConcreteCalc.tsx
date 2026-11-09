@@ -4,6 +4,7 @@ import { calculateConcrete, ConcreteParams, ConcreteType } from '../../utils/con
 import { ShoppingCart, Printer } from 'lucide-react';
 import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
 import { DynamicSEOPresets } from '../DynamicSEOPresets';
+import { ProjectPhotoPreview } from '../ProjectPhotoPreview';
 
 interface ConcreteCalcProps {
   system: MeasurementSystem;
@@ -390,51 +391,61 @@ export const ConcreteCalc: React.FC<ConcreteCalcProps> = ({
         {/* Right Column: Visual Diagram */}
         <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col justify-between">
           <div>
-            <h3 className="text-xs font-semibold text-slate-700 mb-2">Concrete Pour Diagram</h3>
-            <div className="bg-white border border-slate-200 rounded-lg p-3 flex flex-col items-center justify-center relative h-52">
-              {concreteType === 'slab' && (
-                <div className="relative w-44 h-28 border-2 border-slate-600 bg-slate-200/90 rounded flex flex-col items-center justify-center shadow-inner">
-                  <div className="w-full h-2 bg-slate-400 absolute top-0 border-b border-slate-500" />
-                  <span className="text-xs font-bold text-slate-800">Concrete Slab</span>
-                  <span className="text-[10px] font-mono text-slate-600">
-                    {slabLength}' × {slabWidth}' ({slabThickness}" thick)
-                  </span>
-                  <div className="absolute -bottom-5 text-[10px] font-mono text-slate-600">
-                    Area: {slabLength * slabWidth} sq ft
+            <ProjectPhotoPreview
+              calculatorId="concrete_calc"
+              title="Concrete Pour Diagram"
+              metricsOverlay={{
+                primaryValue: `${res.volumeCuYd.toFixed(2)} yd³`,
+                primaryLabel: 'Calculated Volume',
+                secondaryValue: `${res.bags80lb} bags`,
+                secondaryLabel: '80lb Ready-Mix',
+              }}
+            >
+              <div className="bg-white border border-slate-200 rounded-lg p-3 flex flex-col items-center justify-center relative h-52">
+                {concreteType === 'slab' && (
+                  <div className="relative w-44 h-28 border-2 border-slate-600 bg-slate-200/90 rounded flex flex-col items-center justify-center shadow-inner">
+                    <div className="w-full h-2 bg-slate-400 absolute top-0 border-b border-slate-500" />
+                    <span className="text-xs font-bold text-slate-800">Concrete Slab</span>
+                    <span className="text-[10px] font-mono text-slate-600">
+                      {slabLength}' × {slabWidth}' ({slabThickness}" thick)
+                    </span>
+                    <div className="absolute -bottom-5 text-[10px] font-mono text-slate-600">
+                      Area: {slabLength * slabWidth} sq ft
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {concreteType === 'column' && (
-                <div className="flex items-center gap-3">
-                  {[1, 2, 3].map(i => (
-                    <div key={i} className="flex flex-col items-center">
-                      <div className="w-9 h-3 rounded-full border border-slate-700 bg-slate-300" />
-                      <div className="w-9 h-28 border-x border-b border-slate-700 bg-slate-200 rounded-b-sm flex items-center justify-center">
-                        <span className="text-[8px] font-mono text-slate-600 rotate-90">{colDepth}"</span>
+                {concreteType === 'column' && (
+                  <div className="flex items-center gap-3">
+                    {[1, 2, 3].map(i => (
+                      <div key={i} className="flex flex-col items-center">
+                        <div className="w-9 h-3 rounded-full border border-slate-700 bg-slate-300" />
+                        <div className="w-9 h-28 border-x border-b border-slate-700 bg-slate-200 rounded-b-sm flex items-center justify-center">
+                          <span className="text-[8px] font-mono text-slate-600 rotate-90">{colDepth}"</span>
+                        </div>
                       </div>
+                    ))}
+                    <div className="text-[10px] text-slate-500">
+                      + {colCount - 3 > 0 ? `${colCount - 3} more` : ''}
                     </div>
-                  ))}
-                  <div className="text-[10px] text-slate-500">
-                    + {colCount - 3 > 0 ? `${colCount - 3} more` : ''}
                   </div>
-                </div>
-              )}
+                )}
 
-              {concreteType === 'steps' && (
-                <div className="flex flex-col items-end">
-                  {Array.from({ length: Math.min(4, stepCount) }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="border border-slate-600 bg-slate-300 h-6 flex items-center justify-center text-[9px] font-mono text-slate-700"
-                      style={{ width: `${(i + 1) * 36}px` }}
-                    >
-                      Step {stepCount - i}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                {concreteType === 'steps' && (
+                  <div className="flex flex-col items-end">
+                    {Array.from({ length: Math.min(4, stepCount) }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="border border-slate-600 bg-slate-300 h-6 flex items-center justify-center text-[9px] font-mono text-slate-700"
+                        style={{ width: `${(i + 1) * 36}px` }}
+                      >
+                        Step {stepCount - i}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </ProjectPhotoPreview>
 
             <div className="text-[11px] text-slate-500 mt-2 space-y-0.5">
               <p>• Volume: <strong className="text-slate-800 font-mono">{res.volumeCuYd.toFixed(2)} yd³</strong> ({res.volumeCuM.toFixed(2)} m³)</p>

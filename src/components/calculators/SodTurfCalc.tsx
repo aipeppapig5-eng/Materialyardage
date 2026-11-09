@@ -4,6 +4,7 @@ import { calculateSod } from '../../utils/constructionMath';
 import { ShoppingCart } from 'lucide-react';
 import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
 import { DynamicSEOPresets } from '../DynamicSEOPresets';
+import { ProjectPhotoPreview } from '../ProjectPhotoPreview';
 
 interface SodTurfCalcProps {
   system: MeasurementSystem;
@@ -201,25 +202,35 @@ export const SodTurfCalc: React.FC<SodTurfCalcProps> = ({
         {/* Right Column: Visual and info */}
         <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col justify-between">
           <div>
-            <h3 className="text-xs font-semibold text-slate-700 mb-2">Lawn Area & Roll Layout</h3>
-            <div className="bg-white border border-slate-200 rounded-lg p-3 space-y-2 text-xs">
-              <div className="flex justify-between border-b border-slate-100 pb-1.5">
-                <span className="text-slate-600">Net Measured Lawn:</span>
-                <strong className="font-mono text-slate-900">{rawArea} sq ft</strong>
+            <ProjectPhotoPreview
+              calculatorId="sod_turf"
+              title="Lawn Area & Sod Pallets Photo"
+              metricsOverlay={{
+                primaryValue: `${res.wholePallets} pallets`,
+                primaryLabel: 'Whole Pallets',
+                secondaryValue: `${res.totalAreaWithWaste.toFixed(0)} sq ft`,
+                secondaryLabel: 'Total Sod Area',
+              }}
+            >
+              <div className="bg-white border border-slate-200 rounded-lg p-3 space-y-2 text-xs">
+                <div className="flex justify-between border-b border-slate-100 pb-1.5">
+                  <span className="text-slate-600">Net Measured Lawn:</span>
+                  <strong className="font-mono text-slate-900">{rawArea} sq ft</strong>
+                </div>
+                <div className="flex justify-between border-b border-slate-100 pb-1.5">
+                  <span className="text-slate-600">Total with {cuttingWaste}% Waste:</span>
+                  <strong className="font-mono text-emerald-800">{res.totalAreaWithWaste.toFixed(0)} sq ft</strong>
+                </div>
+                <div className="flex justify-between border-b border-slate-100 pb-1.5">
+                  <span className="text-slate-600">Single Roll Size:</span>
+                  <span className="font-mono text-slate-700">2' × 5' (10 sq ft)</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-600">Pallets (Rounded Up):</span>
+                  <strong className="font-mono text-emerald-800">{res.wholePallets} pallets ({res.palletsNeeded.toFixed(1)} exact)</strong>
+                </div>
               </div>
-              <div className="flex justify-between border-b border-slate-100 pb-1.5">
-                <span className="text-slate-600">Total with {cuttingWaste}% Waste:</span>
-                <strong className="font-mono text-emerald-800">{res.totalAreaWithWaste.toFixed(0)} sq ft</strong>
-              </div>
-              <div className="flex justify-between border-b border-slate-100 pb-1.5">
-                <span className="text-slate-600">Single Roll Size:</span>
-                <span className="font-mono text-slate-700">2' × 5' (10 sq ft)</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-600">Pallets (Rounded Up):</span>
-                <strong className="font-mono text-emerald-800">{res.wholePallets} pallets ({res.palletsNeeded} exact)</strong>
-              </div>
-            </div>
+            </ProjectPhotoPreview>
             <p className="text-[11px] text-slate-500 mt-2">
               Sod must be installed within 24–48 hours of delivery to prevent root drying and heating damage.
             </p>

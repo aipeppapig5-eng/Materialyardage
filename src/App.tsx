@@ -10,11 +10,15 @@ import { GravelAggregateCalc } from './components/calculators/GravelAggregateCal
 import { ConcreteCalc } from './components/calculators/ConcreteCalc';
 import { PaverMasonryCalc } from './components/calculators/PaverMasonryCalc';
 import { SodTurfCalc } from './components/calculators/SodTurfCalc';
+import { RetainingWallCalc } from './components/calculators/RetainingWallCalc';
+import { WallpaperCalc } from './components/calculators/WallpaperCalc';
 import { ProjectBOMModal } from './components/ProjectBOMModal';
+import { ProjectManagerModal, SavedProject } from './components/ProjectManagerModal';
 import { UnitConverterModal } from './components/UnitConverterModal';
 import { ReferenceGuidesModal } from './components/ReferenceGuidesModal';
 import { Project3DPreviewModal } from './components/Project3DPreviewModal';
 import { PrintJobSheetModal } from './components/PrintJobSheetModal';
+import { MaterialComparisonModal } from './components/MaterialComparisonModal';
 import { CalculatorSkeleton } from './components/CalculatorSkeleton';
 import { SEOGuideSection } from './components/SEOGuideSection';
 import { RelatedCalculators } from './components/RelatedCalculators';
@@ -26,6 +30,8 @@ import { GuidesHubPage } from './components/pages/GuidesHubPage';
 import { GuideDetailPage } from './components/pages/GuideDetailPage';
 import { GUIDES_DATA } from './data/guidesData';
 import { SEO_PAGES } from './data/seoData';
+import { CALCULATOR_IMAGES } from './data/uiImages';
+import { GSC_INDEXED_ROUTES, resolveGSCPath, GSCIndexedRoute } from './data/gscIndexedRoutes';
 import { updateDocumentSEO } from './utils/useSEO';
 import {
   Scissors,
@@ -39,6 +45,8 @@ import {
   MessageSquare,
   Box,
   Printer,
+  Scale,
+  FolderKanban,
 } from 'lucide-react';
 
 export default function App() {
@@ -52,29 +60,153 @@ export default function App() {
   const [isGuidesOpen, setIsGuidesOpen] = useState<boolean>(false);
   const [is3DPreviewOpen, setIs3DPreviewOpen] = useState<boolean>(false);
   const [isPrintModalOpen, setIsPrintModalOpen] = useState<boolean>(false);
+  const [isComparisonModalOpen, setIsComparisonModalOpen] = useState<boolean>(false);
+  const [comparisonTargetItem, setComparisonTargetItem] = useState<BOMItem | null>(null);
   const [activeGuideSlug, setActiveGuideSlug] = useState<string | null>(null);
   const [isCalculatorLoading, setIsCalculatorLoading] = useState<boolean>(false);
+  const [isProjectManagerOpen, setIsProjectManagerOpen] = useState<boolean>(false);
+  const [activeGSCRoute, setActiveGSCRoute] = useState<GSCIndexedRoute | null>(null);
 
   // Search query
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Bill of Materials state with LocalStorage
-  const [bomItems, setBomItems] = useState<BOMItem[]>(() => {
+  // Multi-project state with LocalStorage
+  const [projects, setProjects] = useState<SavedProject[]>(() => {
     try {
-      const saved = localStorage.getItem('materialyardage_bom');
-      return saved ? JSON.parse(saved) : [];
+      const savedProjects = localStorage.getItem('materialyardage_projects');
+      if (savedProjects) {
+        const parsed = JSON.parse(savedProjects);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+      // Migrate legacy single project if exists
+      const legacyBOM = localStorage.getItem('materialyardage_bom');
+      const legacyItems: BOMItem[] = legacyBOM ? JSON.parse(legacyBOM) : [];
+      return [
+        {
+          id: 'proj_default',
+          name: 'My Material Estimate',
+          items: legacyItems,
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+        },
+      ];
     } catch {
-      return [];
+      return [
+        {
+          id: 'proj_default',
+          name: 'My Material Estimate',
+          items: [],
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+        },
+      ];
     }
   });
 
+  const [activeProjectId, setActiveProjectId] = useState<string>(() => {
+    try {
+      const savedId = localStorage.getItem('materialyardage_active_project_id');
+      return savedId || 'proj_default';
+    } catch {
+      return 'proj_default';
+    }
+  });
+
+  const activeProject = projects.find(p => p.id === activeProjectId) || projects[0] || {
+    id: 'proj_default',
+    name: 'My Material Estimate',
+    items: [],
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+  };
+
+  const bomItems = activeProject.items;
+
+  const setBomItems = (newItemsOrUpdater: BOMItem[] | ((prev: BOMItem[]) => BOMItem[])) => {
+    setProjects(prevProjects => {
+      return prevProjects.map(p => {
+        if (p.id === activeProject.id) {
+          const updatedItems =
+            typeof newItemsOrUpdater === 'function'
+              ? newItemsOrUpdater(p.items)
+              : newItemsOrUpdater;
+          return {
+            ...p,
+            items: updatedItems,
+            updatedAt: Date.now(),
+          };
+        }
+        return p;
+      });
+    });
+  };
+
   useEffect(() => {
     try {
-      localStorage.setItem('materialyardage_bom', JSON.stringify(bomItems));
+      localStorage.setItem('materialyardage_projects', JSON.stringify(projects));
+      localStorage.setItem('materialyardage_active_project_id', activeProjectId);
+      localStorage.setItem('materialyardage_bom', JSON.stringify(activeProject.items));
     } catch (e) {
       console.error(e);
     }
-  }, [bomItems]);
+  }, [projects, activeProjectId, activeProject]);
+
+  const handleCreateProject = (name: string, templateItems?: Omit<BOMItem, 'id' | 'timestamp'>[]) => {
+    const newId = `proj_${Date.now()}`;
+    const items: BOMItem[] = templateItems
+      ? templateItems.map((it, idx) => ({
+          ...it,
+          id: `item_${Date.now()}_${idx}`,
+          timestamp: Date.now() + idx,
+        }))
+      : [];
+    const newProject: SavedProject = {
+      id: newId,
+      name,
+      items,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+    setProjects(prev => [newProject, ...prev]);
+    setActiveProjectId(newId);
+  };
+
+  const handleDuplicateProject = (id: string) => {
+    const target = projects.find(p => p.id === id);
+    if (!target) return;
+    const dupId = `proj_${Date.now()}`;
+    const dup: SavedProject = {
+      ...target,
+      id: dupId,
+      name: `${target.name} (Copy)`,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+    setProjects(prev => [dup, ...prev]);
+    setActiveProjectId(dupId);
+  };
+
+  const handleDeleteProject = (id: string) => {
+    if (projects.length <= 1) return;
+    const remaining = projects.filter(p => p.id !== id);
+    setProjects(remaining);
+    if (activeProjectId === id) {
+      setActiveProjectId(remaining[0].id);
+    }
+  };
+
+  const handleRenameProject = (id: string, newName: string) => {
+    setProjects(prev =>
+      prev.map(p => (p.id === id ? { ...p, name: newName, updatedAt: Date.now() } : p))
+    );
+  };
+
+  const handleImportProjects = (imported: SavedProject[]) => {
+    setProjects(imported);
+    if (imported.length > 0) {
+      setActiveProjectId(imported[0].id);
+    }
+  };
 
   // Quick tools list for tabs & search
   const tools = [
@@ -83,11 +215,13 @@ export default function App() {
     { id: 'curtains_drapery', label: 'Curtains & Drapery', category: 'fabric', desc: 'Window drop, fullness 1.5x–2.5x, double hems, headings & pattern matches' },
     { id: 'quilt_backing', label: 'Quilt Backing & Binding', category: 'fabric', desc: 'Backing seam layouts (horizontal vs vertical vs 108" wide) and binding strips' },
     { id: 'upholstery_cushions', label: 'Upholstery & Cushions', category: 'fabric', desc: 'Box cushions, foam thickness, boxing strips & welting/piping cord yards' },
+    { id: 'wallpaper_calc', label: 'Wallpaper & Decor', category: 'fabric', desc: 'Single accent wall or 4-room walls, pattern repeat drops, window deductions, and paste' },
     // Construction
     { id: 'mulch_soil', label: 'Mulch & Soil Mix', category: 'construction', desc: 'Cubic yards, retail bags (2/3 cu ft), bed shapes, and depth coverage matrix' },
     { id: 'gravel_aggregate', label: 'Gravel & Aggregates', category: 'construction', desc: 'Crushed stone, pea gravel, road base, US tons, metric tonnes, and truckloads' },
     { id: 'concrete_calc', label: 'Concrete Slabs & Footings', category: 'construction', desc: 'Slabs, Sonotube columns, stairs, 40/60/80lb ready-mix bags, and 1:2:4 mix' },
     { id: 'paver_masonry', label: 'Paver Patios & CMU Walls', category: 'construction', desc: 'Paver counts, bedding sand, polymeric joint sand, and modular brick walls' },
+    { id: 'retaining_wall', label: 'Retaining Wall & Drainage', category: 'construction', desc: 'Blocks, buried base courses, capstones, 6" leveling gravel, and 12" drainage rock chimney' },
     { id: 'sod_turf', label: 'Sod & Turf Grass', category: 'construction', desc: 'Lawn square footage, 2\'×5\' sod rolls, whole pallets, and edge cutting waste' },
   ];
 
@@ -104,8 +238,35 @@ export default function App() {
         setActiveCalculator('fabric_cut');
         setActiveGuideSlug(null);
         setCategoryMode('fabric');
+        setActiveGSCRoute(null);
         return;
       }
+
+      // 1. Check Google Search Console Indexed Pages Registry First
+      const gscMatch = resolveGSCPath(currentRoute);
+      if (gscMatch) {
+        setActiveGSCRoute(gscMatch);
+        if (gscMatch.guideSlug) {
+          setActiveCalculator('guide_detail');
+          setActiveGuideSlug(gscMatch.guideSlug);
+        } else {
+          setActiveCalculator(gscMatch.targetCalculator);
+          setActiveGuideSlug(null);
+        }
+        if (gscMatch.category === 'fabric' || gscMatch.category === 'construction') {
+          setCategoryMode(gscMatch.category);
+        }
+        if (gscMatch.isModalTrigger === 'converter') {
+          setIsConverterOpen(true);
+        } else if (gscMatch.isModalTrigger === 'reference') {
+          setIsGuidesOpen(true);
+        } else if (gscMatch.isModalTrigger === 'comparison') {
+          setIsComparisonModalOpen(true);
+        }
+        return;
+      }
+
+      setActiveGSCRoute(null);
 
       if (currentRoute === 'privacy-policy' || currentRoute === 'privacy') {
         setActiveCalculator('privacy');
@@ -147,19 +308,29 @@ export default function App() {
     window.addEventListener('hashchange', handleRouteChange);
 
     const handleOpenPrintModal = () => setIsPrintModalOpen(true);
+    const handleOpenCompareModal = (e: Event) => {
+      const customEvent = e as CustomEvent<{ item?: BOMItem }>;
+      setComparisonTargetItem(customEvent.detail?.item || null);
+      setIsComparisonModalOpen(true);
+    };
     window.addEventListener('open-job-sheet-modal', handleOpenPrintModal);
+    window.addEventListener('open-material-comparison', handleOpenCompareModal);
 
     return () => {
       window.removeEventListener('popstate', handleRouteChange);
       window.removeEventListener('hashchange', handleRouteChange);
       window.removeEventListener('open-job-sheet-modal', handleOpenPrintModal);
+      window.removeEventListener('open-material-comparison', handleOpenCompareModal);
     };
   }, []);
 
   // Update document title, meta tags, OpenGraph, and Schema JSON-LD with clean URL
   useEffect(() => {
     let targetPath = '/';
-    if (activeCalculator === 'privacy') {
+    if (activeGSCRoute) {
+      updateDocumentSEO(activeGSCRoute, activeGSCRoute.fullUrl);
+      targetPath = activeGSCRoute.path ? `/${activeGSCRoute.path}` : '/';
+    } else if (activeCalculator === 'privacy') {
       document.title = 'Privacy Policy — Material Yardage';
       targetPath = '/privacy-policy';
     } else if (activeCalculator === 'about') {
@@ -223,6 +394,17 @@ export default function App() {
 
   const handleUpdateItemPrice = (id: string, price: number) => {
     setBomItems(prev => prev.map(i => i.id === id ? { ...i, unitPrice: price } : i));
+  };
+
+  const handleReplaceBOMItem = (id: string, updated: Omit<BOMItem, 'id' | 'timestamp'>) => {
+    setBomItems(prev =>
+      prev.map(i => (i.id === id ? { ...updated, id, timestamp: i.timestamp } : i))
+    );
+  };
+
+  const handleOpenComparison = (item?: BOMItem) => {
+    setComparisonTargetItem(item || null);
+    setIsComparisonModalOpen(true);
   };
 
   const handleSelectGuide = (slug: string) => {
@@ -291,6 +473,9 @@ export default function App() {
         onOpenGuides={() => setIsGuidesOpen(true)}
         onOpen3DPreview={() => setIs3DPreviewOpen(true)}
         onOpenPrintSheet={() => setIsPrintModalOpen(true)}
+        onOpenComparison={() => handleOpenComparison()}
+        onOpenProjectManager={() => setIsProjectManagerOpen(true)}
+        activeProjectName={activeProject.name}
       />
 
       {/* Render Dedicated Legal / Company Pages */}
@@ -320,7 +505,19 @@ export default function App() {
           <section className="bg-white border-b border-slate-200 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto space-y-4">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div className="space-y-1">
+                <div className="space-y-1.5">
+                  {CALCULATOR_IMAGES[activeCalculator] && (
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-900 text-[11px] font-semibold">
+                        <img
+                          src={CALCULATOR_IMAGES[activeCalculator].src}
+                          alt=""
+                          className="w-4 h-4 rounded-xs object-cover"
+                        />
+                        <span>{CALCULATOR_IMAGES[activeCalculator].badge}</span>
+                      </span>
+                    </div>
+                  )}
                   <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
                     {activeSeo?.h1 || 'Material & Fabric Yardage Calculator'}
                   </h1>
@@ -387,6 +584,16 @@ export default function App() {
 
                   <button
                     type="button"
+                    onClick={() => handleOpenComparison()}
+                    className="px-3 py-2 text-xs font-semibold bg-emerald-50 border border-emerald-300 hover:bg-emerald-100 text-emerald-800 rounded-lg flex items-center gap-1.5 shadow-2xs transition-colors cursor-pointer"
+                    title="Compare materials: Pine Bark vs. Cedar vs. Topsoil"
+                  >
+                    <Scale className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>Compare Materials</span>
+                  </button>
+
+                  <button
+                    type="button"
                     onClick={() => setIsPrintModalOpen(true)}
                     className="px-3 py-2 text-xs font-semibold bg-white border border-slate-300 hover:bg-slate-50 text-slate-800 rounded-lg flex items-center gap-1.5 shadow-2xs transition-colors cursor-pointer"
                     title="Open print-friendly job-site specification sheet"
@@ -448,21 +655,32 @@ export default function App() {
               </div>
 
               {/* Sub-tool Selector Ribbon */}
-              <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-1 no-scrollbar">
-                {filteredTools.map(tool => (
-                  <button
-                    key={tool.id}
-                    type="button"
-                    onClick={() => handleSelectTab(tool.id)}
-                    className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg whitespace-nowrap transition-colors ${
-                      activeCalculator === tool.id
-                        ? 'bg-emerald-100 text-emerald-950 border border-emerald-300 font-bold'
-                        : 'bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                    }`}
-                  >
-                    {tool.label}
-                  </button>
-                ))}
+              <div className="flex items-center gap-2 overflow-x-auto pb-1.5 pt-1 no-scrollbar">
+                {filteredTools.map(tool => {
+                  const img = CALCULATOR_IMAGES[tool.id];
+                  return (
+                    <button
+                      key={tool.id}
+                      type="button"
+                      onClick={() => handleSelectTab(tool.id)}
+                      className={`px-3 py-1.5 text-xs font-semibold rounded-lg whitespace-nowrap transition-all flex items-center gap-2 shrink-0 ${
+                        activeCalculator === tool.id
+                          ? 'bg-emerald-100 text-emerald-950 border border-emerald-300 font-bold shadow-2xs'
+                          : 'bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                      }`}
+                    >
+                      {img && (
+                        <img
+                          src={img.src}
+                          alt=""
+                          className="w-4 h-4 rounded object-cover border border-slate-300/80 shrink-0"
+                          loading="lazy"
+                        />
+                      )}
+                      <span>{tool.label}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </section>
@@ -493,6 +711,10 @@ export default function App() {
                   <UpholsteryCalc system={system} onAddToBOM={handleAddToBOM} />
                 )}
 
+                {activeCalculator === 'wallpaper_calc' && (
+                  <WallpaperCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
+
                 {activeCalculator === 'mulch_soil' && (
                   <MulchSoilCalc system={system} onAddToBOM={handleAddToBOM} />
                 )}
@@ -507,6 +729,10 @@ export default function App() {
 
                 {activeCalculator === 'paver_masonry' && (
                   <PaverMasonryCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
+
+                {activeCalculator === 'retaining_wall' && (
+                  <RetainingWallCalc system={system} onAddToBOM={handleAddToBOM} />
                 )}
 
                 {activeCalculator === 'sod_turf' && (
@@ -614,6 +840,14 @@ export default function App() {
                 <Printer className="w-3.5 h-3.5" />
                 <span>Print Spec Sheet</span>
               </button>
+              <button
+                type="button"
+                onClick={() => setIsProjectManagerOpen(true)}
+                className="hover:text-white transition-colors flex items-center gap-1 text-slate-300"
+              >
+                <FolderKanban className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Projects ({projects.length})</span>
+              </button>
               <button onClick={() => setIsBOMOpen(true)} className="hover:text-white transition-colors">
                 Project BOM ({bomItems.length})
               </button>
@@ -641,7 +875,31 @@ export default function App() {
         onRemoveItem={handleRemoveBOMItem}
         onClearAll={handleClearBOM}
         onUpdateItemPrice={handleUpdateItemPrice}
+        onReplaceItem={handleReplaceBOMItem}
         onOpen3DPreview={() => setIs3DPreviewOpen(true)}
+        onOpenComparisonModal={handleOpenComparison}
+        onOpenProjectManager={() => setIsProjectManagerOpen(true)}
+      />
+
+      <ProjectManagerModal
+        isOpen={isProjectManagerOpen}
+        onClose={() => setIsProjectManagerOpen(false)}
+        projects={projects}
+        activeProjectId={activeProjectId}
+        onSelectProject={id => setActiveProjectId(id)}
+        onCreateProject={handleCreateProject}
+        onDuplicateProject={handleDuplicateProject}
+        onDeleteProject={handleDeleteProject}
+        onRenameProject={handleRenameProject}
+        onImportProjects={handleImportProjects}
+      />
+
+      <MaterialComparisonModal
+        isOpen={isComparisonModalOpen}
+        onClose={() => setIsComparisonModalOpen(false)}
+        onAddToBOM={handleAddToBOM}
+        targetBOMItem={comparisonTargetItem}
+        onReplaceBOMItem={handleReplaceBOMItem}
       />
 
       <UnitConverterModal

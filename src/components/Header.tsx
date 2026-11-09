@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingBag, ArrowRightLeft, BookOpen, Menu, X, Box, Printer } from 'lucide-react';
+import { ShoppingBag, ArrowRightLeft, BookOpen, Menu, X, Box, Printer, Scale, FolderKanban } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: string;
@@ -10,6 +10,9 @@ interface HeaderProps {
   onOpenGuides: () => void;
   onOpen3DPreview?: () => void;
   onOpenPrintSheet?: () => void;
+  onOpenComparison?: () => void;
+  onOpenProjectManager?: () => void;
+  activeProjectName?: string;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -21,6 +24,9 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenGuides,
   onOpen3DPreview,
   onOpenPrintSheet,
+  onOpenComparison,
+  onOpenProjectManager,
+  activeProjectName = 'Default Project',
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -117,6 +123,16 @@ export const Header: React.FC<HeaderProps> = ({
             <BookOpen className="w-3.5 h-3.5" />
             <span>Reference</span>
           </button>
+          {onOpenComparison && (
+            <button
+              onClick={onOpenComparison}
+              className="flex items-center gap-1 text-slate-700 hover:text-slate-900 font-semibold whitespace-nowrap shrink-0"
+              title="Compare materials: Pine Bark vs. Cedar vs. Topsoil"
+            >
+              <Scale className="w-3.5 h-3.5 text-emerald-700" />
+              <span>Compare</span>
+            </button>
+          )}
           {onOpen3DPreview && (
             <button
               onClick={onOpen3DPreview}
@@ -131,6 +147,16 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Zone 3: Actions */}
         <div className="flex items-center gap-2 shrink-0">
+          {onOpenComparison && (
+            <button
+              onClick={onOpenComparison}
+              className="hidden xl:flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors whitespace-nowrap shadow-2xs cursor-pointer"
+              title="Compare materials: Pine Bark vs. Cedar vs. Topsoil"
+            >
+              <Scale className="w-3.5 h-3.5 text-emerald-700" />
+              <span>Compare Materials</span>
+            </button>
+          )}
           {onOpenPrintSheet && (
             <button
               onClick={onOpenPrintSheet}
@@ -149,6 +175,19 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <Box className="w-3.5 h-3.5 text-emerald-700" />
               <span>3D Model</span>
+            </button>
+          )}
+          {onOpenProjectManager && (
+            <button
+              onClick={onOpenProjectManager}
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors whitespace-nowrap shadow-2xs cursor-pointer"
+              title="Manage projects, templates, and backups"
+            >
+              <FolderKanban className="w-3.5 h-3.5 text-emerald-700" />
+              <span className="hidden sm:inline font-bold text-slate-800 max-w-[130px] truncate">
+                {activeProjectName}
+              </span>
+              <span className="sm:hidden">Projects</span>
             </button>
           )}
           <button

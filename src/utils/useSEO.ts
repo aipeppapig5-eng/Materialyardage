@@ -1,13 +1,31 @@
-import { useEffect } from 'react';
 import { PageSEO } from '../data/seoData';
 
-export function updateDocumentSEO(seo?: PageSEO, currentUrl: string = typeof window !== 'undefined' ? window.location.href : '') {
+export interface SEOPayload {
+  title: string;
+  metaDescription: string;
+  keywords?: string[];
+  canonicalUrl?: string;
+  h1?: string;
+  faqs?: { question: string; answer: string }[];
+  breadcrumbs?: { name: string; url: string }[];
+}
+
+export function updateDocumentSEO(
+  seo?: SEOPayload | PageSEO,
+  explicitUrl?: string
+) {
   if (typeof document === 'undefined') return;
 
   if (!seo) {
     document.title = 'Material Yardage — Material & Fabric Yardage Calculator';
     return;
   }
+
+  const currentUrl =
+    explicitUrl ||
+    ('canonicalUrl' in seo && seo.canonicalUrl ? seo.canonicalUrl : '') ||
+    ('fullUrl' in seo && (seo as any).fullUrl ? (seo as any).fullUrl : '') ||
+    (typeof window !== 'undefined' ? window.location.href : 'https://www.materialyardage.com');
 
   // Update Title
   document.title = `${seo.title} | Material Yardage`;
@@ -26,7 +44,9 @@ export function updateDocumentSEO(seo?: PageSEO, currentUrl: string = typeof win
 
   // Standard Meta Description & Keywords
   setMeta('description', seo.metaDescription);
-  setMeta('keywords', seo.keywords.join(', '));
+  if (seo.keywords && seo.keywords.length > 0) {
+    setMeta('keywords', seo.keywords.join(', '));
+  }
 
   // OpenGraph
   setMeta('og:title', seo.title, true);
@@ -68,20 +88,30 @@ export function updateDocumentSEO(seo?: PageSEO, currentUrl: string = typeof win
     },
     {
       '@type': 'BreadcrumbList',
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Home',
-          item: typeof window !== 'undefined' ? window.location.origin : 'https://www.materialyardage.com',
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: seo.h1,
-          item: currentUrl,
-        },
-      ],
+      itemListElement:
+        'breadcrumbs' in seo && seo.breadcrumbs && seo.breadcrumbs.length > 0
+          ? seo.breadcrumbs.map((b: { name: string; url: string }, idx: number) => ({
+              '@type': 'ListItem',
+              position: idx + 1,
+              name: b.name,
+              item: b.url.startsWith('http')
+                ? b.url
+                : `https://www.materialyardage.com${b.url === '/' ? '' : b.url}`,
+            }))
+          : [
+              {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: typeof window !== 'undefined' ? window.location.origin : 'https://www.materialyardage.com',
+              },
+              {
+                '@type': 'ListItem',
+                position: 2,
+                name: seo.h1 || seo.title,
+                item: currentUrl,
+              },
+            ],
     },
   ];
 
@@ -90,7 +120,7 @@ export function updateDocumentSEO(seo?: PageSEO, currentUrl: string = typeof win
     schemaGraph.push({
       '@type': 'FAQPage',
       '@id': `${currentUrl}#faq`,
-      mainEntity: seo.faqs.map(faq => ({
+      mainEntity: seo.faqs.map((faq: { question: string; answer: string }) => ({
         '@type': 'Question',
         name: faq.question,
         acceptedAnswer: {

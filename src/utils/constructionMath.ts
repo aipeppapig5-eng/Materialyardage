@@ -305,3 +305,114 @@ export function calculateSod(
     wholePallets,
   };
 }
+
+export interface RetainingWallResult {
+  wallLengthFt: number;
+  wallHeightFt: number;
+  exposedSqFt: number;
+  totalSqFt: number;
+  blockWidthInches: number;
+  blockHeightInches: number;
+  blockDepthInches: number;
+  blocksPerCourse: number;
+  exposedCourses: number;
+  buriedCourses: number;
+  totalCourses: number;
+  totalWallBlocks: number;
+  capstonesCount: number;
+  adhesiveTubes: number;
+  baseTrenchGravelCuYd: number;
+  baseTrenchGravelTons: number;
+  drainageStoneCuYd: number;
+  drainageStoneTons: number;
+  drainPipeLinearFt: number;
+  geogridSqYd: number;
+  geogridLayers: number;
+}
+
+/**
+ * Segmental Retaining Wall (SRW) calculation
+ */
+export function calculateRetainingWall(
+  wallLengthFt: number,
+  wallHeightFt: number, // exposed height
+  blockWidthInches: number = 12,
+  blockHeightInches: number = 4,
+  blockDepthInches: number = 8,
+  buriedCoursesCount?: number,
+  includeCapstones: boolean = true,
+  capstoneLengthInches: number = 12,
+  wastePercent: number = 8
+): RetainingWallResult {
+  const exposedSqFt = wallLengthFt * wallHeightFt;
+  const exposedCourses = Math.max(1, Math.ceil((wallHeightFt * 12) / blockHeightInches));
+
+  // Minimum 1 buried course, or 1 course per 3 ft of wall height
+  const buriedCourses = buriedCoursesCount !== undefined
+    ? buriedCoursesCount
+    : Math.max(1, Math.ceil(wallHeightFt / 3));
+
+  const totalCourses = exposedCourses + buriedCourses;
+  const totalHeightFt = (totalCourses * blockHeightInches) / 12;
+  const totalSqFt = wallLengthFt * totalHeightFt;
+
+  const blocksPerCourse = Math.ceil((wallLengthFt * 12) / blockWidthInches);
+  const totalWallBlocks = Math.ceil(blocksPerCourse * totalCourses * (1 + wastePercent / 100));
+
+  // Capstones
+  const capstonesCount = includeCapstones
+    ? Math.ceil(((wallLengthFt * 12) / capstoneLengthInches) * 1.05)
+    : 0;
+
+  // Adhesive tubes: 1 x 10oz tube per ~25-30 linear ft of double bead
+  const adhesiveTubes = includeCapstones
+    ? Math.ceil((wallLengthFt * 2) / 25)
+    : Math.ceil(wallLengthFt / 25);
+
+  // Base trench: 6" depth of compacted gravel, width = blockDepth + 8" (min 18")
+  const trenchWidthFt = Math.max(1.5, (blockDepthInches + 8) / 12);
+  const baseTrenchCuFt = wallLengthFt * trenchWidthFt * 0.5;
+  const baseTrenchGravelCuYd = (baseTrenchCuFt / 27) * 1.15; // 15% compaction
+  const baseTrenchGravelTons = baseTrenchGravelCuYd * 1.45;
+
+  // Drainage chimney stone: 12" (1 ft) clean #57 stone chimney behind wall
+  const drainageStoneCuFt = wallLengthFt * 1.0 * totalHeightFt;
+  const drainageStoneCuYd = (drainageStoneCuFt / 27) * 1.05;
+  const drainageStoneTons = drainageStoneCuYd * 1.40;
+
+  // 4" Perforated drain pipe
+  const drainPipeLinearFt = Math.ceil(wallLengthFt + 10);
+
+  // Geogrid soil reinforcement: recommended for walls 3.5 ft and higher
+  let geogridLayers = 0;
+  let geogridSqYd = 0;
+  if (totalHeightFt >= 3.5) {
+    geogridLayers = Math.max(1, Math.floor(exposedCourses / 2));
+    const embedmentLengthFt = Math.max(4, totalHeightFt * 0.8);
+    geogridSqYd = Math.ceil((wallLengthFt * embedmentLengthFt * geogridLayers) / 9);
+  }
+
+  return {
+    wallLengthFt,
+    wallHeightFt,
+    exposedSqFt,
+    totalSqFt,
+    blockWidthInches,
+    blockHeightInches,
+    blockDepthInches,
+    blocksPerCourse,
+    exposedCourses,
+    buriedCourses,
+    totalCourses,
+    totalWallBlocks,
+    capstonesCount,
+    adhesiveTubes,
+    baseTrenchGravelCuYd,
+    baseTrenchGravelTons,
+    drainageStoneCuYd,
+    drainageStoneTons,
+    drainPipeLinearFt,
+    geogridSqYd,
+    geogridLayers,
+  };
+}

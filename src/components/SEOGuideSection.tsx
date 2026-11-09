@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { PageSEO } from '../data/seoData';
 import { ChevronDown, ChevronUp, BookOpen, Calculator, HelpCircle, CheckCircle2 } from 'lucide-react';
 import { AdSlot } from './AdSlot';
+import { CALCULATOR_IMAGES } from '../data/uiImages';
+import { SEO_PAGES } from '../data/seoData';
 
 interface SEOGuideSectionProps {
   seo: PageSEO;
@@ -13,6 +15,10 @@ export const SEOGuideSection: React.FC<SEOGuideSectionProps> = ({ seo }) => {
   const toggleFaq = (idx: number) => {
     setOpenFaq(prev => prev === idx ? null : idx);
   };
+
+  const matchingEntry = Object.entries(SEO_PAGES).find(([_, p]) => p.slug === seo.slug);
+  const calcId = matchingEntry ? matchingEntry[0] : '';
+  const imgMeta = CALCULATOR_IMAGES[calcId];
 
   return (
     <section className="mt-12 space-y-8 border-t border-slate-200 pt-10 text-slate-800">
@@ -40,6 +46,35 @@ export const SEOGuideSection: React.FC<SEOGuideSectionProps> = ({ seo }) => {
           {seo.lead}
         </p>
       </div>
+
+      {/* Real-World Application Visual Banner */}
+      {imgMeta && (
+        <div className="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-900 group shadow-2xs">
+          <div className="relative h-44 sm:h-56 w-full overflow-hidden">
+            <img
+              src={imgMeta.src}
+              alt={imgMeta.alt}
+              className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent pointer-events-none" />
+            <div className="absolute top-3 left-3">
+              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-900/90 text-emerald-100 border border-emerald-500/40">
+                Visual Reference: {imgMeta.badge}
+              </span>
+            </div>
+            <div className="absolute bottom-3 left-4 right-4 text-white flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+              <div>
+                <p className="text-sm font-bold text-white drop-shadow-md">{imgMeta.title}</p>
+                <p className="text-xs text-slate-200 mt-0.5 line-clamp-1">{imgMeta.caption}</p>
+              </div>
+              <span className="text-[11px] text-emerald-300 font-medium shrink-0">
+                {imgMeta.materialTips[0]}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Formula & Worked Example Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

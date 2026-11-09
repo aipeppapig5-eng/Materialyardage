@@ -4,6 +4,7 @@ import { calculateBoxCushions, CushionParams } from '../../utils/fabricMath';
 import { ShoppingCart } from 'lucide-react';
 import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
 import { DynamicSEOPresets } from '../DynamicSEOPresets';
+import { ProjectPhotoPreview } from '../ProjectPhotoPreview';
 
 interface UpholsteryCalcProps {
   system: MeasurementSystem;
@@ -269,43 +270,53 @@ export const UpholsteryCalc: React.FC<UpholsteryCalcProps> = ({
         {/* Right Column: Isometric Box Cushion Diagram */}
         <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col justify-between">
           <div>
-            <h3 className="text-xs font-semibold text-slate-700 mb-2">3D Isometric Cushion Wireframe</h3>
-            <div className="bg-white border border-slate-200 rounded-lg p-2 flex flex-col items-center justify-center relative h-52">
-              <svg width="200" height="150" viewBox="0 0 200 150" className="overflow-visible select-none">
-                {/* Top plate */}
-                <polygon
-                  points="100,20 170,50 100,80 30,50"
-                  fill="#d1fae5"
-                  stroke="#059669"
-                  strokeWidth="2"
-                />
-                {/* Front Left boxing */}
-                <polygon
-                  points="30,50 100,80 100,120 30,90"
-                  fill="#a7f3d0"
-                  stroke="#047857"
-                  strokeWidth="1.5"
-                />
-                {/* Front Right boxing */}
-                <polygon
-                  points="100,80 170,50 170,90 100,120"
-                  fill="#6ee7b7"
-                  stroke="#047857"
-                  strokeWidth="1.5"
-                />
-                {/* Piping welt lines */}
-                {includePiping && (
-                  <>
-                    <polyline points="30,50 100,80 170,50" fill="none" stroke="#dc2626" strokeWidth="2" strokeDasharray="3,2" />
-                    <polyline points="30,90 100,120 170,90" fill="none" stroke="#dc2626" strokeWidth="2" strokeDasharray="3,2" />
-                  </>
-                )}
-                {/* Dimension callouts */}
-                <text x="145" y="32" fontSize="9" fontWeight="600" fill="#065f46" fontFamily="monospace">{cushionWidth}"</text>
-                <text x="52" y="32" fontSize="9" fontWeight="600" fill="#065f46" fontFamily="monospace">{cushionDepth}"</text>
-                <text x="180" y="75" fontSize="9" fontWeight="600" fill="#047857" fontFamily="monospace">{foamThickness}" box</text>
-              </svg>
-            </div>
+            <ProjectPhotoPreview
+              calculatorId="upholstery_cushions"
+              title="Isometric Cushion & Upholstery Photo"
+              metricsOverlay={{
+                primaryValue: `${res.totalFabricYards.toFixed(2)} yd`,
+                primaryLabel: 'Required Fabric',
+                secondaryValue: `${cushionCount} cushions`,
+                secondaryLabel: 'Box Cushions',
+              }}
+            >
+              <div className="bg-white border border-slate-200 rounded-lg p-2 flex flex-col items-center justify-center relative h-52">
+                <svg width="200" height="150" viewBox="0 0 200 150" className="overflow-visible select-none">
+                  {/* Top plate */}
+                  <polygon
+                    points="100,20 170,50 100,80 30,50"
+                    fill="#d1fae5"
+                    stroke="#059669"
+                    strokeWidth="2"
+                  />
+                  {/* Front Left boxing */}
+                  <polygon
+                    points="30,50 100,80 100,120 30,90"
+                    fill="#a7f3d0"
+                    stroke="#047857"
+                    strokeWidth="1.5"
+                  />
+                  {/* Front Right boxing */}
+                  <polygon
+                    points="100,80 170,50 170,90 100,120"
+                    fill="#6ee7b7"
+                    stroke="#047857"
+                    strokeWidth="1.5"
+                  />
+                  {/* Piping welt lines */}
+                  {includePiping && (
+                    <>
+                      <polyline points="30,50 100,80 170,50" fill="none" stroke="#dc2626" strokeWidth="2" strokeDasharray="3,2" />
+                      <polyline points="30,90 100,120 170,90" fill="none" stroke="#dc2626" strokeWidth="2" strokeDasharray="3,2" />
+                    </>
+                  )}
+                  {/* Dimension callouts */}
+                  <text x="145" y="32" fontSize="9" fontWeight="600" fill="#065f46" fontFamily="monospace">{cushionWidth}"</text>
+                  <text x="52" y="32" fontSize="9" fontWeight="600" fill="#065f46" fontFamily="monospace">{cushionDepth}"</text>
+                  <text x="180" y="75" fontSize="9" fontWeight="600" fill="#047857" fontFamily="monospace">{foamThickness}" box</text>
+                </svg>
+              </div>
+            </ProjectPhotoPreview>
 
             <div className="text-[11px] text-slate-500 mt-2 space-y-0.5">
               <p>• Plates required: <strong className="text-slate-800 font-mono">{cushionCount * 2} plates</strong> ({res.plateRows} fabric rows)</p>

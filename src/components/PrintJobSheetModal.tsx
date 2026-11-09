@@ -482,6 +482,81 @@ export const PrintJobSheetModal: React.FC<PrintJobSheetModalProps> = ({
           jobSiteNotes,
         };
       }
+
+      case 'wallpaper_calc': {
+        const unitPrice = calc.unitPrice || 48;
+        const subtotal = calc.recommendedRolls * unitPrice;
+
+        return {
+          jobTitle: 'Wallpaper Installation & Hanging Schedule',
+          category: 'Wallcovering & Decor',
+          clientName,
+          siteAddress,
+          contractorName,
+          referenceNo,
+          workDate,
+          dimensions: [
+            { label: 'Wall Scope', value: calc.subType === 'single_accent' ? 'Single Accent Wall' : '4-Wall Room' },
+            { label: 'Wall Dimensions', value: `${calc.wallWidth} ft wide × ${calc.wallHeight} ft high` },
+            { label: 'Net Wall Area', value: `${calc.netSqFt.toFixed(1)} sq ft (openings deducted)` },
+            { label: 'Roll Packaging Spec', value: calc.rollType },
+            { label: 'Pattern Repeat Match', value: calc.patternType },
+          ],
+          primaryQuantity: { label: 'Recommended Wallpaper Rolls', value: calc.recommendedRolls.toString(), unit: 'Rolls' },
+          secondaryBreakdown: [
+            { label: 'Vertical Strips Required', value: `${calc.totalStrips} full-height drops` },
+            { label: 'Net Mathematical Rolls', value: `${calc.rollsNeeded.toFixed(2)} rolls` },
+            { label: 'Waste & Cutout Allowance', value: '15% safety buffer included' },
+          ],
+          allowanceNote: 'Calculated with pattern repeat drops and full vertical seam matches',
+          costEstimate: includeCost
+            ? {
+                unitPrice,
+                subtotal,
+                tax: subtotal * 0.08,
+                total: subtotal * 1.08,
+              }
+            : undefined,
+          jobSiteNotes,
+        };
+      }
+
+      case 'retaining_wall': {
+        const unitPrice = calc.unitPrice || 6.5;
+        const subtotal = calc.totalBlocks * unitPrice;
+
+        return {
+          jobTitle: 'Segmental Retaining Wall Construction Specification',
+          category: 'Masonry & Hardscaping',
+          clientName,
+          siteAddress,
+          contractorName,
+          referenceNo,
+          workDate,
+          dimensions: [
+            { label: 'Wall Length', value: `${calc.wallLength} linear feet` },
+            { label: 'Total Wall Height', value: `${calc.wallHeight} feet` },
+            { label: 'Exposed Face Area', value: `${calc.exposedSqFt.toFixed(1)} sq ft` },
+            { label: 'Block Specification', value: calc.blockName },
+          ],
+          primaryQuantity: { label: 'Segmental Concrete Blocks', value: calc.totalBlocks.toString(), unit: 'Units' },
+          secondaryBreakdown: [
+            { label: 'Capstone Units', value: `${calc.capstonesCount} capstones` },
+            { label: 'Base Trench Crushed Gravel (6")', value: `${calc.baseGravelTons.toFixed(2)} US Tons` },
+            { label: 'Drainage Clear Stone (12" Chimney)', value: `${calc.drainageStoneTons.toFixed(2)} US Tons` },
+          ],
+          allowanceNote: 'Includes buried starter course (minimum 6" embedment) and drainage backfill',
+          costEstimate: includeCost
+            ? {
+                unitPrice,
+                subtotal,
+                tax: subtotal * 0.08,
+                total: subtotal * 1.08,
+              }
+            : undefined,
+          jobSiteNotes,
+        };
+      }
     }
   };
 

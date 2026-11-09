@@ -134,6 +134,33 @@ export type UpholsterySEOInput = {
   unitPrice?: number;
 };
 
+export type WallpaperSEOInput = {
+  calculatorId: 'wallpaper_calc';
+  subType: string;
+  wallWidth: number;
+  wallHeight: number;
+  netSqFt: number;
+  totalStrips: number;
+  rollsNeeded: number;
+  recommendedRolls: number;
+  patternType: string;
+  rollType: string;
+  unitPrice?: number;
+};
+
+export type RetainingWallSEOInput = {
+  calculatorId: 'retaining_wall';
+  wallLength: number;
+  wallHeight: number;
+  exposedSqFt: number;
+  totalBlocks: number;
+  capstonesCount: number;
+  baseGravelTons: number;
+  drainageStoneTons: number;
+  blockName: string;
+  unitPrice?: number;
+};
+
 export type CalculatorSEOInput =
   | ConcreteSEOInput
   | MulchSoilSEOInput
@@ -143,7 +170,9 @@ export type CalculatorSEOInput =
   | CurtainDraperySEOInput
   | FabricYardageSEOInput
   | QuiltBackingSEOInput
-  | UpholsterySEOInput;
+  | UpholsterySEOInput
+  | WallpaperSEOInput
+  | RetainingWallSEOInput;
 
 export interface DynamicSEOResult {
   title: string;
@@ -506,6 +535,64 @@ export function generateDynamicSEO(input: CalculatorSEOInput): DynamicSEOResult 
           cushionDepth: d,
           foamThickness: thick,
           totalYards: yards,
+        },
+      };
+    }
+
+    case 'wallpaper_calc': {
+      const w = input.wallWidth || 12;
+      const h = input.wallHeight || 9;
+      const sqft = input.netSqFt.toFixed(1);
+      const rolls = input.recommendedRolls;
+      const strips = input.totalStrips;
+
+      return {
+        title: `${w}' × ${h}' Wall Wallpaper Calculator (${sqft} Sq Ft) — ${rolls} Rolls Needed | Material Yardage`,
+        metaDescription: `How many rolls of wallpaper for a ${w}' × ${h}' wall? Requires ${rolls} rolls (${strips} vertical strips, ${sqft} sq ft net coverage) with pattern repeat matching on Material Yardage.`,
+        keywords: [
+          `${w}x${h} wallpaper calculator`,
+          `how many rolls of wallpaper for ${w} by ${h} wall`,
+          `wallpaper roll estimator ${sqft} sq ft`,
+          `wallpaper drop match pattern calculator`,
+        ],
+        canonicalPath: '/wallpaper-calculator',
+        queryString: `w=${w}&h=${h}&rolls=${rolls}`,
+        h1Context: `${w}' × ${h}' Wall (${rolls} Rolls Needed)`,
+        calculatedValues: {
+          wallWidth: w,
+          wallHeight: h,
+          netSqFt: sqft,
+          rollsNeeded: rolls,
+          stripsNeeded: strips,
+        },
+      };
+    }
+
+    case 'retaining_wall': {
+      const l = input.wallLength || 25;
+      const h = input.wallHeight || 3;
+      const blocks = input.totalBlocks;
+      const gravel = input.baseGravelTons.toFixed(1);
+      const drain = input.drainageStoneTons.toFixed(1);
+
+      return {
+        title: `${l}' × ${h}' Retaining Wall Calculator — ${blocks} Blocks, ${gravel}T Base Gravel | Material Yardage`,
+        metaDescription: `Calculate concrete blocks and materials for a ${l}ft long by ${h}ft high retaining wall: requires ${blocks} modular blocks, ${gravel} tons leveling gravel, and ${drain} tons drainage backfill on Material Yardage.`,
+        keywords: [
+          `${l}x${h} retaining wall calculator`,
+          `how many retaining wall blocks for ${l} foot wall`,
+          `retaining wall base gravel and drainage calculator`,
+          `retaining wall block estimator`,
+        ],
+        canonicalPath: '/masonry/retaining-wall',
+        queryString: `l=${l}&h=${h}&blocks=${blocks}`,
+        h1Context: `${l}' × ${h}' Wall (${blocks} Blocks & Base Kit)`,
+        calculatedValues: {
+          wallLength: l,
+          wallHeight: h,
+          totalBlocks: blocks,
+          baseGravelTons: gravel,
+          drainageStoneTons: drain,
         },
       };
     }

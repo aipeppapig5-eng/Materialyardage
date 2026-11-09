@@ -3,9 +3,10 @@ import { BedShape, BOMItem, MeasurementSystem } from '../../types';
 import { LANDSCAPE_MATERIALS } from '../../data/materialsData';
 import { calculateAreaSqFt, calculateMulch, generateCoverageMatrix } from '../../utils/constructionMath';
 import { VisualShapePreview } from '../VisualShapePreview';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Scale } from 'lucide-react';
 import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
 import { DynamicSEOPresets } from '../DynamicSEOPresets';
+import { ProjectPhotoPreview } from '../ProjectPhotoPreview';
 
 interface MulchSoilCalcProps {
   system: MeasurementSystem;
@@ -399,14 +400,25 @@ export const MulchSoilCalc: React.FC<MulchSoilCalcProps> = ({
 
         {/* Right Column: Visual Preview & BOM trigger */}
         <div className="flex flex-col gap-4">
-          <VisualShapePreview
-            shape={shape}
-            dim1={dim1}
-            dim2={dim2}
-            depthInches={depthInches}
-            materialName={activeMaterial.name.split(' ')[0]}
-            units={system}
-          />
+          <ProjectPhotoPreview
+            calculatorId="mulch_soil"
+            title="Bed Shape & Field Photo"
+            metricsOverlay={{
+              primaryValue: `${res.volumeCuYd.toFixed(2)} yd³`,
+              primaryLabel: 'Required Volume',
+              secondaryValue: `${res.bags2CuFt} bags`,
+              secondaryLabel: '2 cu ft Bags',
+            }}
+          >
+            <VisualShapePreview
+              shape={shape}
+              dim1={dim1}
+              dim2={dim2}
+              depthInches={depthInches}
+              materialName={activeMaterial.name.split(' ')[0]}
+              units={system}
+            />
+          </ProjectPhotoPreview>
 
           <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs flex flex-col justify-between flex-1">
             <div className="space-y-2">
@@ -426,13 +438,43 @@ export const MulchSoilCalc: React.FC<MulchSoilCalcProps> = ({
               </p>
             </div>
 
-            <button
-              onClick={handleAddEstimateToBOM}
-              className="w-full mt-4 py-2 px-3 bg-emerald-600 text-white rounded-lg text-xs font-semibold hover:bg-emerald-700 transition-colors flex items-center justify-center gap-1.5 shadow-2xs"
-            >
-              <ShoppingCart className="w-3.5 h-3.5" />
-              <span>Add Mulch to Project BOM</span>
-            </button>
+            <div className="mt-4 space-y-2">
+              <button
+                type="button"
+                onClick={() => {
+                  window.dispatchEvent(
+                    new CustomEvent('open-material-comparison', {
+                      detail: {
+                        item: {
+                          id: 'temp_mulch_compare',
+                          name: `${activeMaterial.name} (${areaSqFt.toFixed(0)} sq ft @ ${depthInches}" depth)`,
+                          category: 'construction',
+                          calculatorType: 'Mulch & Soil Calculator',
+                          primaryQuantity: Number(res.volumeCuYd.toFixed(2)),
+                          primaryUnit: 'cu yards',
+                          secondarySummary: `${res.bags2CuFt} bags (2 cu ft) · ${res.weightTons.toFixed(2)} tons`,
+                          unitPrice: pricePerCuYd,
+                          timestamp: Date.now(),
+                        },
+                      },
+                    })
+                  );
+                }}
+                className="w-full py-1.5 px-3 bg-emerald-50 text-emerald-950 border border-emerald-300 hover:bg-emerald-100 rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-1.5 shadow-2xs"
+                title="Compare Pine Bark vs Cedar vs Topsoil costs & volume adjustments"
+              >
+                <Scale className="w-3.5 h-3.5 text-emerald-700" />
+                <span>Compare Materials (Pine vs Cedar vs Topsoil)</span>
+              </button>
+
+              <button
+                onClick={handleAddEstimateToBOM}
+                className="w-full py-2 px-3 bg-emerald-600 text-white rounded-lg text-xs font-semibold hover:bg-emerald-700 transition-colors flex items-center justify-center gap-1.5 shadow-2xs"
+              >
+                <ShoppingCart className="w-3.5 h-3.5" />
+                <span>Add Mulch to Project BOM</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

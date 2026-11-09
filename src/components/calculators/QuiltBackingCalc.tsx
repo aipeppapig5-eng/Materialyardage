@@ -4,6 +4,7 @@ import { calculateQuiltBacking, QuiltParams } from '../../utils/fabricMath';
 import { ShoppingCart } from 'lucide-react';
 import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
 import { DynamicSEOPresets } from '../DynamicSEOPresets';
+import { ProjectPhotoPreview } from '../ProjectPhotoPreview';
 
 interface QuiltBackingCalcProps {
   system: MeasurementSystem;
@@ -250,25 +251,35 @@ export const QuiltBackingCalc: React.FC<QuiltBackingCalcProps> = ({
         {/* Right Column: Visual Diagram */}
         <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col justify-between">
           <div>
-            <h3 className="text-xs font-semibold text-slate-700 mb-2">Backing Seam Layout</h3>
-            <div className="bg-white border border-slate-200 rounded-lg p-3 flex flex-col items-center justify-center relative h-52">
-              {/* Backing Area */}
-              <div className="w-48 h-40 border-2 border-dashed border-emerald-500 bg-emerald-50/50 relative flex items-center justify-center">
-                {/* Quilt Top inside */}
-                <div className="w-36 h-28 border border-slate-700 bg-white shadow-xs flex flex-col items-center justify-center text-center p-1">
-                  <span className="text-xs font-semibold text-slate-800">Quilt Top</span>
-                  <span className="text-[10px] font-mono text-slate-500">{topWidth}" × {topLength}"</span>
-                </div>
+            <ProjectPhotoPreview
+              calculatorId="quilt_backing"
+              title="Backing Seams & Quilt Studio Photo"
+              metricsOverlay={{
+                primaryValue: `${res.backingYards.toFixed(2)} yd`,
+                primaryLabel: 'Backing Yardage',
+                secondaryValue: `${res.bindingYards.toFixed(2)} yd`,
+                secondaryLabel: 'Binding Yardage',
+              }}
+            >
+              <div className="bg-white border border-slate-200 rounded-lg p-3 flex flex-col items-center justify-center relative h-52">
+                {/* Backing Area */}
+                <div className="w-48 h-40 border-2 border-dashed border-emerald-500 bg-emerald-50/50 relative flex items-center justify-center">
+                  {/* Quilt Top inside */}
+                  <div className="w-36 h-28 border border-slate-700 bg-white shadow-xs flex flex-col items-center justify-center text-center p-1">
+                    <span className="text-xs font-semibold text-slate-800">Quilt Top</span>
+                    <span className="text-[10px] font-mono text-slate-500">{topWidth}" × {topLength}"</span>
+                  </div>
 
-                {/* Seam line */}
-                {res.seamOrientation === 'vertical' && (
-                  <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-red-400 border-r border-dashed border-red-600" />
-                )}
-                {res.seamOrientation === 'horizontal' && (
-                  <div className="absolute left-0 right-0 top-1/2 h-0.5 bg-red-400 border-b border-dashed border-red-600" />
-                )}
+                  {/* Seam line */}
+                  {res.seamOrientation === 'vertical' && (
+                    <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-red-400 border-r border-dashed border-red-600" />
+                  )}
+                  {res.seamOrientation === 'horizontal' && (
+                    <div className="absolute left-0 right-0 top-1/2 h-0.5 bg-red-400 border-b border-dashed border-red-600" />
+                  )}
+                </div>
               </div>
-            </div>
+            </ProjectPhotoPreview>
 
             <div className="text-[11px] text-slate-500 mt-2 space-y-0.5">
               <p>• Backing layout: <strong className="text-emerald-800 font-medium capitalize">{res.seamOrientation}</strong> seam ({res.panelsNeeded} {res.panelsNeeded === 1 ? 'panel' : 'panels'})</p>

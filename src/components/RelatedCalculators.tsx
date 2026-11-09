@@ -10,6 +10,7 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { SEO_PAGES } from '../data/seoData';
+import { CALCULATOR_IMAGES } from '../data/uiImages';
 
 interface RelatedCalculatorsProps {
   currentId: string;
@@ -178,6 +179,7 @@ export const RelatedCalculators: React.FC<RelatedCalculatorsProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {displayList.map((item) => {
           const isFabric = item.category === 'fabric';
+          const imgMeta = CALCULATOR_IMAGES[item.id];
           return (
             <a
               key={item.id}
@@ -187,29 +189,46 @@ export const RelatedCalculators: React.FC<RelatedCalculatorsProps> = ({
                 onSelectCalculator(item.id);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="group relative bg-white border border-slate-200 hover:border-emerald-500 rounded-2xl p-5 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between"
+              className="group relative bg-white border border-slate-200 hover:border-emerald-500 rounded-2xl p-4 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between overflow-hidden"
             >
-              <div className="space-y-3">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 group-hover:bg-emerald-50 group-hover:text-emerald-800 transition-colors">
-                    {item.badge}
-                  </span>
-                  <div className="w-7 h-7 rounded-lg bg-slate-100 group-hover:bg-emerald-100 text-slate-600 group-hover:text-emerald-800 flex items-center justify-center transition-colors">
-                    {isFabric ? (
-                      <Scissors className="w-3.5 h-3.5" />
-                    ) : (
-                      <TreePine className="w-3.5 h-3.5" />
-                    )}
+              <div>
+                {imgMeta && (
+                  <div className="relative h-28 w-full rounded-xl overflow-hidden mb-3 border border-slate-200/80 bg-slate-100">
+                    <img
+                      src={imgMeta.src}
+                      alt={imgMeta.alt}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                    <span className="absolute bottom-2 left-2 text-[10px] font-semibold text-white px-1.5 py-0.5 rounded bg-black/60 backdrop-blur-xs">
+                      {imgMeta.badge}
+                    </span>
                   </div>
-                </div>
+                )}
 
-                <div>
-                  <h4 className="text-sm font-bold text-slate-900 group-hover:text-emerald-900 transition-colors">
-                    {item.name}
-                  </h4>
-                  <p className="text-xs text-slate-500 line-clamp-2 mt-1 leading-relaxed">
-                    {item.description}
-                  </p>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 group-hover:bg-emerald-50 group-hover:text-emerald-800 transition-colors">
+                      {item.badge}
+                    </span>
+                    <div className="w-6 h-6 rounded-md bg-slate-100 group-hover:bg-emerald-100 text-slate-600 group-hover:text-emerald-800 flex items-center justify-center transition-colors">
+                      {isFabric ? (
+                        <Scissors className="w-3 h-3" />
+                      ) : (
+                        <TreePine className="w-3 h-3" />
+                      )}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-900 group-hover:text-emerald-900 transition-colors">
+                      {item.name}
+                    </h4>
+                    <p className="text-xs text-slate-500 line-clamp-2 mt-1 leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
                 </div>
               </div>
 

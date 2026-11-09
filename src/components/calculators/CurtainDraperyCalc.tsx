@@ -4,6 +4,7 @@ import { calculateCurtains, CurtainParams } from '../../utils/fabricMath';
 import { ShoppingCart } from 'lucide-react';
 import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
 import { DynamicSEOPresets } from '../DynamicSEOPresets';
+import { ProjectPhotoPreview } from '../ProjectPhotoPreview';
 
 interface CurtainDraperyCalcProps {
   system: MeasurementSystem;
@@ -318,36 +319,46 @@ export const CurtainDraperyCalc: React.FC<CurtainDraperyCalcProps> = ({
         {/* Right Column: Visual Diagram */}
         <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col justify-between">
           <div>
-            <h3 className="text-xs font-semibold text-slate-700 mb-2">Window & Panel Diagram</h3>
-            <div className="bg-white border border-slate-200 rounded-lg p-3 flex flex-col items-center justify-center relative overflow-hidden h-52">
-              {/* Rod */}
-              <div className="w-4/5 h-2 bg-slate-700 rounded-full relative mb-1 flex items-center justify-between px-1">
-                <div className="w-2.5 h-2.5 bg-slate-800 rounded-full -ml-2" />
-                <div className="w-2.5 h-2.5 bg-slate-800 rounded-full -mr-2" />
-              </div>
-
-              {/* Window Frame */}
-              <div className="w-3/5 h-36 border-4 border-slate-300 bg-sky-50/50 relative flex items-center justify-center">
-                <div className="w-full h-0.5 bg-slate-300 absolute top-1/2" />
-                <div className="h-full w-0.5 bg-slate-300 absolute left-1/2" />
-
-                {/* Left Curtain */}
-                <div
-                  className="absolute left-0 top-0 bottom-0 bg-emerald-700/80 border-r border-emerald-900 shadow-sm flex flex-col justify-between"
-                  style={{ width: pairOfCurtains ? '45%' : '90%' }}
-                >
-                  {/* Folds */}
-                  <div className="w-full h-full opacity-30 bg-[repeating-linear-gradient(90deg,transparent,transparent_6px,rgba(0,0,0,0.4)_6px,rgba(0,0,0,0.4)_12px)]" />
+            <ProjectPhotoPreview
+              calculatorId="curtains_drapery"
+              title="Window & Tailored Drapery Photo"
+              metricsOverlay={{
+                primaryValue: `${res.totalYards.toFixed(2)} yds`,
+                primaryLabel: 'Required Fabric',
+                secondaryValue: `${res.totalWidthsNeeded} widths`,
+                secondaryLabel: 'Panel Cuts',
+              }}
+            >
+              <div className="bg-white border border-slate-200 rounded-lg p-3 flex flex-col items-center justify-center relative overflow-hidden h-52">
+                {/* Rod */}
+                <div className="w-4/5 h-2 bg-slate-700 rounded-full relative mb-1 flex items-center justify-between px-1">
+                  <div className="w-2.5 h-2.5 bg-slate-800 rounded-full -ml-2" />
+                  <div className="w-2.5 h-2.5 bg-slate-800 rounded-full -mr-2" />
                 </div>
 
-                {/* Right Curtain (if pair) */}
-                {pairOfCurtains && (
-                  <div className="absolute right-0 top-0 bottom-0 w-[45%] bg-emerald-700/80 border-l border-emerald-900 shadow-sm">
+                {/* Window Frame */}
+                <div className="w-3/5 h-36 border-4 border-slate-300 bg-sky-50/50 relative flex items-center justify-center">
+                  <div className="w-full h-0.5 bg-slate-300 absolute top-1/2" />
+                  <div className="h-full w-0.5 bg-slate-300 absolute left-1/2" />
+
+                  {/* Left Curtain */}
+                  <div
+                    className="absolute left-0 top-0 bottom-0 bg-emerald-700/80 border-r border-emerald-900 shadow-sm flex flex-col justify-between"
+                    style={{ width: pairOfCurtains ? '45%' : '90%' }}
+                  >
+                    {/* Folds */}
                     <div className="w-full h-full opacity-30 bg-[repeating-linear-gradient(90deg,transparent,transparent_6px,rgba(0,0,0,0.4)_6px,rgba(0,0,0,0.4)_12px)]" />
                   </div>
-                )}
+
+                  {/* Right Curtain (if pair) */}
+                  {pairOfCurtains && (
+                    <div className="absolute right-0 top-0 bottom-0 w-[45%] bg-emerald-700/80 border-l border-emerald-900 shadow-sm">
+                      <div className="w-full h-full opacity-30 bg-[repeating-linear-gradient(90deg,transparent,transparent_6px,rgba(0,0,0,0.4)_6px,rgba(0,0,0,0.4)_12px)]" />
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
+            </ProjectPhotoPreview>
 
             <div className="text-[11px] text-slate-500 mt-2 space-y-0.5">
               <p>• {res.widthsPerPanel} fabric {res.widthsPerPanel === 1 ? 'width' : 'widths'} joined per panel</p>

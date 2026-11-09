@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { GUIDES_DATA, GuideArticle } from '../../data/guidesData';
+import { CALCULATOR_IMAGES } from '../../data/uiImages';
 import {
   BookOpen,
   ArrowRight,
@@ -104,21 +105,38 @@ export const GuidesHubPage: React.FC<GuidesHubPageProps> = ({
 
       {/* Guides Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredGuides.map(guide => (
-          <article
-            key={guide.id}
-            className="group bg-white border border-slate-200 hover:border-emerald-500 rounded-2xl p-6 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between"
-          >
-            <div className="space-y-4">
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-800">
-                  {guide.categoryLabel}
-                </span>
-                <span className="flex items-center gap-1 text-[11px] text-slate-400 font-medium">
-                  <Clock className="w-3 h-3" />
-                  <span>{guide.readTime}</span>
-                </span>
-              </div>
+        {filteredGuides.map(guide => {
+          const img = CALCULATOR_IMAGES[guide.calculatorId];
+          return (
+            <article
+              key={guide.id}
+              className="group bg-white border border-slate-200 hover:border-emerald-500 rounded-2xl p-5 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between overflow-hidden"
+            >
+              <div className="space-y-3">
+                {img && (
+                  <div className="relative h-36 w-full rounded-xl overflow-hidden border border-slate-200/80 bg-slate-100">
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                    <span className="absolute bottom-2 left-2 text-[10px] font-semibold text-white px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs">
+                      {img.badge}
+                    </span>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-800">
+                    {guide.categoryLabel}
+                  </span>
+                  <span className="flex items-center gap-1 text-[11px] text-slate-400 font-medium">
+                    <Clock className="w-3 h-3" />
+                    <span>{guide.readTime}</span>
+                  </span>
+                </div>
 
               <div>
                 <h2 className="text-base font-bold text-slate-900 group-hover:text-emerald-900 transition-colors">
@@ -171,7 +189,8 @@ export const GuidesHubPage: React.FC<GuidesHubPageProps> = ({
               </a>
             </div>
           </article>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

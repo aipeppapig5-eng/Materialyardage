@@ -4,148 +4,367 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  <!-- Primary Homepage & Tools -->
+  <!-- ============================================== -->
+  <!-- GOOGLE SEARCH CONSOLE INDEXED PAGES REGISTRY -->
+  <!-- ============================================== -->
+
+  <!-- 1. Homepage -->
   <url>
     <loc>https://www.materialyardage.com/</loc>
     <lastmod>2026-11-05</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- Fabric & Sewing Calculators -->
+  <!-- 2. Primary Tool: Fabric Yardage Calculator -->
   <url>
     <loc>https://www.materialyardage.com/fabric-yardage-calculator</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
+
+  <!-- 3. GSC Indexed: Topsoil Calculator -->
+  <url>
+    <loc>https://www.materialyardage.com/topsoil-calculator</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <!-- 4. GSC Indexed: Landscaping Sod -->
+  <url>
+    <loc>https://www.materialyardage.com/landscaping/sod</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <!-- 5. GSC Indexed: Masonry Mortar -->
+  <url>
+    <loc>https://www.materialyardage.com/masonry/mortar</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 6. GSC Indexed: Gravel Calculator -->
+  <url>
+    <loc>https://www.materialyardage.com/gravel-calculator</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- 7. GSC Indexed: Landscaping Compost Mix -->
+  <url>
+    <loc>https://www.materialyardage.com/landscaping/compost-mix</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 8. GSC Indexed: Reference Material Density Chart -->
+  <url>
+    <loc>https://www.materialyardage.com/reference/material-density-chart</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- 9. GSC Indexed: Reference Conversion Tables -->
+  <url>
+    <loc>https://www.materialyardage.com/reference/conversion-tables</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- 10. GSC Indexed: Materials Aggregate -->
+  <url>
+    <loc>https://www.materialyardage.com/materials/aggregate</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 11. GSC Indexed: Paving Paver -->
+  <url>
+    <loc>https://www.materialyardage.com/paving/paver</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <!-- 12. GSC Indexed: Concrete Slab -->
+  <url>
+    <loc>https://www.materialyardage.com/concrete/slab</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- 13. GSC Indexed: Masonry Block -->
+  <url>
+    <loc>https://www.materialyardage.com/masonry/block</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 14. GSC Indexed: Materials Directory -->
+  <url>
+    <loc>https://www.materialyardage.com/materials</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- 15. GSC Indexed: Fabric Unit Converter -->
+  <url>
+    <loc>https://www.materialyardage.com/fabric/unit-converter</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- 16. GSC Indexed: Masonry Category Hub -->
+  <url>
+    <loc>https://www.materialyardage.com/masonry</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 17. GSC Indexed: Fabric Yardage Calculator (Categorized) -->
+  <url>
+    <loc>https://www.materialyardage.com/fabric/yardage-calculator</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <!-- 18. GSC Indexed: Fabric Category Hub -->
+  <url>
+    <loc>https://www.materialyardage.com/fabric</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 19. GSC Indexed: Fabric Curtain Calculator -->
+  <url>
+    <loc>https://www.materialyardage.com/fabric/curtain-calculator</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <!-- 20. GSC Indexed: Fabric Upholstery Calculator -->
+  <url>
+    <loc>https://www.materialyardage.com/fabric/upholstery-calculator</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 21. GSC Indexed: Fabric Cutting Layout Calculator -->
+  <url>
+    <loc>https://www.materialyardage.com/fabric/cutting-layout-calculator</loc>
+    <lastmod>2026-10-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <!-- 22. GSC Indexed: Concrete Category Hub -->
+  <url>
+    <loc>https://www.materialyardage.com/concrete</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <!-- 23. GSC Indexed: Fabric Quilt Backing & Binding -->
+  <url>
+    <loc>https://www.materialyardage.com/fabric/quilt-backing-binding-calculator</loc>
+    <lastmod>2026-10-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 24. GSC Indexed: Concrete Cement -->
+  <url>
+    <loc>https://www.materialyardage.com/concrete/cement</loc>
+    <lastmod>2026-10-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 25. GSC Indexed: Concrete Mix Proportions -->
+  <url>
+    <loc>https://www.materialyardage.com/concrete/mix-proportions</loc>
+    <lastmod>2026-10-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 26. GSC Indexed: Guides Hub -->
+  <url>
+    <loc>https://www.materialyardage.com/guides</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <!-- 27. GSC Indexed Guide: Mulch Depth & Coverage Guide -->
+  <url>
+    <loc>https://www.materialyardage.com/guides/mulch-depth-and-coverage-guide</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- 28. GSC Indexed Guide Alias: Mulch Depth Guide -->
+  <url>
+    <loc>https://www.materialyardage.com/guides/mulch-depth-guide</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- 29. GSC Indexed Guide Alias: Paver Calculator Guide -->
+  <url>
+    <loc>https://www.materialyardage.com/guides/paver-calculator-guide</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- 30. GSC Indexed: About Page -->
+  <url>
+    <loc>https://www.materialyardage.com/about</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- 31. GSC Indexed: Contact Page -->
+  <url>
+    <loc>https://www.materialyardage.com/contact</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+
+  <!-- 32. GSC Indexed: Privacy Policy -->
+  <url>
+    <loc>https://www.materialyardage.com/privacy-policy</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.50</priority>
+  </url>
+
+  <!-- ============================================== -->
+  <!-- ADDITIONAL CANONICAL TOOL CALCULATORS -->
+  <!-- ============================================== -->
+
+  <url>
+    <loc>https://www.materialyardage.com/retaining-wall-calculator</loc>
+    <lastmod>2026-11-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.materialyardage.com/wallpaper-calculator</loc>
+    <lastmod>2026-11-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
   <url>
     <loc>https://www.materialyardage.com/curtain-fabric-calculator</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://www.materialyardage.com/quilt-backing-binding-calculator</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.materialyardage.com/upholstery-cushion-calculator</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
-
-  <!-- Construction & Landscaping Calculators -->
   <url>
     <loc>https://www.materialyardage.com/mulch-calculator</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://www.materialyardage.com/gravel-calculator</loc>
-    <lastmod>2026-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
-  <url>
     <loc>https://www.materialyardage.com/concrete-calculator</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://www.materialyardage.com/paver-calculator</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://www.materialyardage.com/sod-calculator</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
-  <!-- Master Educational Guides & Knowledge Base Hub -->
-  <url>
-    <loc>https://www.materialyardage.com/guides</loc>
-    <lastmod>2026-11-05</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
-
-  <!-- In-Depth Material Guides & Formulas (SEO Topical Authority) -->
+  <!-- In-Depth Material Knowledge Guides -->
   <url>
     <loc>https://www.materialyardage.com/guides/how-to-calculate-cubic-yards</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.materialyardage.com/guides/concrete-bag-calculator-guide</loc>
-    <lastmod>2026-11-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.materialyardage.com/guides/mulch-depth-and-coverage-guide</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.materialyardage.com/guides/gravel-tonnage-and-density-guide</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://www.materialyardage.com/guides/fabric-bolt-widths-and-yardage-guide</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://www.materialyardage.com/guides/curtain-fullness-and-measurement-guide</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://www.materialyardage.com/guides/paver-patio-base-and-sand-depth-guide</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://www.materialyardage.com/guides/upholstery-fabric-yardage-guide</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
-  </url>
-
-  <!-- Informational & Legal Pages for AdSense & Google E-E-A-T Compliance -->
-  <url>
-    <loc>https://www.materialyardage.com/about</loc>
-    <lastmod>2026-11-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-  <url>
-    <loc>https://www.materialyardage.com/contact</loc>
-    <lastmod>2026-11-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://www.materialyardage.com/privacy-policy</loc>
-    <lastmod>2026-11-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.50</priority>
   </url>
 
 </urlset>

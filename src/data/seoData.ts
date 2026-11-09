@@ -403,4 +403,94 @@ export const SEO_PAGES: Record<string, PageSEO> = {
       },
     ],
   },
+
+  retaining_wall: {
+    slug: 'retaining-wall-calculator',
+    title: 'Retaining Wall Calculator — Blocks, Capstones, Gravel & Geogrid',
+    metaDescription: 'Free retaining wall calculator. Estimate total wall blocks, buried base course, wall capstones, 6" leveling trench gravel, 12" drainage stone, and geogrid soil reinforcement.',
+    keywords: ['retaining wall calculator', 'retaining wall block calculator', 'how many retaining wall blocks do i need', 'retaining wall drainage gravel calculator', 'retaining wall capstones'],
+    canonicalPath: '/retaining-wall-calculator',
+    category: 'construction',
+    h1: 'Retaining Wall & Gravity Block Calculator',
+    lead: 'Calculate total concrete blocks, buried base courses, crushed rock leveling trenches, 12" aggregate drainage chimneys, and geogrid reinforcement for residential landscape walls and commercial terraces.',
+    formula: {
+      title: 'Retaining Wall Block Formula',
+      expression: 'Total Blocks = [Ceil((Wall Length × 12) ÷ Block Width) × (Exposed Courses + Buried Base Courses)] × (1 + Waste %)',
+      explanation: 'Exposed courses = Ceil((Exposed Height × 12) ÷ Block Height). Minimum 1 buried course (or 1 course per 3 ft of wall height) for lateral shear stability.',
+    },
+    workedExample: {
+      title: 'Worked Example: 25 ft Long × 3.5 ft High Garden Wall (12"×4"×8" blocks)',
+      scenario: 'You are building a 25 ft long retaining wall with 3.5 ft exposed height using 12"×4"×8" blocks, 1 buried base course, 12" capstones, and 8% cutting waste.',
+      steps: [
+        'Blocks per course: (25 ft × 12) ÷ 12" = 25 blocks per course.',
+        'Exposed courses: (3.5 ft × 12) ÷ 4" = 11 courses.',
+        'Buried courses: 1 course below grade (total = 12 courses).',
+        'Raw block count: 25 blocks/course × 12 courses = 300 blocks.',
+        'Add 8% waste: 300 × 1.08 = 324 blocks.',
+        'Capstones (12" width): 25 ft × 1.05 = 27 capstones + 2 adhesive tubes.',
+        'Base trench gravel (6" deep × 20" wide): ~1.2 tons of compacted crushed stone.',
+        'Drainage stone (12" chimney): ~3.5 tons of washed #57 stone behind wall.',
+      ],
+      result: 'Requirement: 324 Wall Blocks, 27 Capstones, 1.2 Tons Base Gravel, and 3.5 Tons Drainage Stone.',
+    },
+    faqs: [
+      {
+        question: 'How deep should the buried base course be for a retaining wall?',
+        answer: 'The first course of retaining wall blocks must always be buried below finished grade to prevent kick-out under lateral soil pressure. As a standard rule of thumb, bury at least 1 full course (minimum 4 to 6 inches) for walls up to 3 feet tall, plus an additional 1 inch of embedment per foot of wall height beyond 3 feet.',
+      },
+      {
+        question: 'Why do I need a 12" gravel drainage zone behind a retaining wall?',
+        answer: 'Hydrostatic pressure from trapped rainwater is the number one cause of retaining wall failure. A 12-inch chimney of clean, free-draining crushed stone (#57 gravel) wrapped in filter fabric allows water to drop rapidly to a perforated 4" drain pipe rather than pushing against the back of the wall.',
+      },
+      {
+        question: 'When is geogrid soil reinforcement required in a retaining wall?',
+        answer: 'Segmental retaining walls taller than 3.5 to 4 feet (or any wall supporting a sloped surcharge, driveway, or patio) require geogrid structural mesh sheets laid horizontally between block courses and extending back into compacted backfill soil to mechanically stabilize the slope.',
+      },
+    ],
+  },
+
+  wallpaper_calc: {
+    slug: 'wallpaper-calculator',
+    title: 'Wallpaper Calculator — Rolls, Pattern Repeat Drops & Paste',
+    metaDescription: 'Free wallpaper calculator for accent walls and full rooms. Accounts for pattern repeat drops (straight & half-drop match), window deductions, and adhesive paste.',
+    keywords: ['wallpaper calculator', 'how many rolls of wallpaper do i need', 'wallpaper pattern repeat calculator', 'accent wall wallpaper calculator', 'wallpaper double roll calculator'],
+    canonicalPath: '/wallpaper-calculator',
+    category: 'fabric',
+    h1: 'Wallpaper & Wallcovering Quantity Calculator',
+    lead: 'Calculate exact rolls of wallpaper needed for single accent walls or complete rooms, factoring in roll widths (20.5" or 54"), vertical pattern repeat waste, door/window cutout deductions, and adhesive gallons.',
+    formula: {
+      title: 'Wallpaper Roll Formula',
+      expression: 'Rolls Needed = Ceil(Total Strips Needed ÷ Usable Strips Per Roll) × (1 + Safety Margin %)',
+      explanation: 'Strips Needed = Ceil((Wall Width × 12) ÷ Roll Width). Strip Cut Drop = Wall Height + 4" Trimming Allowance rounded up to nearest Pattern Repeat.',
+    },
+    workedExample: {
+      title: 'Worked Example: 14 ft Wide × 9 ft High Accent Wall (21" Repeat)',
+      scenario: 'You want to cover a 14 ft × 9 ft wall with a designer botanical wallpaper sold in US Double Rolls (20.5" wide × 33 ft long) featuring a 21" straight pattern repeat.',
+      steps: [
+        'Calculate vertical strips needed: (14 ft × 12) ÷ 20.5" = 8.2 → 9 strips across.',
+        'Calculate strip cut length: 108" wall height + 4" trim = 112" raw cut length.',
+        'Adjust for 21" repeat: ceil(112" ÷ 21") = 6 repeats × 21" = 126" cut drop per strip.',
+        'Roll length in inches: 33 ft × 12 = 396 inches per double roll.',
+        'Usable strips per roll: floor(396" ÷ 126") = 3 strips per double roll.',
+        'Rolls needed: 9 strips ÷ 3 strips/roll = 3 double rolls.',
+        'Add 1 spare safety roll for future dye-lot matching / cutting errors: Order 4 double rolls.',
+      ],
+      result: 'Requirement: 4 Double Rolls (approx. 225 sq ft nominal), 1 Gallon Wallpaper Paste, and 1 Gallon Primer.',
+    },
+    faqs: [
+      {
+        question: 'What is the difference between a single roll and a double roll of wallpaper?',
+        answer: 'In North America, wallpaper is priced by the single roll (usually 20.5" wide × 16.5 ft long = ~28 sq ft) but is packaged and shipped as a continuous "double roll bolt" (20.5" wide × 33 ft long = ~56 sq ft) to minimize waste and allow longer continuous drops.',
+      },
+      {
+        question: 'How does a half-drop pattern match affect wallpaper waste?',
+        answer: 'In a half-drop pattern match, the motif on strip #2 shifts vertically by half the repeat distance compared to strip #1. This alternating alignment introduces an additional half-repeat of trimming scrap per strip, which is why half-drop patterns require factoring 15% to 20% waste instead of the standard 10%.',
+      },
+      {
+        question: 'Why should I always order one extra roll of wallpaper?',
+        answer: 'Wallpaper is printed in specific manufacturing dye lots or run batches. If you run short by even one strip, subsequent rolls ordered weeks later may have noticeable color or sheen variances. Purchasing +1 extra roll guarantees dye-lot consistency and provides repair pieces for future gouges.',
+      },
+    ],
+  },
 };
+

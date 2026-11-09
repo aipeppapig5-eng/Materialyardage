@@ -13,6 +13,7 @@ import {
   Check,
 } from 'lucide-react';
 import { AdSlot } from '../AdSlot';
+import { CALCULATOR_IMAGES } from '../../data/uiImages';
 
 interface GuideDetailPageProps {
   guide: GuideArticle;
@@ -81,6 +82,31 @@ export const GuideDetailPage: React.FC<GuideDetailPageProps> = ({
         <p className="text-base text-slate-600 leading-relaxed font-normal">
           {guide.summary}
         </p>
+
+        {/* Real-World Application Photo */}
+        {CALCULATOR_IMAGES[guide.calculatorId] && (
+          <div className="relative aspect-video sm:h-72 w-full rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm bg-slate-900 group">
+            <img
+              src={CALCULATOR_IMAGES[guide.calculatorId].src}
+              alt={CALCULATOR_IMAGES[guide.calculatorId].alt}
+              className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+            <div className="absolute top-3 left-3">
+              <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-emerald-900/90 text-emerald-100 border border-emerald-500/40 backdrop-blur-xs">
+                {CALCULATOR_IMAGES[guide.calculatorId].badge}
+              </span>
+            </div>
+            <div className="absolute bottom-3 left-4 right-4 text-white">
+              <p className="text-sm font-bold text-white drop-shadow-md">
+                {CALCULATOR_IMAGES[guide.calculatorId].title}
+              </p>
+              <p className="text-xs text-slate-200 drop-shadow-xs line-clamp-1 mt-0.5">
+                {CALCULATOR_IMAGES[guide.calculatorId].caption}
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Interactive Tool Banner Callout */}
         <div className="bg-emerald-950 text-white rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">

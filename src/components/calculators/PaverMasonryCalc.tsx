@@ -5,6 +5,7 @@ import { calculatePavers, calculateMasonry } from '../../utils/constructionMath'
 import { ShoppingCart } from 'lucide-react';
 import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
 import { DynamicSEOPresets } from '../DynamicSEOPresets';
+import { ProjectPhotoPreview } from '../ProjectPhotoPreview';
 
 interface PaverMasonryCalcProps {
   system: MeasurementSystem;
@@ -308,8 +309,16 @@ export const PaverMasonryCalc: React.FC<PaverMasonryCalcProps> = ({
 
             {/* Right Column: Base Sub-layers Breakdown */}
             <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col justify-between">
-              <div>
-                <h3 className="text-xs font-semibold text-slate-700 mb-2">Base Layers & Sand Breakdown</h3>
+              <ProjectPhotoPreview
+                calculatorId="paver_masonry"
+                title="Patio Cross-Section & Installation Photo"
+                metricsOverlay={{
+                  primaryValue: `${paverRes.totalPavers} pavers`,
+                  primaryLabel: 'Required Pavers',
+                  secondaryValue: `${patioAreaSqFt} sq ft`,
+                  secondaryLabel: 'Patio Area',
+                }}
+              >
                 <div className="bg-white border border-slate-200 rounded-lg p-3 space-y-2 text-xs">
                   <div className="flex justify-between border-b border-slate-100 pb-1.5">
                     <span className="text-slate-600">Patio Area:</span>
@@ -328,10 +337,10 @@ export const PaverMasonryCalc: React.FC<PaverMasonryCalcProps> = ({
                     <strong className="font-mono text-emerald-800">{paverRes.baseGravelTons.toFixed(2)} tons crusher run</strong>
                   </div>
                 </div>
-                <p className="text-[11px] text-slate-500 mt-2">
-                  Proper base preparation prevents settling, rutting, and weed growth between joints.
-                </p>
-              </div>
+              </ProjectPhotoPreview>
+              <p className="text-[11px] text-slate-500 mt-2">
+                Proper base preparation prevents settling, rutting, and weed growth between joints.
+              </p>
 
               <div className="mt-4 pt-3 border-t border-slate-200">
                 <button

@@ -6,6 +6,7 @@ import { FabricCutVisualizer } from '../FabricCutVisualizer';
 import { Plus, Trash2, ShoppingCart, HelpCircle } from 'lucide-react';
 import { useDynamicCalculatorSEO, readCalculatorQueryParams } from '../../utils/dynamicSEO';
 import { DynamicSEOPresets } from '../DynamicSEOPresets';
+import { ProjectPhotoPreview } from '../ProjectPhotoPreview';
 
 interface FabricYardageCalcProps {
   system: MeasurementSystem;
@@ -468,15 +469,26 @@ export const FabricYardageCalc: React.FC<FabricYardageCalcProps> = ({
         </div>
       </div>
 
-      {/* Interactive 2D Visualizer */}
-      <FabricCutVisualizer
-        usableWidth={activeWidth}
-        totalLength={result.totalLengthNeeded}
-        placedPieces={result.placedPieces}
-        wastePercentage={result.wastePercentage}
-        verticalRepeat={verticalRepeat}
-        units={units}
-      />
+      {/* Interactive 2D Visualizer with Real Photo Toggle */}
+      <ProjectPhotoPreview
+        calculatorId="fabric_cut"
+        title="Interactive Cut Diagram & Cutting Studio Photo"
+        metricsOverlay={{
+          primaryValue: system === 'imperial' ? `${result.yardsNeeded.toFixed(2)} yd` : `${result.metersNeeded.toFixed(2)} m`,
+          primaryLabel: 'Required Fabric',
+          secondaryValue: `${(100 - result.wastePercentage).toFixed(0)}%`,
+          secondaryLabel: 'Yield Efficiency',
+        }}
+      >
+        <FabricCutVisualizer
+          usableWidth={activeWidth}
+          totalLength={result.totalLengthNeeded}
+          placedPieces={result.placedPieces}
+          wastePercentage={result.wastePercentage}
+          verticalRepeat={verticalRepeat}
+          units={units}
+        />
+      </ProjectPhotoPreview>
 
       {/* Helpful Instructions */}
       <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-4 text-xs text-slate-600 space-y-1">

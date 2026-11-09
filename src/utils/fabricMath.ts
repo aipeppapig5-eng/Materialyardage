@@ -367,3 +367,160 @@ export function calculateBoxCushions(p: CushionParams) {
     totalFabricYards: totalFabricYards * 1.1, // 10% safety margin for matching & cutting
   };
 }
+
+export type WallpaperRollType = 'double_roll_us' | 'single_roll_us' | 'euro_metric' | 'commercial_54';
+export type PatternMatchType = 'random' | 'straight' | 'half_drop';
+
+export interface WallpaperWallInput {
+  id: string;
+  name: string;
+  widthFt: number;
+  heightFt: number;
+}
+
+export interface WallpaperCutoutInput {
+  id: string;
+  name: string;
+  widthFt: number;
+  heightFt: number;
+  count: number;
+}
+
+export interface WallpaperResult {
+  grossAreaSqFt: number;
+  cutoutAreaSqFt: number;
+  netAreaSqFt: number;
+  rollWidthInches: number;
+  rollLengthFt: number;
+  rollNominalSqFt: number;
+  totalStripsNeeded: number;
+  cutDropLengthInches: number;
+  stripsPerRoll: number;
+  usableSqFtPerRoll: number;
+  rollsNeeded: number;
+  recommendedRolls: number;
+  primerGallons: number;
+  adhesivePastePails: number;
+}
+
+export const WALLPAPER_ROLL_SPECS: Record<
+  WallpaperRollType,
+  { label: string; widthInches: number; lengthFt: number; nominalSqFt: number; desc: string }
+> = {
+  double_roll_us: {
+    label: 'US Double Roll (Bolt)',
+    widthInches: 20.5,
+    lengthFt: 33,
+    nominalSqFt: 56.4,
+    desc: 'Standard American packaging: 20.5" wide × 33 ft long (sold as double roll bolts)',
+  },
+  single_roll_us: {
+    label: 'US Single Roll',
+    widthInches: 20.5,
+    lengthFt: 16.5,
+    nominalSqFt: 28.2,
+    desc: 'Traditional single roll unit: 20.5" wide × 16.5 ft long',
+  },
+  euro_metric: {
+    label: 'European Metric Roll',
+    widthInches: 20.8,
+    lengthFt: 33,
+    nominalSqFt: 57.3,
+    desc: 'European standard (Euro-roll): 53 cm (20.8") wide × 10.05 m (33 ft) long',
+  },
+  commercial_54: {
+    label: 'Commercial 54" Vinyl Bolt',
+    widthInches: 54,
+    lengthFt: 30,
+    nominalSqFt: 135,
+    desc: 'Wide-format contract vinyl: 54" wide × 10 yard (30 ft) bolt',
+  },
+};
+
+/**
+ * Wallpaper, Borders & Wallcovering calculation
+ */
+export function calculateWallpaper(
+  walls: WallpaperWallInput[],
+  cutouts: WallpaperCutoutInput[] = [],
+  rollType: WallpaperRollType = 'double_roll_us',
+  patternMatch: PatternMatchType = 'straight',
+  patternRepeatInches: number = 21,
+  wasteBufferPercent: number = 10
+): WallpaperResult {
+  const spec = WALLPAPER_ROLL_SPECS[rollType] || WALLPAPER_ROLL_SPECS.double_roll_us;
+  const rollWidthInches = spec.widthInches;
+  const rollLengthFt = spec.lengthFt;
+  const rollNominalSqFt = spec.nominalSqFt;
+
+  // Gross area & strip counts per wall
+  let grossAreaSqFt = 0;
+  let totalStripsNeeded = 0;
+  let maxHeightFt = 0;
+
+  walls.forEach(w => {
+    grossAreaSqFt += w.widthFt * w.heightFt;
+    maxHeightFt = Math.max(maxHeightFt, w.heightFt);
+    const stripsForWall = Math.ceil((w.widthFt * 12) / rollWidthInches);
+    totalStripsNeeded += stripsForWall;
+  });
+
+  // Cutout area deductions
+  let cutoutAreaSqFt = 0;
+  cutouts.forEach(c => {
+    cutoutAreaSqFt += c.widthFt * c.heightFt * c.count;
+  });
+
+  const netAreaSqFt = Math.max(0, grossAreaSqFt - cutoutAreaSqFt);
+
+  // Strip cut drop length calculation based on pattern repeat
+  const wallHeightInches = (maxHeightFt || 8) * 12;
+  const trimmingAllowanceInches = 4; // 2" top + 2" bottom trim
+
+  let cutDropLengthInches = wallHeightInches + trimmingAllowanceInches;
+  if (patternMatch !== 'random' && patternRepeatInches > 0) {
+    if (patternMatch === 'straight') {
+      const repeatsNeeded = Math.ceil(cutDropLengthInches / patternRepeatInches);
+      cutDropLengthInches = repeatsNeeded * patternRepeatInches;
+    } else if (patternMatch === 'half_drop') {
+      // Half-drop shifts half repeat distance every alternating strip
+      const halfDropRepeat = patternRepeatInches / 2;
+      const repeatsNeeded = Math.ceil((cutDropLengthInches + halfDropRepeat) / patternRepeatInches);
+      cutDropLengthInches = repeatsNeeded * patternRepeatInches;
+    }
+  }
+
+  // Strips per roll
+  const rollLengthInches = rollLengthFt * 12;
+  const stripsPerRoll = Math.max(1, Math.floor(rollLengthInches / cutDropLengthInches));
+  const usableSqFtPerRoll = (stripsPerRoll * (wallHeightInches / 12) * (rollWidthInches / 12));
+
+  // Rolls needed based on strip requirements
+  const baseRollsNeeded = Math.ceil(totalStripsNeeded / stripsPerRoll);
+  const rollsNeededWithWaste = Math.ceil(baseRollsNeeded * (1 + wasteBufferPercent / 100));
+  const rollsNeeded = Math.max(1, rollsNeededWithWaste);
+
+  // Recommended rolls (+1 safety roll for matching cuts / dye-lot guarantee)
+  const recommendedRolls = rollsNeeded + 1;
+
+  // Wallpaper primer & heavy-duty paste estimates
+  const primerGallons = Math.max(1, Math.ceil(netAreaSqFt / 350));
+  const adhesivePastePails = Math.max(1, Math.ceil(netAreaSqFt / 250));
+
+  return {
+    grossAreaSqFt,
+    cutoutAreaSqFt,
+    netAreaSqFt,
+    rollWidthInches,
+    rollLengthFt,
+    rollNominalSqFt,
+    totalStripsNeeded,
+    cutDropLengthInches,
+    stripsPerRoll,
+    usableSqFtPerRoll,
+    rollsNeeded,
+    recommendedRolls,
+    primerGallons,
+    adhesivePastePails,
+  };
+}

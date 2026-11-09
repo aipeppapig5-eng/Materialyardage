@@ -424,3 +424,7 @@ export const GUIDES_DATA: Record<string, GuideArticle> = {
     ],
   },
 };
+
+// GSC Crawled Guide Aliases
+GUIDES_DATA['mulch-depth-guide'] = GUIDES_DATA['mulch-depth-and-coverage-guide'];
+GUIDES_DATA['paver-calculator-guide'] = GUIDES_DATA['paver-patio-base-and-sand-depth-guide'];
