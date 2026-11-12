@@ -423,6 +423,112 @@ export const GUIDES_DATA: Record<string, GuideArticle> = {
       },
     ],
   },
+
+  'bags-of-concrete-in-a-yard': {
+    id: 'bags-of-concrete-in-a-yard',
+    slug: 'bags-of-concrete-in-a-yard',
+    title: 'How Many Bags of Concrete in a Cubic Yard? (80-lb, 60-lb & 40-lb Yield Chart)',
+    metaTitle: 'How Many Bags of Concrete in a Cubic Yard? (80lb, 60lb, 40lb Chart)',
+    metaDescription: 'Exact mathematical breakdown: 45 bags of 80-lb, 60 bags of 60-lb, or 90 bags of 40-lb concrete per cubic yard. Includes water ratios, cost comparison vs ready-mix, and slab formulas.',
+    category: 'construction',
+    categoryLabel: 'Concrete & Masonry',
+    readTime: '5 min read',
+    calculatorId: 'concrete_calc',
+    calculatorName: 'Concrete Slabs & Footings Calculator',
+    summary: 'One cubic yard of concrete equals 27 cubic feet. Because pre-mixed concrete bags are packaged by dry weight, their volume yield determines exactly how many bags are required to fill one cubic yard.',
+    keyTakeaways: [
+      '80-lb Bag: Yields 0.60 cu ft → Exactly 45 bags make 1 cubic yard (plus 10% safety buffer = 50 bags).',
+      '60-lb Bag: Yields 0.45 cu ft → Exactly 60 bags make 1 cubic yard (plus 10% safety buffer = 66 bags).',
+      '40-lb Bag: Yields 0.30 cu ft → Exactly 90 bags make 1 cubic yard (plus 10% safety buffer = 99 bags).',
+      '50-lb Fast-Setting (Fence Post): Yields 0.375 cu ft → 72 bags make 1 cubic yard.',
+      'Cost Tipping Point: Mixing bags is economical under 2 cubic yards. For 3+ cubic yards, ordering a Ready-Mix concrete truck is faster and more cost-effective.',
+    ],
+    content: [
+      {
+        heading: '1. Concrete Bag Yield & Coverage Chart per Cubic Yard',
+        text: [
+          'Pre-blended dry ready-mix concrete contains Portland cement, coarse gravel, clean sand, and plasticizers. When water is added, the mix compacts into solid concrete with the following yields:',
+        ],
+        table: {
+          headers: ['Bag Weight', 'Volume Yield per Bag', 'Bags per 1 Cu Yd (Exact)', 'Bags with 10% Waste', 'Approx. Water Needed'],
+          rows: [
+            ['80 lb (36.3 kg)', '0.60 cu ft (0.017 m³)', '45 bags', '50 bags', '3.0 quarts per bag'],
+            ['60 lb (27.2 kg)', '0.45 cu ft (0.013 m³)', '60 bags', '66 bags', '2.5 quarts per bag'],
+            ['50 lb Fast-Set', '0.375 cu ft (0.011 m³)', '72 bags', '80 bags', '2.0 quarts per bag'],
+            ['40 lb (18.1 kg)', '0.30 cu ft (0.0085 m³)', '90 bags', '99 bags', '1.5 quarts per bag'],
+          ],
+        },
+      },
+      {
+        heading: '2. Bag Mixing vs. Ready-Mix Concrete Truck: When to Order Bulk',
+        text: [
+          'A standard 80-lb bag costs between $5.50 and $7.00. 45 bags will cost approximately $250 to $315 per cubic yard.',
+          'Ready-mix concrete delivery generally costs $135 to $175 per cubic yard, but ready-mix suppliers charge short-load fees ($100–$200) for deliveries under 4 to 5 cubic yards.',
+          'Rule of Thumb: For jobs under 1.5 cubic yards (such as small walkways, fence posts, or A/C pads), bags are cheaper. For large slabs, patios, or driveways over 3 cubic yards, order ready-mix transit mixer trucks.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: 'How many 80lb bags of concrete do I need for a 10x10 slab 4 inches deep?',
+        answer: 'A 10 ft × 10 ft slab at 4 inches depth is 1.23 cubic yards (33.3 cu ft). At 0.60 cu ft per 80-lb bag, you need 56 bags (plus 10% safety margin = 62 bags).',
+      },
+      {
+        question: 'How much does a cubic yard of mixed concrete weigh?',
+        answer: 'Normal-weight cured concrete weighs approximately 4,000 to 4,050 pounds per cubic yard (about 2 US tons, or 1.83 metric tonnes).',
+      },
+    ],
+  },
+
+  'crushed-stone-aggregate-size-chart': {
+    id: 'crushed-stone-aggregate-size-chart',
+    slug: 'crushed-stone-aggregate-size-chart',
+    title: 'Crushed Stone & Gravel Size Chart: #57 Stone vs Road Base vs Pea Gravel',
+    metaTitle: 'Crushed Stone Sizes & Density Chart (#57 Stone vs Base vs Pea Gravel)',
+    metaDescription: 'Complete crushed stone aggregate size guide: compare #57 gravel, CR6 crusher run, #4 stone, and pea gravel. Densities in tons per cubic yard and compaction factors.',
+    category: 'construction',
+    categoryLabel: 'Aggregates & Hardscaping',
+    readTime: '6 min read',
+    calculatorId: 'gravel_aggregate',
+    calculatorName: 'Gravel & Aggregates Calculator',
+    summary: 'Crushed stone and gravel grades are classified by standard sieve sizing and whether fine stone dust is included for compaction. Selecting the wrong size can cause patio settling, poor drainage, or muddy ruts.',
+    keyTakeaways: [
+      '#57 Stone (1/2" to 1"): The most versatile clean angular aggregate. Excellent for French drains, retaining wall drainage chimneys, and driveway top dressing.',
+      'Road Base / Crusher Run (CR6 / 21A): Contains 3/4" fractured stone down to fine rock dust. Compacts into a concrete-like pavement base for driveways and paver patios.',
+      'Pea Gravel (3/8"): Smooth, rounded river gravel. Comfortable underfoot for walkways, dog runs, and decorative fire pits (not suitable for car driveways).',
+      'Average Density: Clean aggregates weigh ~1.35 to 1.45 tons per cu yd; dense road base with stone dust weighs 1.55 to 1.65 tons per cu yd.',
+      'Compaction Allowance: Always add 15%–20% extra volume when ordering road base because tamping packs stone dust into void spaces.',
+    ],
+    content: [
+      {
+        heading: '1. Standard Crushed Stone Gradation & Density Specifications',
+        text: [
+          'Below are standard DOT (Department of Transportation) aggregate sizes used across residential and commercial construction:',
+        ],
+        table: {
+          headers: ['Stone Grade', 'Nominal Size Range', 'Angular or Rounded', 'Bulk Density (Tons/yd³)', 'Primary Job-Site Application'],
+          rows: [
+            ['#4 Stone', '1.5" to 2.5"', 'Angular, clean', '1.30 tons', 'Heavy construction entrances, erosion control, deep septic beds'],
+            ['#57 Stone', '1/2" to 1.0"', 'Angular, clean', '1.40 tons', 'Driveway topcoats, retaining wall drainage, concrete aggregate'],
+            ['#8 Stone', '3/8" to 1/2"', 'Angular, clean', '1.35 tons', 'Decorative landscaping chips, permeable paver bedding'],
+            ['Road Base (Crusher Run)', '3/4" down to fine dust', 'Angular with dust', '1.60 tons', 'Interlocking paver patio base, asphalt sub-base, heavy driveways'],
+            ['Pea Gravel', '3/8" rounded', 'Smooth, rounded', '1.35 tons', 'Walkways, playgrounds, fire pit seating patios, pipe bedding'],
+            ['Decomposed Granite', '1/4" down to fines', 'Crushed decomposed rock', '1.55 tons', 'European pathway walks, tree surrounds, rustic trails'],
+          ],
+        },
+      },
+    ],
+    faq: [
+      {
+        question: 'What is the best gravel size for a residential driveway?',
+        answer: 'For a new driveway, a 4" to 6" base of Crusher Run (dense grade with dust) compacted thoroughly, topped with a 2" layer of #57 angular crushed stone (1/2" to 1") provides optimal traction, drainage, and load support.',
+      },
+      {
+        question: 'Why does crusher run weigh more than clean #57 stone?',
+        answer: 'Clean #57 stone has void spaces between angular rocks. Crusher run contains fine rock dust that fills all void spaces, making it denser and heavier (approx. 1.60 tons/yd³ vs 1.40 tons/yd³).',
+      },
+    ],
+  },
 };
 
 // GSC Crawled Guide Aliases

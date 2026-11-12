@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingBag, ArrowRightLeft, BookOpen, Menu, X, Box, Printer, Scale, FolderKanban } from 'lucide-react';
+import { ShoppingBag, ArrowRightLeft, BookOpen, Menu, X, Box, Printer, Scale, FolderKanban, Code2 } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: string;
@@ -12,6 +12,7 @@ interface HeaderProps {
   onOpenPrintSheet?: () => void;
   onOpenComparison?: () => void;
   onOpenProjectManager?: () => void;
+  onOpenEmbed?: () => void;
   activeProjectName?: string;
 }
 
@@ -26,6 +27,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenPrintSheet,
   onOpenComparison,
   onOpenProjectManager,
+  onOpenEmbed,
   activeProjectName = 'Default Project',
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -143,6 +145,16 @@ export const Header: React.FC<HeaderProps> = ({
               <span>3D Preview</span>
             </button>
           )}
+          {onOpenEmbed && (
+            <button
+              onClick={onOpenEmbed}
+              className="flex items-center gap-1 text-slate-600 hover:text-slate-900 whitespace-nowrap shrink-0"
+              title="Embed this calculator widget on your blog or website"
+            >
+              <Code2 className="w-3.5 h-3.5 text-emerald-700" />
+              <span>Embed</span>
+            </button>
+          )}
         </nav>
 
         {/* Zone 3: Actions */}
@@ -253,6 +265,15 @@ export const Header: React.FC<HeaderProps> = ({
               >
                 <Box className="w-3.5 h-3.5" />
                 <span>3D Preview</span>
+              </button>
+            )}
+            {onOpenEmbed && (
+              <button
+                onClick={() => { onOpenEmbed(); setMobileMenuOpen(false); }}
+                className="text-emerald-800 font-bold py-1 flex items-center gap-1.5"
+              >
+                <Code2 className="w-3.5 h-3.5" />
+                <span>Embed Widget</span>
               </button>
             )}
           </div>

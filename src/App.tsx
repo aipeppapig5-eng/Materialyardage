@@ -33,6 +33,8 @@ import { SEO_PAGES } from './data/seoData';
 import { CALCULATOR_IMAGES } from './data/uiImages';
 import { GSC_INDEXED_ROUTES, resolveGSCPath, GSCIndexedRoute } from './data/gscIndexedRoutes';
 import { updateDocumentSEO } from './utils/useSEO';
+import { DimensionLookupMatrix } from './components/DimensionLookupMatrix';
+import { EmbedWidgetModal } from './components/EmbedWidgetModal';
 import {
   Scissors,
   TreePine,
@@ -47,6 +49,7 @@ import {
   Printer,
   Scale,
   FolderKanban,
+  Code2,
 } from 'lucide-react';
 
 export default function App() {
@@ -61,6 +64,7 @@ export default function App() {
   const [is3DPreviewOpen, setIs3DPreviewOpen] = useState<boolean>(false);
   const [isPrintModalOpen, setIsPrintModalOpen] = useState<boolean>(false);
   const [isComparisonModalOpen, setIsComparisonModalOpen] = useState<boolean>(false);
+  const [isEmbedModalOpen, setIsEmbedModalOpen] = useState<boolean>(false);
   const [comparisonTargetItem, setComparisonTargetItem] = useState<BOMItem | null>(null);
   const [activeGuideSlug, setActiveGuideSlug] = useState<string | null>(null);
   const [isCalculatorLoading, setIsCalculatorLoading] = useState<boolean>(false);
@@ -475,6 +479,7 @@ export default function App() {
         onOpenPrintSheet={() => setIsPrintModalOpen(true)}
         onOpenComparison={() => handleOpenComparison()}
         onOpenProjectManager={() => setIsProjectManagerOpen(true)}
+        onOpenEmbed={() => setIsEmbedModalOpen(true)}
         activeProjectName={activeProject.name}
       />
 
@@ -741,6 +746,12 @@ export default function App() {
               </>
             )}
 
+            {/* Programmatic Common Dimensions & Quantity Lookup Matrix */}
+            <DimensionLookupMatrix
+              calculatorId={activeCalculator}
+              system={system}
+            />
+
             {/* On-Page SEO Guide, Formulas, Worked Example, and Rich FAQ Accordion */}
             {activeSeo && <SEOGuideSection seo={activeSeo} />}
 
@@ -842,6 +853,15 @@ export default function App() {
               </button>
               <button
                 type="button"
+                onClick={() => setIsEmbedModalOpen(true)}
+                className="hover:text-emerald-300 transition-colors flex items-center gap-1 text-slate-300 cursor-pointer"
+                title="Embed free calculation widget on your blog or website"
+              >
+                <Code2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Embed Widget</span>
+              </button>
+              <button
+                type="button"
                 onClick={() => setIsProjectManagerOpen(true)}
                 className="hover:text-white transition-colors flex items-center gap-1 text-slate-300"
               >
@@ -923,6 +943,12 @@ export default function App() {
         isOpen={isPrintModalOpen}
         onClose={() => setIsPrintModalOpen(false)}
         system={system}
+      />
+
+      <EmbedWidgetModal
+        isOpen={isEmbedModalOpen}
+        onClose={() => setIsEmbedModalOpen(false)}
+        defaultCalculator={activeCalculator}
       />
     </div>
   );

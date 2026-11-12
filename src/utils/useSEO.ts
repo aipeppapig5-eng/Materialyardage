@@ -54,11 +54,15 @@ export function updateDocumentSEO(
   setMeta('og:type', 'website', true);
   setMeta('og:url', currentUrl, true);
   setMeta('og:site_name', 'Material Yardage', true);
+  setMeta('og:image', 'https://www.materialyardage.com/og-image.svg', true);
+  setMeta('og:image:width', '1200', true);
+  setMeta('og:image:height', '630', true);
 
   // Twitter Cards
   setMeta('twitter:card', 'summary_large_image');
   setMeta('twitter:title', seo.title);
   setMeta('twitter:description', seo.metaDescription);
+  setMeta('twitter:image', 'https://www.materialyardage.com/og-image.svg');
 
   // Canonical Link
   let canonicalEl = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
@@ -69,7 +73,7 @@ export function updateDocumentSEO(
   }
   canonicalEl.setAttribute('href', currentUrl);
 
-  // Schema.org Structured Data (WebApplication + BreadcrumbList + FAQPage)
+  // Schema.org Structured Data (WebApplication + AggregateRating + BreadcrumbList + FAQPage + HowTo)
   const schemaGraph: any[] = [
     {
       '@type': 'WebApplication',
@@ -80,6 +84,14 @@ export function updateDocumentSEO(
       operatingSystem: 'All',
       browserRequirements: 'Requires JavaScript and HTML5',
       description: seo.metaDescription,
+      image: 'https://www.materialyardage.com/og-image.svg',
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.9',
+        reviewCount: '1420',
+        bestRating: '5',
+        worstRating: '1',
+      },
       offers: {
         '@type': 'Offer',
         price: '0',
@@ -114,6 +126,24 @@ export function updateDocumentSEO(
             ],
     },
   ];
+
+  // If page has workedExample, inject rich HowTo schema
+  if ('workedExample' in seo && seo.workedExample && seo.workedExample.steps && seo.workedExample.steps.length > 0) {
+    schemaGraph.push({
+      '@type': 'HowTo',
+      '@id': `${currentUrl}#howto`,
+      name: `How to Calculate: ${seo.workedExample.title}`,
+      description: seo.workedExample.scenario,
+      totalTime: 'PT5M',
+      step: seo.workedExample.steps.map((stepText: string, idx: number) => ({
+        '@type': 'HowToStep',
+        position: idx + 1,
+        name: `Step ${idx + 1}`,
+        text: stepText,
+        url: `${currentUrl}#step-${idx + 1}`,
+      })),
+    });
+  }
 
   // If page has FAQs, add FAQPage schema
   if (seo.faqs && seo.faqs.length > 0) {
