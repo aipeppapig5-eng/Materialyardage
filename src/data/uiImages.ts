@@ -9,6 +9,23 @@ import quiltImg from '../assets/images/patchwork_quilt_table_1794161420282.jpg';
 import upholsteryImg from '../assets/images/upholstery_cushions_sofa_1794161432665.jpg';
 import retainingWallImg from '../assets/images/retaining_wall_garden_1794163613551.jpg';
 import wallpaperImg from '../assets/images/wallpaper_accent_wall_1794163613094.jpg';
+import topsoilImg from '../assets/images/topsoil_lawn_pile_1795024666576.jpg';
+import raisedBedImg from '../assets/images/raised_bed_garden_1795024667423.jpg';
+import pottingSoilImg from '../assets/images/potting_mix_pots_1795024667092.jpg';
+import compostImg from '../assets/images/organic_compost_garden_1795024667741.jpg';
+import fillDirtImg from '../assets/images/fill_dirt_grading_1795024669085.jpg';
+import lawnSandImg from '../assets/images/lawn_leveling_sand_1795024669309.jpg';
+import peaGravelImg from '../assets/images/pea_gravel_walkway_1795024669168.jpg';
+import crushedStoneImg from '../assets/images/crushed_stone_driveway_1795024670136.jpg';
+import decomposedGraniteImg from '../assets/images/decomposed_granite_path_1795024670911.jpg';
+import riverRockImg from '../assets/images/river_rock_creek_1795024685451.jpg';
+import paverBaseImg from '../assets/images/paver_base_sand_1795024684929.jpg';
+import playgroundMulchImg from '../assets/images/playground_wood_chips_1795024685431.jpg';
+import pineStrawImg from '../assets/images/pine_straw_needles_1795024685696.jpg';
+import grassSeedImg from '../assets/images/grass_seed_lawn_1795024686313.jpg';
+import fencePostImg from '../assets/images/fence_post_concrete_1795024687265.jpg';
+import cmuBlockImg from '../assets/images/cmu_block_wall_1795024688265.jpg';
+import unitConverterImg from '../assets/images/tailor_tape_measure_1795024687868.jpg';
 
 export interface CalculatorImageMeta {
   id: string;
@@ -193,8 +210,8 @@ export const CALCULATOR_IMAGES: Record<string, CalculatorImageMeta> = {
     calculatorId: 'raised_bed_soil',
     title: 'Raised Garden Bed Soil & Mel’s Mix Blend',
     caption: 'Balanced blend of screened topsoil, organic compost, and coarse aeration (perlite/vermiculite) for cedar and galvanized raised beds.',
-    src: mulchImg,
-    alt: 'Raised garden beds filled with dark fertile topsoil and compost mix surrounded by garden greenery',
+    src: raisedBedImg,
+    alt: 'Cedar raised garden beds filled with fresh topsoil, compost, and perlite blend',
     badge: '50/30/20 Garden Blend',
     category: 'construction',
     materialTips: [
@@ -208,7 +225,7 @@ export const CALCULATOR_IMAGES: Record<string, CalculatorImageMeta> = {
     calculatorId: 'potting_soil',
     title: 'Container Planters, Tapered Pots & Grow Bags',
     caption: 'Dry quarts and gallons of lightweight container potting mix calculated accurately using frustum geometry for tapered pots.',
-    src: mulchImg,
+    src: pottingSoilImg,
     alt: 'Terracotta flower pots, window boxes, and fabric grow bags filled with aerated potting mix',
     badge: 'Dry Quarts & Gallons',
     category: 'construction',
@@ -223,8 +240,8 @@ export const CALCULATOR_IMAGES: Record<string, CalculatorImageMeta> = {
     calculatorId: 'pine_straw',
     title: 'Southern Pine Straw & Longleaf Needle Mulching',
     caption: 'Fresh golden-brown longleaf pine needles tucked neatly along shrub beds, shade borders, and natural tree islands.',
-    src: mulchImg,
-    alt: 'Crisp pine straw needle ground cover tucked cleanly along curved shrub border',
+    src: pineStrawImg,
+    alt: 'Crisp pine straw needle ground cover tucked cleanly along curved azalea border',
     badge: 'Standard & Jumbo Bales',
     category: 'construction',
     materialTips: [
@@ -238,8 +255,8 @@ export const CALCULATOR_IMAGES: Record<string, CalculatorImageMeta> = {
     calculatorId: 'grass_seed',
     title: 'New Lawn Seeding & Fall Turf Overseeding',
     caption: 'Precision seed application across Tall Fescue, Kentucky Bluegrass, Perennial Ryegrass, and Bermuda grass lawns.',
-    src: sodImg,
-    alt: 'Dense thick green seeded turfgrass lawn with crisp striping and uniform germination',
+    src: grassSeedImg,
+    alt: 'Green turfgrass lawn with rotary grass seed spreader beside freshly seeded patch',
     badge: 'New Lawn vs Overseed',
     category: 'construction',
     materialTips: [
@@ -253,14 +270,194 @@ export const CALCULATOR_IMAGES: Record<string, CalculatorImageMeta> = {
     calculatorId: 'fence_post',
     title: 'Wood Privacy Fence Posts, Rails & Footings',
     caption: 'Complete lumber bill of materials with 4×4 posts, 2×4 horizontal rails, dog-ear pickets, and concrete footing bags.',
-    src: concreteImg,
-    alt: 'Freshly set fence post concrete footings with gravel drainage base and pressure-treated posts',
+    src: fencePostImg,
+    alt: 'Pressure-treated fence posts set in concrete footings with horizontal rails and pickets',
     badge: 'Posts, Pickets & 50-lb Bags',
     category: 'construction',
     materialTips: [
       'Always pour 4–6" of crushed gravel at the bottom of wooden post holes for end-grain drainage.',
       'Slope the top of each concrete footing slightly away from the wood post to shed rainwater.',
       'Standard 10" wide × 30" deep holes around a 4×4 post require ~2.5 to 3 bags of 50-lb fast-setting concrete.'
+    ]
+  },
+  topsoil_calc: {
+    id: 'topsoil_calc',
+    calculatorId: 'mulch_soil',
+    title: 'Screened Loam Topsoil & Lawn Grading',
+    caption: 'Dark screened loam topsoil staged on residential turf for lawn leveling, low-spot patching, and planting bed grading.',
+    src: topsoilImg,
+    alt: 'Screened dark loam topsoil pile beside wheelbarrow and shovel on residential lawn',
+    badge: 'Screened Loam Soil',
+    category: 'construction',
+    materialTips: [
+      'Standard topsoil weighs roughly 1.15 tons (2,300 lbs) per cubic yard dry, or 1.30 tons damp.',
+      'Topdressing an existing lawn should stay at 0.25" to 0.5" so grass blades stay exposed.',
+      '1 cubic yard equals 27 cubic feet and covers 108 sq ft at 3 inches deep.'
+    ]
+  },
+  compost_calc: {
+    id: 'compost_calc',
+    calculatorId: 'mulch_soil',
+    title: 'Rich Organic Compost & Soil Amendment',
+    caption: 'Aged crumbly humus compost ready for turf topdressing, vegetable soil enrichment, and raised bed blending.',
+    src: compostImg,
+    alt: 'Hands holding dark crumbly organic compost over green vegetable garden seedlings',
+    badge: 'Aged Humus Compost',
+    category: 'construction',
+    materialTips: [
+      'Topdress lawns with 0.25" to 0.5" of screened fine compost after core aeration.',
+      'Blend 20% to 30% compost into native garden soil rather than planting in 100% pure compost.',
+      'Finished compost weighs approximately 0.75 to 0.85 US tons per cubic yard.'
+    ]
+  },
+  fill_dirt: {
+    id: 'fill_dirt',
+    calculatorId: 'mulch_soil',
+    title: 'Compacted Subsoil Fill Dirt & Yard Grading',
+    caption: 'Clean structural fill dirt graded cleanly along residential slopes and foundation backfills.',
+    src: fillDirtImg,
+    alt: 'Compacted brown subsoil fill dirt graded across a backyard lot slope with landscape rake',
+    badge: '15% Compaction Buffer',
+    category: 'construction',
+    materialTips: [
+      'Always order 15% to 20% extra loose fill dirt when compacting in 4–6" lifts.',
+      'Use clean fill dirt for deeper grade build-up, then cap the top 3–4" with screened topsoil for grass.',
+      'Uncompacted fill dirt weighs roughly 1.22 US tons per cubic yard.'
+    ]
+  },
+  lawn_leveling_sand: {
+    id: 'lawn_leveling_sand',
+    calculatorId: 'gravel_aggregate',
+    title: 'Washed Masonry Sand & Lawn Topdressing',
+    caption: 'Fine washed masonry leveling sand brushed into turf canopies with a leveling lute to smooth bumpy yards.',
+    src: lawnSandImg,
+    alt: 'Fine light-tan masonry leveling sand spread across green grass lawn with metal leveling rake',
+    badge: '0.25"–0.5" Leveling',
+    category: 'construction',
+    materialTips: [
+      'Always use washed coarse concrete or masonry sand—avoid fine play sand which can seal clay soils.',
+      'Keep topdressing applications at 0.25" to 0.5" per pass so healthy turf blades breathe.',
+      '1 cubic yard of washed masonry sand weighs roughly 1.30 US tons.'
+    ]
+  },
+  pea_gravel: {
+    id: 'pea_gravel',
+    calculatorId: 'gravel_aggregate',
+    title: 'Rounded Pea Gravel Walkway & Dog Run',
+    caption: 'Smooth multi-toned rounded pea gravel pebbles contained neatly inside steel landscape edging.',
+    src: peaGravelImg,
+    alt: 'Curved backyard pathway filled with smooth rounded pea gravel bordered by dark steel edging',
+    badge: '3/8" Washed Pea Stone',
+    category: 'construction',
+    materialTips: [
+      'Install 2" to 3" depth for walkways and dog runs; deeper pea gravel shifts underfoot.',
+      'Always install rigid aluminum, steel, or timber edging to keep round pebbles contained.',
+      'Pea gravel weighs approximately 1.35 US tons per cubic yard.'
+    ]
+  },
+  crushed_stone: {
+    id: 'crushed_stone',
+    calculatorId: 'gravel_aggregate',
+    title: 'Angular #57 Crushed Limestone & Driveway Rock',
+    caption: 'Sharp fractured #57 crushed stone that locks tightly together under vehicle loads and drains fast in French drains.',
+    src: crushedStoneImg,
+    alt: 'Angular grey number 57 crushed stone aggregate spread across a residential driveway',
+    badge: '#57 Crushed Limestone',
+    category: 'construction',
+    materialTips: [
+      'Use angular #57 stone for driveways, shed pads, and French drain trenches—it locks better than round stone.',
+      'Plan 4" depth for shed pads and 4–6" over compacted crusher run for residential driveways.',
+      '#57 crushed limestone weighs approximately 1.40 US tons per cubic yard.'
+    ]
+  },
+  decomposed_granite: {
+    id: 'decomposed_granite',
+    calculatorId: 'gravel_aggregate',
+    title: 'Compacted Decomposed Granite (DG) Pathway',
+    caption: 'Golden-tan decomposed granite tamped into a firm natural patio and garden path finish.',
+    src: decomposedGraniteImg,
+    alt: 'Compacted golden-tan decomposed granite courtyard patio and garden path lined with stone',
+    badge: '18% Compaction Factor',
+    category: 'construction',
+    materialTips: [
+      'Decomposed granite settles 15%–20% when watered and compacted with a vibratory plate compactor.',
+      'Use stabilized DG with organic binder on sloped paths or patio seating zones.',
+      'Compacted DG weighs roughly 1.50 US tons per loose cubic yard ordered.'
+    ]
+  },
+  river_rock: {
+    id: 'river_rock',
+    calculatorId: 'gravel_aggregate',
+    title: 'Decorative River Rock Dry Creek Bed',
+    caption: 'Smooth 1"–3" natural river cobbles and accent boulders installed over heavy-duty geotextile fabric.',
+    src: riverRockImg,
+    alt: 'Dry creek drainage bed lined with multicolored smooth river rocks and garden boulders',
+    badge: '1"–3" River Cobble',
+    category: 'construction',
+    materialTips: [
+      'Install river rock at a depth of 1.5× the largest stone diameter (3"–4") for full coverage.',
+      'Lay woven permeable landscape fabric beneath river rock to prevent stones from sinking into soil.',
+      'Decorative river cobble weighs approximately 1.45 US tons per cubic yard.'
+    ]
+  },
+  paver_base: {
+    id: 'paver_base',
+    calculatorId: 'paver_masonry',
+    title: 'Compacted Paver Base & Screeded Bedding Sand',
+    caption: 'Multi-layer patio construction showing #21A crusher run stone base, screed rails, and 1" bedding sand.',
+    src: paverBaseImg,
+    alt: 'Patio installation with compacted gravel base layer, screeded 1-inch bedding sand, and pavers',
+    badge: '4"–6" Base + 1" Sand',
+    category: 'construction',
+    materialTips: [
+      'Compact crushed stone base in 2" lifts using a plate compactor (4" for patios, 6–8" for driveways).',
+      'Screed coarse concrete bedding sand to exactly 1 inch thick—never thicker than 1.5 inches.',
+      'Sweep polymeric joint sand into dry paver joints and mist gently to lock pavers together.'
+    ]
+  },
+  playground_mulch: {
+    id: 'playground_mulch',
+    calculatorId: 'mulch_soil',
+    title: 'ASTM Engineered Wood Fiber Playground Chips',
+    caption: 'Thick impact-absorbing engineered wood fiber surfacing installed beneath outdoor playground equipment.',
+    src: playgroundMulchImg,
+    alt: 'Public park swing set surrounded by clean cushion layer of natural engineered wood fiber playground chips',
+    badge: '6"–12" Fall Safety Depth',
+    category: 'construction',
+    materialTips: [
+      'ASTM F1292 recommends 9"–12" of engineered wood chips for playsets 5–10 feet tall.',
+      'Allow for ~20% natural settling during the first few weeks of active play.',
+      'Recycled rubber mulch achieves equivalent impact rating at ~6 inches depth.'
+    ]
+  },
+  cmu_block: {
+    id: 'cmu_block',
+    calculatorId: 'paver_masonry',
+    title: 'Standard 8×8×16 Concrete Masonry Unit (CMU) Wall',
+    caption: 'Modular concrete block courses laid plumb with Type S mortar joints and mason level.',
+    src: cmuBlockImg,
+    alt: 'Straight grey concrete masonry unit CMU block wall with mortar joints, mason trowel, and level',
+    badge: '8×8×16 CMU & Mortar',
+    category: 'construction',
+    materialTips: [
+      'Standard 8×8×16 CMU blocks cover 0.89 sq ft of wall face (1.125 blocks per sq ft).',
+      'Budget ~1 bag of 80-lb Type S or N mortar per 12–13 standard concrete blocks.',
+      'Order 8% extra blocks for half-cuts, corner returns, and job-site breakage.'
+    ]
+  },
+  unit_converter: {
+    id: 'unit_converter',
+    calculatorId: 'fabric_cut',
+    title: 'Material & Textile Measurement Converter',
+    caption: 'Convert seamlessly between linear yards, meters, inches, cubic yards, cubic meters, and short tons.',
+    src: unitConverterImg,
+    alt: 'Tailor measuring tape, brass ruler, steel yardstick, and folded linen fabric swatches',
+    badge: 'Imperial & Metric Tables',
+    category: 'fabric',
+    materialTips: [
+      '1 linear yard equals 36 inches, 3 feet, or 0.9144 meters.',
+      '1 cubic yard equals 27 cubic feet or 0.7646 cubic meters.',
+      '1 US short ton equals 2,000 pounds or 0.9072 metric tonnes.'
     ]
   }
 };

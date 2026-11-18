@@ -379,7 +379,19 @@ export const GravelAggregateCalc: React.FC<GravelAggregateCalcProps> = ({
         {/* Right Column: Visual & Deliveries */}
         <div className="flex flex-col gap-4">
           <ProjectPhotoPreview
-            calculatorId="gravel_aggregate"
+            calculatorId={
+              initialSubType === 'pea_gravel'
+                ? 'pea_gravel'
+                : initialSubType === 'crushed_stone'
+                ? 'crushed_stone'
+                : initialSubType === 'decomposed_granite'
+                ? 'decomposed_granite'
+                : initialSubType === 'river_rock'
+                ? 'river_rock'
+                : initialSubType === 'lawn_sand'
+                ? 'lawn_leveling_sand'
+                : 'gravel_aggregate'
+            }
             title="Driveway Shape & Field Photo"
             metricsOverlay={{
               primaryValue: `${res.weightTons.toFixed(2)} US Tons`,

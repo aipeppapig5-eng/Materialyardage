@@ -429,7 +429,17 @@ export const MulchSoilCalc: React.FC<MulchSoilCalcProps> = ({
         {/* Right Column: Visual Preview & BOM trigger */}
         <div className="flex flex-col gap-4">
           <ProjectPhotoPreview
-            calculatorId="mulch_soil"
+            calculatorId={
+              initialSubType === 'topsoil'
+                ? 'topsoil_calc'
+                : initialSubType === 'compost'
+                ? 'compost_calc'
+                : initialSubType === 'fill_dirt'
+                ? 'fill_dirt'
+                : initialSubType === 'playground'
+                ? 'playground_mulch'
+                : 'mulch_soil'
+            }
             title="Bed Shape & Field Photo"
             metricsOverlay={{
               primaryValue: `${res.volumeCuYd.toFixed(2)} yd³`,

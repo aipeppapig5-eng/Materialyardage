@@ -338,7 +338,13 @@ export const PaverMasonryCalc: React.FC<PaverMasonryCalcProps> = ({
             {/* Right Column: Base Sub-layers Breakdown */}
             <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 shadow-xs flex flex-col justify-between">
               <ProjectPhotoPreview
-                calculatorId="paver_masonry"
+                calculatorId={
+                  initialSubType === 'paver_base'
+                    ? 'paver_base'
+                    : initialSubType === 'cmu'
+                    ? 'cmu_block'
+                    : 'paver_masonry'
+                }
                 title="Patio Cross-Section & Installation Photo"
                 metricsOverlay={{
                   primaryValue: `${paverRes.totalPavers} pavers`,
