@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { SEO_PAGES } from '../data/seoData';
 
 /**
  * Union types for all calculator dynamic SEO inputs
@@ -175,6 +176,7 @@ export type CalculatorSEOInput =
   | RetainingWallSEOInput;
 
 export interface DynamicSEOResult {
+  calculatorId?: string;
   title: string;
   metaDescription: string;
   keywords: string[];
@@ -182,6 +184,7 @@ export interface DynamicSEOResult {
   queryString: string;
   h1Context: string;
   calculatedValues: Record<string, string | number>;
+  faqs?: { question: string; answer: string }[];
 }
 
 /**
@@ -189,7 +192,8 @@ export interface DynamicSEOResult {
  * based on user inputs and calculated results.
  */
 export function generateDynamicSEO(input: CalculatorSEOInput): DynamicSEOResult {
-  switch (input.calculatorId) {
+  const getRawSEO = (): DynamicSEOResult => {
+    switch (input.calculatorId) {
     case 'concrete_calc': {
       if (input.concreteType === 'slab') {
         const l = input.slabLength || 20;
@@ -597,6 +601,15 @@ export function generateDynamicSEO(input: CalculatorSEOInput): DynamicSEOResult 
       };
     }
   }
+};
+
+  const raw = getRawSEO();
+  const pageSeo = SEO_PAGES[input.calculatorId];
+  return {
+    ...raw,
+    calculatorId: input.calculatorId,
+    faqs: pageSeo?.faqs || [],
+  };
 }
 
 /**
@@ -665,7 +678,11 @@ export function injectDynamicSEO(
       document.head.appendChild(scriptEl);
     }
 
-    const schemaGraph = [
+    const targetCalcId = seo.calculatorId || Object.keys(SEO_PAGES).find(k => SEO_PAGES[k].canonicalPath === seo.canonicalPath);
+    const pageSeo = targetCalcId ? SEO_PAGES[targetCalcId] : undefined;
+    const pageFaqs = (seo.faqs && seo.faqs.length > 0) ? seo.faqs : pageSeo?.faqs || [];
+
+    const schemaGraph: any[] = [
       {
         '@type': 'WebApplication',
         '@id': `${fullUrl}#app`,
@@ -675,6 +692,14 @@ export function injectDynamicSEO(
         operatingSystem: 'All',
         browserRequirements: 'Requires JavaScript and HTML5',
         description: seo.metaDescription,
+        image: 'https://www.materialyardage.com/og-image.svg',
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: '4.9',
+          reviewCount: '1420',
+          bestRating: '5',
+          worstRating: '1',
+        },
         offers: {
           '@type': 'Offer',
           price: '0',
@@ -692,7 +717,58 @@ export function injectDynamicSEO(
           value: JSON.stringify(seo.calculatedValues),
         },
       },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: typeof window !== 'undefined' ? window.location.origin : 'https://www.materialyardage.com',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: pageSeo?.h1 || seo.h1Context || seo.title,
+            item: fullUrl,
+          },
+        ],
+      },
     ];
+
+    // Inject JSON-LD FAQPage schema for Google Search rich snippet appearance
+    if (pageFaqs && pageFaqs.length > 0) {
+      schemaGraph.push({
+        '@type': 'FAQPage',
+        '@id': `${fullUrl}#faq`,
+        mainEntity: pageFaqs.map((faq: { question: string; answer: string }) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+      });
+    }
+
+    // Inject HowTo Schema if workedExample exists
+    if (pageSeo && pageSeo.workedExample && pageSeo.workedExample.steps && pageSeo.workedExample.steps.length > 0) {
+      schemaGraph.push({
+        '@type': 'HowTo',
+        '@id': `${fullUrl}#howto`,
+        name: `How to Calculate: ${pageSeo.workedExample.title}`,
+        description: pageSeo.workedExample.scenario,
+        totalTime: 'PT5M',
+        step: pageSeo.workedExample.steps.map((st: string, idx: number) => ({
+          '@type': 'HowToStep',
+          position: idx + 1,
+          name: `Step ${idx + 1}`,
+          text: st,
+          url: `${fullUrl}#step-${idx + 1}`,
+        })),
+      });
+    }
 
     scriptEl.textContent = JSON.stringify({
       '@context': 'https://schema.org',

@@ -1,9 +1,22 @@
 import React, { useState } from 'react';
-import { ShoppingBag, ArrowRightLeft, BookOpen, Menu, X, Box, Printer, Scale, FolderKanban, Code2 } from 'lucide-react';
+import {
+  ShoppingBag,
+  ArrowRightLeft,
+  BookOpen,
+  Menu,
+  X,
+  Box,
+  Printer,
+  Scale,
+  FolderKanban,
+  Code2,
+} from 'lucide-react';
+import { MeasurementSystem } from '../types';
 
 interface HeaderProps {
   activeTab: string;
-  onSelectTab: (tabId: string) => void;
+  onSelectTab: (tabId: string, customRoutePath?: string, subType?: string) => void;
+  onNavigateHomeSection?: (sectionId: string) => void;
   bomCount: number;
   onOpenBOM: () => void;
   onOpenConverter: () => void;
@@ -14,11 +27,14 @@ interface HeaderProps {
   onOpenProjectManager?: () => void;
   onOpenEmbed?: () => void;
   activeProjectName?: string;
+  system?: MeasurementSystem;
+  onToggleSystem?: (system: MeasurementSystem) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
   onSelectTab,
+  onNavigateHomeSection,
   bomCount,
   onOpenBOM,
   onOpenConverter,
@@ -28,189 +44,173 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenComparison,
   onOpenProjectManager,
   onOpenEmbed,
-  activeProjectName = 'Default Project',
+  activeProjectName = 'My Estimate',
+  system,
+  onToggleSystem,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navLinks = [
-    { id: 'fabric_cut', label: 'Fabric Cut Planner' },
-    { id: 'curtains_drapery', label: 'Curtains & Quilts' },
-    { id: 'mulch_soil', label: 'Mulch & Soil' },
-    { id: 'gravel_aggregate', label: 'Gravel & Stone' },
-    { id: 'concrete_calc', label: 'Concrete & Slabs' },
-    { id: 'paver_masonry', label: 'Pavers & Walls' },
+  const quickCalcs: { id: string; label: string; path: string; subType?: string }[] = [
+    { id: 'mulch_soil', label: 'Topsoil', path: 'topsoil-calculator', subType: 'topsoil' },
+    { id: 'raised_bed_soil', label: 'Raised Bed Soil', path: 'raised-bed-soil-calculator' },
+    { id: 'potting_soil', label: 'Potting Soil', path: 'potting-soil-calculator' },
+    { id: 'mulch_soil', label: 'Compost', path: 'compost-calculator', subType: 'compost' },
+    { id: 'mulch_soil', label: 'Fill Dirt', path: 'fill-dirt-calculator', subType: 'fill_dirt' },
+    { id: 'gravel_aggregate', label: 'Lawn Leveling Sand', path: 'lawn-leveling-sand-calculator', subType: 'lawn_sand' },
+    { id: 'gravel_aggregate', label: 'Pea Gravel', path: 'pea-gravel-calculator', subType: 'pea_gravel' },
+    { id: 'gravel_aggregate', label: 'Crushed Stone #57', path: 'crushed-stone-calculator', subType: 'crushed_stone' },
+    { id: 'gravel_aggregate', label: 'Decomposed Granite', path: 'decomposed-granite-calculator', subType: 'decomposed_granite' },
+    { id: 'gravel_aggregate', label: 'River Rock', path: 'river-rock-calculator', subType: 'river_rock' },
+    { id: 'paver_masonry', label: 'Paver Base & Sand', path: 'paver-base-calculator', subType: 'paver_base' },
+    { id: 'retaining_wall', label: 'Retaining Wall', path: 'retaining-wall-calculator' },
+    { id: 'mulch_soil', label: 'Mulch', path: 'mulch-calculator', subType: 'mulch' },
+    { id: 'mulch_soil', label: 'Playground Mulch', path: 'playground-mulch-calculator', subType: 'playground' },
+    { id: 'pine_straw', label: 'Pine Straw Bales', path: 'pine-straw-calculator' },
+    { id: 'sod_turf', label: 'Sod & Turf', path: 'sod-calculator' },
+    { id: 'grass_seed', label: 'Grass Seed', path: 'grass-seed-calculator' },
+    { id: 'fence_post', label: 'Fence Post & Bags', path: 'fence-post-calculator' },
+    { id: 'concrete_calc', label: 'Concrete & Slabs', path: 'concrete-calculator' },
+    { id: 'fabric_cut', label: 'Fabric Yardage', path: 'fabric-yardage-calculator' },
+    { id: 'curtains_drapery', label: 'Curtains & Drapery', path: 'curtain-fabric-calculator' },
+    { id: 'upholstery_cushions', label: 'Upholstery', path: 'upholstery-cushion-calculator' },
+    { id: 'quilt_backing', label: 'Quilt Backing', path: 'quilt-backing-binding-calculator' },
+    { id: 'wallpaper_calc', label: 'Wallpaper', path: 'wallpaper-calculator' },
   ];
 
-  const handleNavClick = (id: string) => {
-    onSelectTab(id);
+  const handleNavClick = (id: string, path?: string, subType?: string) => {
+    onSelectTab(id, path, subType);
     setMobileMenuOpen(false);
+  };
+
+  const handleSectionClick = (sectionId: string, fallbackCalc: string) => {
+    setMobileMenuOpen(false);
+    if (onNavigateHomeSection) {
+      onNavigateHomeSection(sectionId);
+    } else {
+      onSelectTab(fallbackCalc);
+    }
   };
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-        {/* Zone 1: Single text element wordmark */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-8">
+        {/* Zone 1: Brand wordmark */}
         <div className="flex items-center gap-3 shrink-0">
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-1.5 text-slate-600 hover:text-slate-900 lg:hidden rounded-lg hover:bg-slate-100"
+            className="p-2 text-slate-600 hover:text-slate-900 lg:hidden rounded-lg hover:bg-slate-100 cursor-pointer"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
           <a
             href="/"
-            onClick={(e) => { e.preventDefault(); handleNavClick('fabric_cut'); }}
-            className="text-lg font-bold tracking-tight text-slate-900 whitespace-nowrap hover:text-emerald-700 transition-colors"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('home', '');
+            }}
+            className="text-lg font-bold tracking-tight text-slate-900 whitespace-nowrap shrink-0 hover:text-emerald-800 transition-colors"
           >
             Material<span className="text-emerald-700 font-extrabold">Yardage</span>
           </a>
         </div>
 
-        {/* Zone 2: Clean single-line text navigation links */}
-        <nav className="hidden lg:flex items-center gap-6 text-xs font-semibold text-slate-600">
-          {navLinks.map((link) => (
-            <button
-              key={link.id}
-              onClick={() => handleNavClick(link.id)}
-              className={`whitespace-nowrap shrink-0 transition-colors py-1 hover:text-slate-900 ${
-                activeTab === link.id
-                  ? 'text-emerald-800 font-bold border-b-2 border-emerald-700'
-                  : 'text-slate-600'
-              }`}
-            >
-              {link.label}
-            </button>
-          ))}
-          <span className="text-slate-300">|</span>
-          <button
-            onClick={() => handleNavClick('about')}
-            className={`whitespace-nowrap shrink-0 transition-colors py-1 hover:text-slate-900 ${
-              activeTab === 'about' ? 'text-emerald-800 font-bold' : 'text-slate-600'
+        {/* Zone 2: Clean single-line navigation links */}
+        <nav className="hidden lg:flex items-center gap-7 text-xs font-semibold text-slate-600">
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('home', '');
+            }}
+            className={`whitespace-nowrap shrink-0 py-1 transition-colors hover:text-slate-900 ${
+              activeTab === 'home' ? 'text-emerald-800 font-bold' : 'text-slate-600'
             }`}
           >
-            About
-          </button>
+            Calculators
+          </a>
           <button
-            onClick={() => handleNavClick('contact')}
-            className={`whitespace-nowrap shrink-0 transition-colors py-1 hover:text-slate-900 ${
-              activeTab === 'contact' ? 'text-emerald-800 font-bold' : 'text-slate-600'
-            }`}
+            type="button"
+            onClick={() => handleSectionClick('landscaping-materials', 'mulch_soil')}
+            className="whitespace-nowrap shrink-0 py-1 transition-colors text-slate-600 hover:text-slate-900 cursor-pointer"
           >
-            Contact
+            Landscaping
           </button>
           <button
-            onClick={() => handleNavClick('guides')}
-            className={`flex items-center gap-1 whitespace-nowrap shrink-0 transition-colors py-1 ${
+            type="button"
+            onClick={() => handleSectionClick('construction-materials', 'concrete_calc')}
+            className="whitespace-nowrap shrink-0 py-1 transition-colors text-slate-600 hover:text-slate-900 cursor-pointer"
+          >
+            Construction
+          </button>
+          <button
+            type="button"
+            onClick={() => handleSectionClick('fabric-sewing', 'fabric_cut')}
+            className="whitespace-nowrap shrink-0 py-1 transition-colors text-slate-600 hover:text-slate-900 cursor-pointer"
+          >
+            Fabric &amp; Sewing
+          </button>
+          <a
+            href="/guides"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('guides', 'guides');
+            }}
+            className={`whitespace-nowrap shrink-0 py-1 transition-colors hover:text-slate-900 ${
               activeTab === 'guides' || activeTab === 'guide_detail'
-                ? 'text-emerald-800 font-bold border-b-2 border-emerald-700'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'text-emerald-800 font-bold'
+                : 'text-slate-600'
             }`}
           >
-            <BookOpen className="w-3.5 h-3.5 text-emerald-700" />
-            <span>Guides Library</span>
-          </button>
-          <button
-            onClick={onOpenConverter}
-            className="flex items-center gap-1 text-slate-600 hover:text-slate-900 whitespace-nowrap shrink-0"
-          >
-            <ArrowRightLeft className="w-3.5 h-3.5" />
-            <span>Converter</span>
-          </button>
-          <button
-            onClick={onOpenGuides}
-            className="flex items-center gap-1 text-slate-600 hover:text-slate-900 whitespace-nowrap shrink-0"
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>Reference</span>
-          </button>
-          {onOpenComparison && (
-            <button
-              onClick={onOpenComparison}
-              className="flex items-center gap-1 text-slate-700 hover:text-slate-900 font-semibold whitespace-nowrap shrink-0"
-              title="Compare materials: Pine Bark vs. Cedar vs. Topsoil"
-            >
-              <Scale className="w-3.5 h-3.5 text-emerald-700" />
-              <span>Compare</span>
-            </button>
-          )}
-          {onOpen3DPreview && (
-            <button
-              onClick={onOpen3DPreview}
-              className="flex items-center gap-1 text-emerald-800 hover:text-emerald-950 font-bold whitespace-nowrap shrink-0"
-              title="Open 3D Schematic & Exploded Layer View"
-            >
-              <Box className="w-3.5 h-3.5 text-emerald-700" />
-              <span>3D Preview</span>
-            </button>
-          )}
-          {onOpenEmbed && (
-            <button
-              onClick={onOpenEmbed}
-              className="flex items-center gap-1 text-slate-600 hover:text-slate-900 whitespace-nowrap shrink-0"
-              title="Embed this calculator widget on your blog or website"
-            >
-              <Code2 className="w-3.5 h-3.5 text-emerald-700" />
-              <span>Embed</span>
-            </button>
-          )}
+            Guides
+          </a>
         </nav>
 
-        {/* Zone 3: Actions */}
-        <div className="flex items-center gap-2 shrink-0">
-          {onOpenComparison && (
-            <button
-              onClick={onOpenComparison}
-              className="hidden xl:flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors whitespace-nowrap shadow-2xs cursor-pointer"
-              title="Compare materials: Pine Bark vs. Cedar vs. Topsoil"
+        {/* Zone 3: Unit Preference & Primary Action */}
+        <div className="flex items-center gap-3 shrink-0">
+          {system && onToggleSystem && (
+            <div
+              className="hidden sm:flex items-center p-0.5 bg-slate-100 rounded-lg border border-slate-200 text-xs shrink-0"
+              title="Unit preference saved to browser"
             >
-              <Scale className="w-3.5 h-3.5 text-emerald-700" />
-              <span>Compare Materials</span>
-            </button>
+              <button
+                type="button"
+                onClick={() => onToggleSystem('imperial')}
+                className={`px-2.5 py-1 text-[11px] font-semibold rounded-md transition-all cursor-pointer whitespace-nowrap ${
+                  system === 'imperial'
+                    ? 'bg-white text-slate-900 shadow-2xs font-bold'
+                    : 'text-slate-500 hover:text-slate-800'
+                }`}
+                title="Imperial Units (ft, in, yd) — Saved to browser"
+              >
+                US
+              </button>
+              <button
+                type="button"
+                onClick={() => onToggleSystem('metric')}
+                className={`px-2.5 py-1 text-[11px] font-semibold rounded-md transition-all cursor-pointer whitespace-nowrap ${
+                  system === 'metric'
+                    ? 'bg-white text-slate-900 shadow-2xs font-bold'
+                    : 'text-slate-500 hover:text-slate-800'
+                }`}
+                title="Metric Units (m, cm, tonnes) — Saved to browser"
+              >
+                Metric
+              </button>
+            </div>
           )}
-          {onOpenPrintSheet && (
-            <button
-              onClick={onOpenPrintSheet}
-              className="hidden md:flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors whitespace-nowrap shadow-2xs cursor-pointer"
-              title="Open printable job-site specification sheet"
-            >
-              <Printer className="w-3.5 h-3.5 text-slate-600" />
-              <span>Print Sheet</span>
-            </button>
-          )}
-          {onOpen3DPreview && (
-            <button
-              onClick={onOpen3DPreview}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors whitespace-nowrap shadow-2xs"
-              title="View 3D project schematic model"
-            >
-              <Box className="w-3.5 h-3.5 text-emerald-700" />
-              <span>3D Model</span>
-            </button>
-          )}
-          {onOpenProjectManager && (
-            <button
-              onClick={onOpenProjectManager}
-              className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors whitespace-nowrap shadow-2xs cursor-pointer"
-              title="Manage projects, templates, and backups"
-            >
-              <FolderKanban className="w-3.5 h-3.5 text-emerald-700" />
-              <span className="hidden sm:inline font-bold text-slate-800 max-w-[130px] truncate">
-                {activeProjectName}
-              </span>
-              <span className="sm:hidden">Projects</span>
-            </button>
-          )}
+
           <button
+            type="button"
             onClick={onOpenBOM}
-            className="flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-white bg-emerald-800 rounded-lg hover:bg-emerald-900 transition-colors whitespace-nowrap shrink-0 shadow-2xs"
+            className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-emerald-800 rounded-lg hover:bg-emerald-900 transition-colors whitespace-nowrap shrink-0 shadow-2xs cursor-pointer"
           >
-            <ShoppingBag className="w-4 h-4" />
+            <ShoppingBag className="w-3.5 h-3.5" />
             <span>Project BOM</span>
             {bomCount > 0 && (
-              <span className="bg-emerald-600 text-white font-mono text-[11px] px-1.5 py-0.2 rounded-full font-bold">
-                {bomCount}
+              <span className="font-mono text-[11px] text-emerald-200 tabular-nums">
+                ({bomCount})
               </span>
             )}
           </button>
@@ -219,64 +219,173 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-slate-200 px-4 py-4 space-y-3 text-xs">
-          <div className="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Calculators</div>
-          <div className="grid grid-cols-2 gap-2">
-            {navLinks.map(link => (
+        <div className="lg:hidden bg-white border-b border-slate-200 px-4 py-4 space-y-4 text-xs max-h-[80vh] overflow-y-auto">
+          <div className="flex items-center justify-between">
+            <span className="font-bold text-slate-500 text-[11px]">All Calculators</span>
+            <button
+              type="button"
+              onClick={() => handleNavClick('home', '')}
+              className="text-xs font-semibold text-emerald-800 hover:underline cursor-pointer"
+            >
+              View Home Directory
+            </button>
+          </div>
+          <div className="grid grid-cols-2 gap-1.5">
+            {quickCalcs.map((calc) => (
               <button
-                key={link.id}
-                onClick={() => handleNavClick(link.id)}
-                className={`text-left p-2 rounded-lg font-medium ${
-                  activeTab === link.id ? 'bg-emerald-50 text-emerald-900 font-bold' : 'text-slate-700 hover:bg-slate-50'
+                key={`${calc.id}-${calc.path}`}
+                type="button"
+                onClick={() => handleNavClick(calc.id, calc.path, calc.subType)}
+                className={`text-left px-2.5 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
+                  activeTab === calc.id
+                    ? 'bg-emerald-50 text-emerald-900 font-bold'
+                    : 'text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                {link.label}
+                {calc.label}
               </button>
             ))}
           </div>
 
-          <div className="font-bold text-slate-400 uppercase tracking-wider text-[10px] pt-2 border-t border-slate-100">
-            Company & Resources
+          <div className="font-bold text-slate-500 text-[11px] pt-3 border-t border-slate-100">
+            Tools &amp; Reference
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <button onClick={() => handleNavClick('about')} className="text-slate-700 font-medium py-1">
-              About Us
-            </button>
-            <button onClick={() => handleNavClick('contact')} className="text-slate-700 font-medium py-1">
-              Contact
-            </button>
-            <button onClick={() => handleNavClick('privacy')} className="text-slate-700 font-medium py-1">
-              Privacy Policy
-            </button>
-            <button onClick={() => handleNavClick('guides')} className="text-emerald-800 font-bold py-1 flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => handleNavClick('guides', 'guides')}
+              className="text-emerald-800 font-bold py-1 flex items-center gap-1 cursor-pointer"
+            >
               <BookOpen className="w-3.5 h-3.5" />
               <span>Guides Library</span>
             </button>
-            <button onClick={() => { onOpenConverter(); setMobileMenuOpen(false); }} className="text-slate-700 font-medium py-1">
-              Unit Converter
+            <button
+              type="button"
+              onClick={() => {
+                onOpenConverter();
+                setMobileMenuOpen(false);
+              }}
+              className="text-slate-700 font-medium py-1 flex items-center gap-1 cursor-pointer"
+            >
+              <ArrowRightLeft className="w-3.5 h-3.5" />
+              <span>Unit Converter</span>
             </button>
-            <button onClick={() => { onOpenGuides(); setMobileMenuOpen(false); }} className="text-slate-700 font-medium py-1">
-              Reference
+            <button
+              type="button"
+              onClick={() => {
+                onOpenGuides();
+                setMobileMenuOpen(false);
+              }}
+              className="text-slate-700 font-medium py-1 cursor-pointer"
+            >
+              Density Chart
             </button>
+            {onOpenComparison && (
+              <button
+                type="button"
+                onClick={() => {
+                  onOpenComparison();
+                  setMobileMenuOpen(false);
+                }}
+                className="text-slate-700 font-medium py-1 flex items-center gap-1 cursor-pointer"
+              >
+                <Scale className="w-3.5 h-3.5" />
+                <span>Compare</span>
+              </button>
+            )}
             {onOpen3DPreview && (
               <button
-                onClick={() => { onOpen3DPreview(); setMobileMenuOpen(false); }}
-                className="text-emerald-800 font-bold py-1 flex items-center gap-1.5"
+                type="button"
+                onClick={() => {
+                  onOpen3DPreview();
+                  setMobileMenuOpen(false);
+                }}
+                className="text-slate-700 font-medium py-1 flex items-center gap-1 cursor-pointer"
               >
                 <Box className="w-3.5 h-3.5" />
-                <span>3D Preview</span>
+                <span>3D Schematic</span>
+              </button>
+            )}
+            {onOpenPrintSheet && (
+              <button
+                type="button"
+                onClick={() => {
+                  onOpenPrintSheet();
+                  setMobileMenuOpen(false);
+                }}
+                className="text-slate-700 font-medium py-1 flex items-center gap-1 cursor-pointer"
+              >
+                <Printer className="w-3.5 h-3.5" />
+                <span>Print Sheet</span>
+              </button>
+            )}
+            {onOpenProjectManager && (
+              <button
+                type="button"
+                onClick={() => {
+                  onOpenProjectManager();
+                  setMobileMenuOpen(false);
+                }}
+                className="text-slate-700 font-medium py-1 flex items-center gap-1 cursor-pointer"
+              >
+                <FolderKanban className="w-3.5 h-3.5" />
+                <span>Projects ({activeProjectName})</span>
               </button>
             )}
             {onOpenEmbed && (
               <button
-                onClick={() => { onOpenEmbed(); setMobileMenuOpen(false); }}
-                className="text-emerald-800 font-bold py-1 flex items-center gap-1.5"
+                type="button"
+                onClick={() => {
+                  onOpenEmbed();
+                  setMobileMenuOpen(false);
+                }}
+                className="text-slate-700 font-medium py-1 flex items-center gap-1 cursor-pointer"
               >
                 <Code2 className="w-3.5 h-3.5" />
                 <span>Embed Widget</span>
               </button>
             )}
+            <button
+              type="button"
+              onClick={() => handleNavClick('about', 'about')}
+              className="text-slate-700 font-medium py-1 cursor-pointer"
+            >
+              About
+            </button>
+            <button
+              type="button"
+              onClick={() => handleNavClick('contact', 'contact')}
+              className="text-slate-700 font-medium py-1 cursor-pointer"
+            >
+              Contact
+            </button>
           </div>
+
+          {system && onToggleSystem && (
+            <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+              <span className="text-xs font-semibold text-slate-600">Unit Preference:</span>
+              <div className="flex items-center p-0.5 bg-slate-100 rounded-lg border border-slate-200">
+                <button
+                  type="button"
+                  onClick={() => onToggleSystem('imperial')}
+                  className={`px-3 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer ${
+                    system === 'imperial' ? 'bg-white text-slate-900 shadow-2xs font-bold' : 'text-slate-500'
+                  }`}
+                >
+                  US Imperial
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onToggleSystem('metric')}
+                  className={`px-3 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer ${
+                    system === 'metric' ? 'bg-white text-slate-900 shadow-2xs font-bold' : 'text-slate-500'
+                  }`}
+                >
+                  Metric
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </header>

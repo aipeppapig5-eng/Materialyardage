@@ -11,23 +11,56 @@ import { ProjectPhotoPreview } from '../ProjectPhotoPreview';
 interface GravelAggregateCalcProps {
   system: MeasurementSystem;
   onAddToBOM: (item: Omit<BOMItem, 'id' | 'timestamp'>) => void;
+  initialSubType?: string;
 }
 
 export const GravelAggregateCalc: React.FC<GravelAggregateCalcProps> = ({
   system,
   onAddToBOM,
+  initialSubType,
 }) => {
   const initialParams = useMemo(() => readCalculatorQueryParams(), []);
+  const defaultMaterialFromSubType =
+    initialSubType === 'pea_gravel'
+      ? 'pea_gravel'
+      : initialSubType === 'decomposed_granite'
+      ? 'decomposed_granite'
+      : initialSubType === 'river_rock'
+      ? 'river_rock_large'
+      : initialSubType === 'lawn_sand'
+      ? 'mason_sand'
+      : 'crushed_stone_57';
+
+  const defaultDepthFromSubType =
+    initialSubType === 'lawn_sand'
+      ? 0.5
+      : initialSubType === 'pea_gravel'
+      ? 2.5
+      : initialSubType === 'crushed_stone'
+      ? 4
+      : 3;
+
+  const defaultCompactionFromSubType =
+    initialSubType === 'decomposed_granite'
+      ? 18
+      : initialSubType === 'lawn_sand'
+      ? 5
+      : initialSubType === 'river_rock'
+      ? 8
+      : 12;
+
   const [shape, setShape] = useState<BedShape>(
     (initialParams.shape as BedShape) || 'rectangle'
   );
   const [dim1, setDim1] = useState<number>(Number(initialParams.l || initialParams.dim1) || 30); // length or diameter
   const [dim2, setDim2] = useState<number>(Number(initialParams.w || initialParams.dim2) || 10); // width or height
-  const [depthInches, setDepthInches] = useState<number>(Number(initialParams.depth) || 3);
-  const [selectedMaterialId, setSelectedMaterialId] = useState<string>(
-    initialParams.mat || 'crushed_stone_57'
+  const [depthInches, setDepthInches] = useState<number>(
+    Number(initialParams.depth) || defaultDepthFromSubType
   );
-  const [compactionPercent, setCompactionPercent] = useState<number>(12);
+  const [selectedMaterialId, setSelectedMaterialId] = useState<string>(
+    initialParams.mat || defaultMaterialFromSubType
+  );
+  const [compactionPercent, setCompactionPercent] = useState<number>(defaultCompactionFromSubType);
   const [pricePerTon, setPricePerTon] = useState<number>(45);
 
   const aggregates = useMemo(() => {
@@ -265,13 +298,31 @@ export const GravelAggregateCalc: React.FC<GravelAggregateCalcProps> = ({
               </label>
               <input
                 type="number"
-                min="1"
+                min="0.25"
                 max="24"
-                step="0.5"
+                step="0.25"
                 value={depthInches}
                 onChange={e => setDepthInches(Number(e.target.value))}
                 className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono"
               />
+              {initialSubType === 'lawn_sand' && (
+                <div className="flex items-center gap-1 mt-1.5">
+                  {[0.25, 0.5, 1].map(d => (
+                    <button
+                      key={d}
+                      type="button"
+                      onClick={() => setDepthInches(d)}
+                      className={`px-2 py-0.5 text-[10px] rounded border cursor-pointer ${
+                        depthInches === d
+                          ? 'bg-emerald-800 text-white border-emerald-800 font-semibold'
+                          : 'bg-slate-50 text-slate-700 border-slate-200'
+                      }`}
+                    >
+                      {d}"
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

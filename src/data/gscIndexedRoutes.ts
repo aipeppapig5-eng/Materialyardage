@@ -9,6 +9,7 @@ export interface GSCIndexedRoute {
   category: 'construction' | 'fabric' | 'company' | 'guide';
   subType?: string; // e.g. 'slab', 'topsoil', 'brick', 'mortar', 'cmu'
   guideSlug?: string;
+  seoKey?: string;
   isModalTrigger?: 'converter' | 'reference' | 'comparison';
   breadcrumbs: { name: string; url: string }[];
 }
@@ -48,7 +49,7 @@ export const GSC_INDEXED_ROUTES: Record<string, GSCIndexedRoute> = {
     ],
   },
 
-  // 3. Topsoil Calculator
+  // 3. Topsoil Calculator (Preserved exact GSC URL)
   'topsoil-calculator': {
     path: 'topsoil-calculator',
     fullUrl: 'https://www.materialyardage.com/topsoil-calculator',
@@ -57,6 +58,7 @@ export const GSC_INDEXED_ROUTES: Record<string, GSCIndexedRoute> = {
     metaDescription: 'Free topsoil calculator. Calculate cubic yards and tons of screened loam, garden blend, or compost for lawn grading, raised planter beds, and lawn top-dressing.',
     h1: 'Topsoil & Screened Loam Volume Calculator',
     targetCalculator: 'mulch_soil',
+    seoKey: 'topsoil_calc',
     category: 'construction',
     subType: 'topsoil',
     breadcrumbs: [
@@ -105,10 +107,10 @@ export const GSC_INDEXED_ROUTES: Record<string, GSCIndexedRoute> = {
     path: '',
     fullUrl: 'https://www.materialyardage.com/',
     lastCrawled: '2026-11-05',
-    title: 'Material Yardage — Construction & Fabric Material Estimators',
-    metaDescription: 'Precision material yardage calculators for construction, landscaping, and textiles. 2D cutting layout visualizer, cubic yard converters, and interactive BOM estimator.',
-    h1: 'Precision Material & Fabric Yardage Calculators',
-    targetCalculator: 'fabric_cut',
+    title: 'Material Yardage — Free Material Calculators for Every Project',
+    metaDescription: 'Calculate material quantities, estimate project costs and plan your next project with confidence. Landscaping, concrete, masonry, fabric yardage, and interactive BOM estimators.',
+    h1: 'Free Material Calculators for Every Project',
+    targetCalculator: 'home',
     category: 'construction',
     breadcrumbs: [
       { name: 'Home', url: '/' },
@@ -587,6 +589,243 @@ export const GSC_INDEXED_ROUTES: Record<string, GSCIndexedRoute> = {
     breadcrumbs: [
       { name: 'Home', url: '/' },
       { name: 'Wallpaper Calculator', url: '/wallpaper-calculator' },
+    ],
+  },
+
+  // ==============================================
+  // PHASE 1 & PHASE 2 SUB-CLUSTER EXPANSION ROUTES
+  // ==============================================
+
+  'raised-bed-soil-calculator': {
+    path: 'raised-bed-soil-calculator',
+    fullUrl: 'https://www.materialyardage.com/raised-bed-soil-calculator',
+    lastCrawled: '2026-11-18',
+    title: 'Raised Garden Bed Soil Calculator — 4×4, 4×8 Mix & Yardage',
+    metaDescription: 'Calculate soil volume for 4x4 and 4x8 raised garden beds with a recommended mix of topsoil, compost, and aeration.',
+    h1: 'Raised Garden Bed Soil & Mix Calculator',
+    targetCalculator: 'raised_bed_soil',
+    seoKey: 'raised_bed_soil',
+    category: 'construction',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Raised Bed Soil Calculator', url: '/raised-bed-soil-calculator' },
+    ],
+  },
+
+  'potting-soil-calculator': {
+    path: 'potting-soil-calculator',
+    fullUrl: 'https://www.materialyardage.com/potting-soil-calculator',
+    lastCrawled: '2026-11-18',
+    title: 'Potting Mix & Planter Volume Calculator — Quarts & Gallons',
+    metaDescription: 'Calculate dry quarts and gallons of potting mix for round tapered pots, window boxes, and fabric grow bags.',
+    h1: 'Potting Mix & Planter Container Calculator',
+    targetCalculator: 'potting_soil',
+    seoKey: 'potting_soil',
+    category: 'construction',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Potting Soil Calculator', url: '/potting-soil-calculator' },
+    ],
+  },
+
+  'compost-calculator': {
+    path: 'compost-calculator',
+    fullUrl: 'https://www.materialyardage.com/compost-calculator',
+    lastCrawled: '2026-11-18',
+    title: 'Compost Calculator — Lawn Topdressing & Soil Amendment Yards',
+    metaDescription: 'Estimate bulk cubic yards, tons, and 2 cu ft bags of compost for lawn topdressing and garden soil amendment.',
+    h1: 'Compost Topdressing & Amendment Calculator',
+    targetCalculator: 'mulch_soil',
+    seoKey: 'compost_calc',
+    subType: 'compost',
+    category: 'construction',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Compost Calculator', url: '/compost-calculator' },
+    ],
+  },
+
+  'fill-dirt-calculator': {
+    path: 'fill-dirt-calculator',
+    fullUrl: 'https://www.materialyardage.com/fill-dirt-calculator',
+    lastCrawled: '2026-11-18',
+    title: 'Fill Dirt Calculator — Cubic Yards, Tons & Compaction Factor',
+    metaDescription: 'Estimate cubic yards and tonnage of clean fill dirt for heavy grading, hole filling, and foundation backfilling.',
+    h1: 'Fill Dirt & Grading Subsoil Calculator',
+    targetCalculator: 'mulch_soil',
+    seoKey: 'fill_dirt',
+    subType: 'fill_dirt',
+    category: 'construction',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Fill Dirt Calculator', url: '/fill-dirt-calculator' },
+    ],
+  },
+
+  'lawn-leveling-sand-calculator': {
+    path: 'lawn-leveling-sand-calculator',
+    fullUrl: 'https://www.materialyardage.com/lawn-leveling-sand-calculator',
+    lastCrawled: '2026-11-18',
+    title: 'Lawn Leveling Sand & Topdressing Calculator — Yards & Tons',
+    metaDescription: 'Calculate washed masonry sand needed at 0.25" to 1" depth for leveling bumpy lawns and turf low spots.',
+    h1: 'Lawn Leveling Sand & Topdressing Calculator',
+    targetCalculator: 'gravel_aggregate',
+    seoKey: 'lawn_leveling_sand',
+    subType: 'lawn_sand',
+    category: 'construction',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Lawn Leveling Sand Calculator', url: '/lawn-leveling-sand-calculator' },
+    ],
+  },
+
+  'pea-gravel-calculator': {
+    path: 'pea-gravel-calculator',
+    fullUrl: 'https://www.materialyardage.com/pea-gravel-calculator',
+    lastCrawled: '2026-11-18',
+    title: 'Pea Gravel Calculator — Cubic Yards, Tons & 50-lb Bags',
+    metaDescription: 'Calculate cubic yards, US tons (1.35 tons/yd³), and 50-lb bags of rounded pea gravel for walkways, dog runs, and play zones.',
+    h1: 'Pea Gravel Volume & Tonnage Calculator',
+    targetCalculator: 'gravel_aggregate',
+    seoKey: 'pea_gravel',
+    subType: 'pea_gravel',
+    category: 'construction',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Pea Gravel Calculator', url: '/pea-gravel-calculator' },
+    ],
+  },
+
+  'crushed-stone-calculator': {
+    path: 'crushed-stone-calculator',
+    fullUrl: 'https://www.materialyardage.com/crushed-stone-calculator',
+    lastCrawled: '2026-11-18',
+    title: 'Crushed Stone & #57 Gravel Calculator — Driveway & French Drain Tons',
+    metaDescription: 'Estimate tons and cubic yards of #57 crushed stone and crusher run for driveways, French drains, and shed foundations.',
+    h1: 'Crushed Stone & #57 Gravel Calculator',
+    targetCalculator: 'gravel_aggregate',
+    seoKey: 'crushed_stone',
+    subType: 'crushed_stone',
+    category: 'construction',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Crushed Stone Calculator', url: '/crushed-stone-calculator' },
+    ],
+  },
+
+  'decomposed-granite-calculator': {
+    path: 'decomposed-granite-calculator',
+    fullUrl: 'https://www.materialyardage.com/decomposed-granite-calculator',
+    lastCrawled: '2026-11-18',
+    title: 'Decomposed Granite (DG) Calculator — Patio & Pathway Tonnage',
+    metaDescription: 'Calculate decomposed granite (DG) tons and cubic yards including 15%–20% compaction allowance for pathways and patios.',
+    h1: 'Decomposed Granite (DG) Compaction Calculator',
+    targetCalculator: 'gravel_aggregate',
+    seoKey: 'decomposed_granite',
+    subType: 'decomposed_granite',
+    category: 'construction',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Decomposed Granite Calculator', url: '/decomposed-granite-calculator' },
+    ],
+  },
+
+  'river-rock-calculator': {
+    path: 'river-rock-calculator',
+    fullUrl: 'https://www.materialyardage.com/river-rock-calculator',
+    lastCrawled: '2026-11-18',
+    title: 'River Rock & Landscaping Stone Calculator — Dry Creek Bed Tons',
+    metaDescription: 'Estimate cubic yards and US tons of decorative 1"-3" river rock and landscaping cobble for dry creek beds and borders.',
+    h1: 'River Rock & Landscaping Cobble Calculator',
+    targetCalculator: 'gravel_aggregate',
+    seoKey: 'river_rock',
+    subType: 'river_rock',
+    category: 'construction',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'River Rock Calculator', url: '/river-rock-calculator' },
+    ],
+  },
+
+  'paver-base-calculator': {
+    path: 'paver-base-calculator',
+    fullUrl: 'https://www.materialyardage.com/paver-base-calculator',
+    lastCrawled: '2026-11-18',
+    title: 'Paver Base & Bedding Sand Calculator — Gravel Sub-Base & Sand',
+    metaDescription: 'Calculate compacted crushed-stone paver base, 1-inch screeded bedding sand, polymeric joint sand, and patio pavers.',
+    h1: 'Paver Base & Bedding Sand Calculator',
+    targetCalculator: 'paver_masonry',
+    seoKey: 'paver_base',
+    subType: 'paver_base',
+    category: 'construction',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Paver Base Calculator', url: '/paver-base-calculator' },
+    ],
+  },
+
+  'playground-mulch-calculator': {
+    path: 'playground-mulch-calculator',
+    fullUrl: 'https://www.materialyardage.com/playground-mulch-calculator',
+    lastCrawled: '2026-11-18',
+    title: 'Playground Wood Chips & Rubber Mulch Calculator — Fall Depth',
+    metaDescription: 'Calculate cubic yards and bags of playground wood chips or rubber mulch using ASTM 6", 9", and 12" fall-height depth standards.',
+    h1: 'Playground Wood Chips & Rubber Mulch Calculator',
+    targetCalculator: 'mulch_soil',
+    seoKey: 'playground_mulch',
+    subType: 'playground',
+    category: 'construction',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Playground Mulch Calculator', url: '/playground-mulch-calculator' },
+    ],
+  },
+
+  'pine-straw-calculator': {
+    path: 'pine-straw-calculator',
+    fullUrl: 'https://www.materialyardage.com/pine-straw-calculator',
+    lastCrawled: '2026-11-18',
+    title: 'Pine Straw Bale Calculator — Standard & Longleaf Jumbo Bales',
+    metaDescription: 'Convert landscape bed square footage into standard square pine straw bales or longleaf jumbo bales.',
+    h1: 'Pine Straw & Longleaf Needle Bale Calculator',
+    targetCalculator: 'pine_straw',
+    seoKey: 'pine_straw',
+    category: 'construction',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Pine Straw Calculator', url: '/pine-straw-calculator' },
+    ],
+  },
+
+  'grass-seed-calculator': {
+    path: 'grass-seed-calculator',
+    fullUrl: 'https://www.materialyardage.com/grass-seed-calculator',
+    lastCrawled: '2026-11-18',
+    title: 'Grass Seed Coverage Calculator — New Lawn vs. Overseeding',
+    metaDescription: 'Calculate pounds and retail bags of grass seed for new bare lawns versus overseeding across Tall Fescue, Bluegrass, Ryegrass, and Bermuda.',
+    h1: 'Grass Seed Coverage & Bag Calculator',
+    targetCalculator: 'grass_seed',
+    seoKey: 'grass_seed',
+    category: 'construction',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Grass Seed Calculator', url: '/grass-seed-calculator' },
+    ],
+  },
+
+  'fence-post-calculator': {
+    path: 'fence-post-calculator',
+    fullUrl: 'https://www.materialyardage.com/fence-post-calculator',
+    lastCrawled: '2026-11-18',
+    title: 'Fence Post & Concrete Bag Calculator — Posts, Rails, Pickets & Bags',
+    metaDescription: 'Calculate fence posts, 2x4 rails, pickets, and 50-lb or 80-lb concrete bags from your total fence linear feet.',
+    h1: 'Fence Post, Pickets & Concrete Bag Calculator',
+    targetCalculator: 'fence_post',
+    seoKey: 'fence_post',
+    category: 'construction',
+    breadcrumbs: [
+      { name: 'Home', url: '/' },
+      { name: 'Fence Post Calculator', url: '/fence-post-calculator' },
     ],
   },
 };

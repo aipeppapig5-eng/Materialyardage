@@ -492,5 +492,551 @@ export const SEO_PAGES: Record<string, PageSEO> = {
       },
     ],
   },
+
+  topsoil_calc: {
+    slug: 'topsoil-calculator',
+    title: 'Topsoil Calculator — Cubic Yards, Tons & 40-lb Bags',
+    metaDescription: 'Free topsoil calculator. Estimate cubic yards, US short tons, and 40-lb retail bags of screened loam topsoil for lawn leveling, grading, and garden beds.',
+    keywords: ['topsoil calculator', 'how much topsoil do i need', '40 lb bags of topsoil per yard', 'screened loam calculator'],
+    canonicalPath: '/topsoil-calculator',
+    category: 'construction',
+    h1: 'Topsoil Volume, Tonnage & 40-lb Bag Calculator',
+    lead: 'Calculate exact cubic yards, delivered bulk tons, and 40-lb retail bag counts for screened topsoil grading, lawn patching, and garden bed filling.',
+    formula: {
+      title: 'Topsoil Volume & Weight Formula',
+      expression: 'Cubic Yards = [Area (sq ft) × (Depth (in) ÷ 12)] ÷ 27 × (1 + Compaction %)',
+      explanation: 'Screened loam weighs ~1.10 US tons (2,200 lbs) per cubic yard. One cubic yard equals ~36 bags of 40-lb topsoil (0.75 cu ft each).',
+    },
+    workedExample: {
+      title: 'Worked Example: 20 ft × 15 ft Lawn Grade @ 4" Topsoil',
+      scenario: 'You are topdressing and re-grading a 300 sq ft yard area at 4 inches deep with 5% compaction buffer.',
+      steps: [
+        'Calculate area: 20 ft × 15 ft = 300 sq ft.',
+        'Convert depth to feet: 4" ÷ 12 = 0.333 ft.',
+        'Raw volume: 300 × 0.333 = 100 cu ft × 1.05 = 105 cu ft.',
+        'Convert to cubic yards: 105 ÷ 27 = 3.89 cu yds.',
+        'Estimate weight: 3.89 yd³ × 1.10 tons/yd³ = 4.28 US tons.',
+      ],
+      result: 'Requirement: 3.89 Cubic Yards (4.28 Tons) bulk, or 140 bags (40-lb).',
+    },
+    faqs: [
+      {
+        question: 'How many 40 lb bags of topsoil equal 1 cubic yard?',
+        answer: 'A typical 40-lb retail bag of topsoil holds roughly 0.75 cubic feet. Since 1 cubic yard equals 27 cubic feet, you need 36 bags of 40-lb topsoil per cubic yard.',
+      },
+      {
+        question: 'How much does a cubic yard of topsoil weigh?',
+        answer: 'Dry screened loam topsoil weighs approximately 2,000 to 2,200 lbs (1.0 to 1.1 US tons) per cubic yard. Damp or clay-heavy topsoil can weigh up to 2,600 lbs (1.3 tons).',
+      },
+    ],
+  },
+
+  raised_bed_soil: {
+    slug: 'raised-bed-soil-calculator',
+    title: 'Raised Garden Bed Soil Calculator — 4×4, 4×8 Mix & Yardage',
+    metaDescription: 'Calculate soil volume for 4x4 and 4x8 raised garden beds. Outputs exact cubic yards, 2 cu ft bags, and a balanced topsoil, compost, and aeration mix breakdown.',
+    keywords: ['raised bed soil calculator', '4x8 raised bed soil calculator', 'mels mix calculator', 'how much soil for raised garden bed'],
+    canonicalPath: '/raised-bed-soil-calculator',
+    category: 'construction',
+    h1: 'Raised Garden Bed Soil & Mix Ratio Calculator',
+    lead: 'Select standard 4×4 or 4×8 raised planter presets or custom dimensions to calculate cubic yards, bag counts, and exact topsoil, compost, and aeration mix proportions.',
+    formula: {
+      title: 'Raised Bed Blend Formula',
+      expression: 'Total Soil (cu ft) = Beds × Length (ft) × Width (ft) × (Depth (in) ÷ 12) × 1.05',
+      explanation: 'Recommended vegetable blend uses 50% screened topsoil, 30% aged compost, and 20% coarse aeration (perlite/vermiculite/pine fines).',
+    },
+    workedExample: {
+      title: 'Worked Example: Two 4 ft × 8 ft Beds at 12" Deep',
+      scenario: 'You are filling two 4×8 cedar raised garden beds 12 inches deep with a 50/30/20 vegetable mix.',
+      steps: [
+        'Single bed area: 4 ft × 8 ft = 32 sq ft (2 beds = 64 sq ft).',
+        'Depth conversion: 12" ÷ 12 = 1.0 ft -> 64 cu ft raw × 1.05 settling = 67.2 cu ft.',
+        'Total cubic yards: 67.2 ÷ 27 = 2.49 cubic yards.',
+        'Mix breakdown: 33.6 cu ft topsoil + 20.2 cu ft compost + 13.4 cu ft aeration.',
+      ],
+      result: 'Requirement: 2.49 Cubic Yards total (or 34 bags of 2 cu ft soil).',
+    },
+    faqs: [
+      {
+        question: 'How many cubic feet of soil does a 4×8 raised bed need?',
+        answer: 'A 4×8 ft raised garden bed needs 21.3 cu ft at 8 inches deep, 26.7 cu ft at 10 inches deep, and 32 cu ft (1.19 cubic yards) at 12 inches deep.',
+      },
+      {
+        question: 'What is the best soil ratio for vegetable raised beds?',
+        answer: 'For deep-rooted vegetables, mix 50% screened garden loam topsoil, 30% aged compost, and 20% aeration material (perlite, coarse vermiculite, or pine bark fines) to prevent compaction.',
+      },
+    ],
+  },
+
+  potting_soil: {
+    slug: 'potting-soil-calculator',
+    title: 'Potting Mix & Planter Volume Calculator — Quarts & Gallons',
+    metaDescription: 'Calculate exact dry quarts, gallons, and bags of potting soil for tapered flower pots, fabric grow bags, and rectangular window boxes.',
+    keywords: ['potting soil calculator', 'planter volume calculator', 'quarts of potting mix for pot', '5 gallon grow bag soil calculator'],
+    canonicalPath: '/potting-soil-calculator',
+    category: 'construction',
+    h1: 'Potting Mix & Planter Volume Calculator',
+    lead: 'Convert round tapered flower pots, cylindrical grow bags, and window boxes into dry quarts, gallons, liters, and retail potting mix bag counts.',
+    formula: {
+      title: 'Tapered Planter Frustum Formula',
+      expression: 'Volume (cu in) = (π × H ÷ 3) × (r₁² + r₁·r₂ + r₂²) × 0.92 Fill Factor',
+      explanation: '1 US dry quart = 67.2 cu in; 1 US gallon = 231 cu in. A 92% fill factor leaves ~1 inch of watering lip below the rim.',
+    },
+    workedExample: {
+      title: 'Worked Example: Four 14" Tapered Patio Pots',
+      scenario: 'Filling 4 pots with 14" top diameter, 10" bottom diameter, and 12" height.',
+      steps: [
+        'Frustum volume per pot: (3.1416 × 12 ÷ 3) × (7² + 7×5 + 5²) = 1,369.7 cu in.',
+        'Apply 92% watering rim fill: 1,260.1 cu in/pot × 4 pots = 5,040.5 cu in.',
+        'Convert to dry quarts: 5,040.5 ÷ 67.2 = 75.0 dry quarts.',
+      ],
+      result: 'Requirement: 75 Dry Quarts (~21.8 Gallons), or 3 bags of 32-qt potting mix.',
+    },
+    faqs: [
+      {
+        question: 'How many quarts of potting soil fit in a 5-gallon grow bag?',
+        answer: 'One liquid gallon equals about 3.44 dry quarts, so a 5-gallon fabric grow bag or nursery container holds roughly 16 to 18 dry quarts (approx. 0.67 cu ft) of potting mix.',
+      },
+      {
+        question: 'Should I put gravel at the bottom of flower pots for drainage?',
+        answer: 'No. Horticultural research shows adding gravel at the bottom raises the perched water table and reduces root aeration. Use clean potting mix containing perlite or pumice directly above unobstructed drainage holes.',
+      },
+    ],
+  },
+
+  compost_calc: {
+    slug: 'compost-calculator',
+    title: 'Compost Calculator — Lawn Topdressing & Soil Amendment Yards',
+    metaDescription: 'Free compost calculator for lawn topdressing and garden soil amendment. Calculate cubic yards, tons, and 2 cu ft bags based on bed area and depth.',
+    keywords: ['compost calculator', 'how much compost for lawn topdressing', 'cubic yards of compost', 'organic compost calculator'],
+    canonicalPath: '/compost-calculator',
+    category: 'construction',
+    h1: 'Compost Topdressing & Amendment Calculator',
+    lead: 'Estimate exact cubic yards and retail bags of screened organic compost for garden bed tilling, raised planter beds, and spring/fall lawn topdressing.',
+    formula: {
+      title: 'Compost Volume Formula',
+      expression: 'Cubic Yards = [Area (sq ft) × (Depth (in) ÷ 12)] ÷ 27 × 1.05',
+      explanation: 'Aged screened compost weighs ~0.55 US tons (1,100 lbs) per cubic yard. 1 cu yd covers ~648 sq ft at a 0.5" lawn topdressing depth.',
+    },
+    workedExample: {
+      title: 'Worked Example: 20 ft × 15 ft Bed @ 2" Organic Compost',
+      scenario: 'Topdressing a 300 sq ft perennial garden bed with 2 inches of aged compost.',
+      steps: [
+        'Area: 20 ft × 15 ft = 300 sq ft.',
+        'Depth conversion: 2" ÷ 12 = 0.167 ft -> 50 cu ft × 1.05 = 52.5 cu ft.',
+        'Cubic yards: 52.5 ÷ 27 = 1.94 cu yds (~1.07 US tons).',
+      ],
+      result: 'Requirement: 1.94 Cubic Yards bulk, or 27 bags (2 cu ft).',
+    },
+    faqs: [
+      {
+        question: 'How deep should I apply compost for lawn topdressing?',
+        answer: 'When topdressing an established lawn after core aeration, apply 0.25 to 0.5 inches of finely screened compost so grass blades remain exposed to sunlight.',
+      },
+      {
+        question: 'How much compost do I need to amend a new garden bed?',
+        answer: 'Spread a 2- to 3-inch layer of aged compost across the garden bed surface and till or broadfork it into the top 6 to 8 inches of native soil.',
+      },
+    ],
+  },
+
+  fill_dirt: {
+    slug: 'fill-dirt-calculator',
+    title: 'Fill Dirt Calculator — Cubic Yards, Tons & Compaction Factor',
+    metaDescription: 'Calculate fill dirt cubic yards, US tons, and dump truckloads for hole filling, yard grading, sloping, and foundation backfilling.',
+    keywords: ['fill dirt calculator', 'how many yards of fill dirt', 'clean fill dirt tonnage', 'yard grading dirt calculator'],
+    canonicalPath: '/fill-dirt-calculator',
+    category: 'construction',
+    h1: 'Clean Fill Dirt & Yard Grading Calculator',
+    lead: 'Estimate cubic yards, heavy tonnage, and tandem dump truckloads for clean subsoil fill dirt with a 15% compaction and tamping buffer.',
+    formula: {
+      title: 'Fill Dirt & Compaction Formula',
+      expression: 'Tons Required = [Area (sq ft) × (Depth (in) ÷ 12) ÷ 27] × 1.22 tons/yd³ × (1 + Compaction %)',
+      explanation: 'Loose fill dirt settles 15%–20% once compacted with a plate compactor or rainfall. Average clay-loam subsoil weighs ~1.22 US tons per yd³.',
+    },
+    workedExample: {
+      title: 'Worked Example: 20 ft × 15 ft Low Yard Depression @ 6" Deep',
+      scenario: 'Filling and compacting a 300 sq ft low yard area at 6 inches deep with 15% tamping compaction.',
+      steps: [
+        'Area: 20 ft × 15 ft = 300 sq ft; depth = 0.5 ft (150 cu ft raw).',
+        'Add 15% compaction factor: 150 × 1.15 = 172.5 cu ft.',
+        'Convert to cubic yards: 172.5 ÷ 27 = 6.39 cubic yards.',
+        'Estimate weight: 6.39 yd³ × 1.22 tons/yd³ = 7.80 US tons.',
+      ],
+      result: 'Requirement: 6.39 Cubic Yards (~7.8 US Tons) of clean fill dirt.',
+    },
+    faqs: [
+      {
+        question: 'What is the difference between fill dirt and topsoil?',
+        answer: 'Fill dirt is dense subsoil excavated below the organic topsoil horizon. Because it contains minimal decomposing organic matter, it will not shrink over time—making it ideal for structural leveling and backfilling, whereas topsoil is used for the top 3–4" growing layer.',
+      },
+      {
+        question: 'How much does fill dirt compact after placement?',
+        answer: 'Uncompacted excavated fill dirt typically settles by 15% to 20% after plate tamping or heavy rain. Always order at least 15% extra loose yards when leveling low areas.',
+      },
+    ],
+  },
+
+  lawn_leveling_sand: {
+    slug: 'lawn-leveling-sand-calculator',
+    title: 'Lawn Leveling Sand & Topdressing Calculator — Yards & Tons',
+    metaDescription: 'Calculate washed masonry sand or leveling mix needed at 0.25", 0.5", or 1" depth to smooth bumpy lawns and turf low spots.',
+    keywords: ['lawn leveling sand calculator', 'sand topdressing calculator', 'how much sand to level lawn', 'masonry sand calculator'],
+    canonicalPath: '/lawn-leveling-sand-calculator',
+    category: 'construction',
+    h1: 'Lawn Leveling Sand & Topdressing Calculator',
+    lead: 'Calculate exact cubic yards, US tons, and 50-lb bags of washed masonry sand or sand-compost topdressing mix for smoothing bumpy lawns.',
+    formula: {
+      title: 'Lawn Topdressing Sand Formula',
+      expression: 'Cubic Yards = [Lawn Sq Ft × (Topdress Depth (in) ÷ 12)] ÷ 27 × 1.05',
+      explanation: 'Masonry leveling sand weighs ~1.30 tons/yd³. At 0.5" topdressing depth, 1 cubic yard covers ~648 sq ft.',
+    },
+    workedExample: {
+      title: 'Worked Example: 1,000 Sq Ft Lawn Topdressed @ 0.5" Sand',
+      scenario: 'Leveling a bumpy 1,000 sq ft Bermuda or Fescue lawn with 0.5" washed concrete/masonry sand.',
+      steps: [
+        'Volume: 1,000 sq ft × (0.5 ÷ 12) = 41.67 cu ft × 1.05 = 43.75 cu ft.',
+        'Cubic yards: 43.75 ÷ 27 = 1.62 cubic yards.',
+        'Tonnage: 1.62 yd³ × 1.30 tons/yd³ = 2.11 US tons (~85 bags of 50 lb).',
+      ],
+      result: 'Requirement: 1.62 Cubic Yards / 2.11 Tons of washed masonry sand.',
+    },
+    faqs: [
+      {
+        question: 'What kind of sand should I use for lawn leveling?',
+        answer: 'Always use washed coarse masonry sand or USGA topdressing sand (often blended 70/30 with screened compost). Avoid fine play sand, which packs tightly and slows turf water drainage.',
+      },
+      {
+        question: 'How deep can I topdress grass with sand at one time?',
+        answer: 'Apply no more than 0.25 to 0.5 inches across healthy turf in a single pass so grass tips stay above the sand surface. Deep ruts over 1 inch should be filled in stages 3–4 weeks apart.',
+      },
+    ],
+  },
+
+  pea_gravel: {
+    slug: 'pea-gravel-calculator',
+    title: 'Pea Gravel Calculator — Cubic Yards, Tons & 50-lb Bags',
+    metaDescription: 'Free pea gravel calculator for garden pathways, dog runs, patios, and play areas. Calculate cubic yards, US tons (1.35 tons/yd³), and 50-lb retail bags.',
+    keywords: ['pea gravel calculator', 'how much pea gravel do i need', 'pea gravel weight per yard', 'pea gravel path calculator'],
+    canonicalPath: '/pea-gravel-calculator',
+    category: 'construction',
+    h1: 'Pea Gravel Volume, Tonnage & Bag Calculator',
+    lead: 'Estimate rounded 3/8" river pea gravel volume, weight (1.35 tons/yd³), and 50-lb retail bags for walkways, dog runs, fire pits, and patios.',
+    formula: {
+      title: 'Pea Gravel Tonnage Formula',
+      expression: 'Tons = [Area (sq ft) × (Depth (in) ÷ 12) ÷ 27] × 1.35 tons/yd³ × 1.10',
+      explanation: 'Rounded 3/8" pea gravel weighs ~2,700 lbs (1.35 US tons) per cubic yard. 1 ton covers ~80 sq ft at 3" depth.',
+    },
+    workedExample: {
+      title: 'Worked Example: 30 ft × 10 ft Pea Gravel Path @ 2.5" Depth',
+      scenario: 'Installing a 300 sq ft pea gravel walkway at 2.5" depth with 10% edge settlement.',
+      steps: [
+        'Raw volume: 300 sq ft × (2.5 ÷ 12) = 62.5 cu ft.',
+        'Add 10% settlement: 62.5 × 1.10 = 68.75 cu ft = 2.55 cu yds.',
+        'Convert to tonnage: 2.55 yd³ × 1.35 tons/yd³ = 3.44 US tons.',
+      ],
+      result: 'Requirement: 2.55 Cubic Yards (~3.44 Tons) or 138 bags (50-lb).',
+    },
+    faqs: [
+      {
+        question: 'How deep should pea gravel be for a walkway or dog run?',
+        answer: 'Use a 2- to 3-inch depth over compacted landscape fabric for pedestrian walkways and dog runs. Avoid going deeper than 3 inches, as rounded pebbles shift underfoot and feel like walking in deep sand.',
+      },
+      {
+        question: 'How much does 1 cubic yard of pea gravel weigh?',
+        answer: 'Dry washed 3/8-inch pea gravel weighs roughly 2,700 lbs (1.35 US short tons) per cubic yard, or about 1.60 metric tonnes per cubic meter.',
+      },
+    ],
+  },
+
+  crushed_stone: {
+    slug: 'crushed-stone-calculator',
+    title: 'Crushed Stone & #57 Gravel Calculator — Driveway & French Drain Tons',
+    metaDescription: 'Calculate crushed limestone, #57 drainage stone, and crusher run tonnage for gravel driveways, French drains, shed pads, and sub-bases.',
+    keywords: ['crushed stone calculator', '57 stone calculator', 'crushed limestone calculator', 'french drain gravel calculator'],
+    canonicalPath: '/crushed-stone-calculator',
+    category: 'construction',
+    h1: 'Crushed Stone & #57 Gravel Tonnage Calculator',
+    lead: 'Calculate exact cubic yards, US tons (1.40–1.60 tons/yd³), and dump truckloads for angular #57 crushed stone, driveway stone, and crusher run sub-bases.',
+    formula: {
+      title: 'Crushed Stone Tonnage Formula',
+      expression: 'Tons = [Area (sq ft) × (Depth (in) ÷ 12) ÷ 27] × 1.40 tons/yd³ × (1 + Compaction %)',
+      explanation: 'Angular #57 crushed stone weighs ~1.40 tons/yd³ (2,800 lbs); dense crusher run road base with fines weighs ~1.60 tons/yd³.',
+    },
+    workedExample: {
+      title: 'Worked Example: 30 ft × 10 ft Shed Pad @ 4" #57 Stone',
+      scenario: 'Laying a 4-inch compacted #57 crushed stone foundation pad for a shed or driveway extension.',
+      steps: [
+        'Area: 30 × 10 = 300 sq ft at 4" (0.333 ft) = 100 cu ft raw.',
+        'Factor 12% compaction: 112 cu ft = 4.15 cubic yards.',
+        'Weight (#57 stone @ 1.40 tons/yd³): 4.15 × 1.40 = 5.81 US tons.',
+      ],
+      result: 'Requirement: 4.15 Cubic Yards / 5.81 Tons of #57 crushed stone.',
+    },
+    faqs: [
+      {
+        question: 'What is the difference between #57 stone and crusher run?',
+        answer: '#57 crushed stone is clean 3/4-inch washed angular rock with no dust—ideal for French drains, shed pads, and driveway top coats. Crusher run mixes angular stone with fine limestone dust so it compacts rock-solid beneath pavers or concrete slabs.',
+      },
+      {
+        question: 'How deep should crushed stone be for a gravel driveway?',
+        answer: 'Construct a residential gravel driveway in two lifts: a 4-inch compacted base layer of crusher run (#21A), topped with 2 to 3 inches of clean #57 crushed stone.',
+      },
+    ],
+  },
+
+  decomposed_granite: {
+    slug: 'decomposed-granite-calculator',
+    title: 'Decomposed Granite (DG) Calculator — Patio & Pathway Tonnage',
+    metaDescription: 'Free decomposed granite (DG) calculator factoring in 15%–20% compaction. Estimate cubic yards and tons for natural trails, bocce courts, and patios.',
+    keywords: ['decomposed granite calculator', 'dg gravel calculator', 'decomposed granite compaction calculator', 'dg patio tons'],
+    canonicalPath: '/decomposed-granite-calculator',
+    category: 'construction',
+    h1: 'Decomposed Granite (DG) Compaction & Tonnage Calculator',
+    lead: 'Calculate bulk cubic yards and US short tons (1.50 tons/yd³) of natural or stabilized decomposed granite with built-in 15%–20% tamping compaction.',
+    formula: {
+      title: 'Compacted DG Formula',
+      expression: 'Tons = [Area (sq ft) × (Compacted Depth (in) ÷ 12) ÷ 27] × 1.50 tons/yd³ × 1.18',
+      explanation: 'Decomposed granite contains fine mineral dust that compresses tightly by 15% to 20% when watered and compacted with a vibratory plate compactor.',
+    },
+    workedExample: {
+      title: 'Worked Example: 30 ft × 10 ft DG Garden Path @ 3" Compacted',
+      scenario: 'Installing a 300 sq ft compacted decomposed granite walkway at 3" finished thickness with 18% compaction.',
+      steps: [
+        'Compacted volume: 300 sq ft × (3" ÷ 12) = 75 cu ft.',
+        'Adjust +18% for pre-tamp loose depth: 75 × 1.18 = 88.5 cu ft = 3.28 cu yds.',
+        'Weight (@ 1.50 tons/yd³): 3.28 × 1.50 = 4.92 US tons.',
+      ],
+      result: 'Requirement: 3.28 Loose Cubic Yards / 4.92 US Tons of Decomposed Granite.',
+    },
+    faqs: [
+      {
+        question: 'How much extra decomposed granite should I order for compaction?',
+        answer: 'Order 15% to 20% extra loose volume when calculating for finished compacted depth. Moisture-conditioned DG compresses substantially under a vibratory plate compactor.',
+      },
+      {
+        question: 'Should I use stabilized or unstabilized DG for a patio?',
+        answer: 'Use stabilized DG (blended with organic plantain binder or polymer resin) for patios, ADA walkways, and sloped paths to resist rain erosion and tracking indoors.',
+      },
+    ],
+  },
+
+  river_rock: {
+    slug: 'river-rock-calculator',
+    title: 'River Rock & Landscaping Stone Calculator — Dry Creek Bed Tons',
+    metaDescription: 'Calculate tons and cubic yards of 1"-3" decorative river rock and landscaping cobbles for dry creek beds, garden borders, and drainage swales.',
+    keywords: ['river rock calculator', 'landscaping rock calculator', 'dry creek bed rock calculator', 'tons of river rock'],
+    canonicalPath: '/river-rock-calculator',
+    category: 'construction',
+    h1: 'River Rock & Decorative Landscaping Stone Calculator',
+    lead: 'Calculate bulk cubic yards and US tons (1.45 tons/yd³) of smooth 1"–3" river rock and cobbles for dry creek beds, foundation borders, and erosion swales.',
+    formula: {
+      title: 'River Rock Tonnage Formula',
+      expression: 'Tons = [Area (sq ft) × (Depth (in) ÷ 12) ÷ 27] × 1.45 tons/yd³ × 1.08',
+      explanation: 'Decorative 1"–3" river cobble weighs ~1.45 tons/yd³ (2,900 lbs). Apply at least 3 inches deep (approx. 1.5× stone diameter) so landscape fabric never shows through.',
+    },
+    workedExample: {
+      title: 'Worked Example: 30 ft × 10 ft Dry Creek Border @ 3" River Rock',
+      scenario: 'Covering a 300 sq ft landscape border or drainage swale with 1"-3" river rock at 3" depth.',
+      steps: [
+        'Volume: 300 × (3 ÷ 12) = 75 cu ft × 1.08 buffer = 81 cu ft = 3.0 cu yds.',
+        'Weight (@ 1.45 tons/yd³): 3.0 × 1.45 = 4.35 US tons.',
+      ],
+      result: 'Requirement: 3.00 Cubic Yards (~4.35 US Tons) of decorative river rock.',
+    },
+    faqs: [
+      {
+        question: 'How deep should river rock be installed?',
+        answer: 'Install decorative river rock at a depth equal to at least 1.5× the largest stone size—typically 3 inches for 1"–2" pebbles and 4 inches for 2"–3" cobbles—over heavy-duty woven landscape fabric.',
+      },
+      {
+        question: 'How much area does 1 ton of river rock cover?',
+        answer: 'One ton of river rock (~0.69 cubic yards) covers roughly 110 sq ft at 2 inches deep or 75 sq ft at 3 inches deep.',
+      },
+    ],
+  },
+
+  paver_base: {
+    slug: 'paver-base-calculator',
+    title: 'Paver Base & Bedding Sand Calculator — Gravel Sub-Base & Sand',
+    metaDescription: 'Calculate compacted gravel sub-base (4"-6" crusher run) and 1-inch bedding sand tons plus polymeric joint sand bags for interlocking paver patios.',
+    keywords: ['paver base calculator', 'paver sand calculator', 'gravel base under pavers', 'patio sub base calculator'],
+    canonicalPath: '/paver-base-calculator',
+    category: 'construction',
+    h1: 'Paver Base Gravel & Bedding Sand Calculator',
+    lead: 'Calculate both your compacted crushed-stone sub-base (4" patio / 6" driveway crusher run) and 1-inch screeded concrete bedding sand alongside total pavers and polymeric joint sand.',
+    formula: {
+      title: 'Dual-Layer Paver Base & Sand Formula',
+      expression: 'Base Tons = [Area × (Base Depth ÷ 12) ÷ 27 × 1.15] × 1.60; Bedding Sand Tons = [Area × (1 ÷ 12) ÷ 27] × 1.30',
+      explanation: 'Paver foundations require two distinct aggregate layers: 4"–6" compacted crusher run (#21A) base plus exactly 1" screeded coarse concrete sand.',
+    },
+    workedExample: {
+      title: 'Worked Example: 20 ft × 15 ft Paver Driveway/Patio Base',
+      scenario: 'Installing a 300 sq ft paver patio over a 6" compacted gravel base and 1" screeded bedding sand.',
+      steps: [
+        '6" Compacted Base (+15% compaction): 300 × 0.5 ÷ 27 × 1.15 = 6.39 yd³ × 1.60 = 10.22 tons crusher run.',
+        '1" Bedding Sand: 300 × (1/12) ÷ 27 = 0.93 yd³ × 1.30 = 1.20 tons masonry sand.',
+        'Polymeric joint sand: 300 ÷ 60 = 5 bags (50 lb).',
+      ],
+      result: 'Requirement: 10.22 Tons Gravel Base, 1.20 Tons Bedding Sand, and 5 Bags Polymeric Sand.',
+    },
+    faqs: [
+      {
+        question: 'How deep should the gravel base be under patio pavers?',
+        answer: 'Excavate for a minimum 4-inch compacted crusher run gravel base for pedestrian patios and walkways, or 6 to 8 inches for driveways carrying passenger vehicles.',
+      },
+      {
+        question: 'Why must bedding sand under pavers be exactly 1 inch deep?',
+        answer: 'Bedding sand levels minor variations in paver thickness and seats the paver bottoms, but thicker sand (>1.5") shifts under loads and causes wavy rutting.',
+      },
+    ],
+  },
+
+  playground_mulch: {
+    slug: 'playground-mulch-calculator',
+    title: 'Playground Wood Chips & Rubber Mulch Calculator — Safety Fall Depth',
+    metaDescription: 'Calculate ASTM safety-compliant cubic yards and bags of engineered wood fiber chips or recycled rubber mulch at 6", 9", or 12" fall-height depths.',
+    keywords: ['playground mulch calculator', 'rubber mulch calculator', 'wood chips fall height depth', 'astm playground mulch'],
+    canonicalPath: '/playground-mulch-calculator',
+    category: 'construction',
+    h1: 'Playground Wood Chips & Rubber Mulch Safety Calculator',
+    lead: 'Size engineered wood fiber chips or recycled rubber mulch with ASTM playground fall-height depth presets (6", 9", and 12") for safe backyard and park play zones.',
+    formula: {
+      title: 'Playground Safety Surfacing Formula',
+      expression: 'Cubic Yards = [Play Zone Area (sq ft) × (Safety Depth (in) ÷ 12)] ÷ 27 × 1.05',
+      explanation: 'ASTM F1292 recommends 9"–12" of engineered wood chips or 6" of recycled rubber mulch beneath play structures over 4–7 feet tall.',
+    },
+    workedExample: {
+      title: 'Worked Example: 20 ft × 15 ft Swing Zone @ 9" Safety Depth',
+      scenario: 'Surfacing a 300 sq ft swing and slide play area to 9 inches compressed wood chip depth.',
+      steps: [
+        'Area: 20 ft × 15 ft = 300 sq ft.',
+        'Depth: 9" ÷ 12 = 0.75 ft -> 225 cu ft × 1.05 buffer = 236.25 cu ft.',
+        'Convert to cubic yards: 236.25 ÷ 27 = 8.75 cubic yards.',
+      ],
+      result: 'Requirement: 8.75 Cubic Yards of Playground Wood Chips (~3.9 tons).',
+    },
+    faqs: [
+      {
+        question: 'How deep should playground mulch be under a swingset?',
+        answer: 'Install at least 9 inches of engineered wood fiber (compacting to ~6–7 inches) for equipment up to 7 feet high, or 12 inches for tall playsets up to 10 feet. Recycled rubber mulch requires 6 inches of depth for equivalent 10-foot impact absorption.',
+      },
+      {
+        question: 'Can I use regular landscape bark mulch on a playground?',
+        answer: 'Standard shredded landscape bark decomposes rapidly, harbors splinters, and loses shock-absorbing bounce. Always use ASTM-certified Engineered Wood Fiber (EWF) or recycled rubber nuggets.',
+      },
+    ],
+  },
+
+  pine_straw: {
+    slug: 'pine-straw-calculator',
+    title: 'Pine Straw Bale Calculator — Standard & Longleaf Jumbo Bales',
+    metaDescription: 'Free pine straw calculator. Convert garden bed square footage into standard square bales (~38 sq ft) or longleaf jumbo bales (~65 sq ft) at 2"-4" depths.',
+    keywords: ['pine straw calculator', 'how many bales of pine straw do i need', 'longleaf pine straw coverage', 'pine needle mulch calculator'],
+    canonicalPath: '/pine-straw-calculator',
+    category: 'construction',
+    h1: 'Pine Straw & Longleaf Needle Bale Calculator',
+    lead: 'Calculate exact bale counts for Southern pine straw ground cover using square footage, 2"–4" settled thickness, and standard square vs. longleaf jumbo bale yields.',
+    formula: {
+      title: 'Pine Straw Bale Formula',
+      expression: 'Bales Needed = Ceil([Bed Sq Ft ÷ Depth-Adjusted Coverage] × (1 + Edge Tuck Margin %))',
+      explanation: 'At a standard 3" settled depth, a regular square bale covers ~35–40 sq ft and a longleaf jumbo roll/bale covers ~60–70 sq ft.',
+    },
+    workedExample: {
+      title: 'Worked Example: 30 ft × 12 ft Shrub Bed @ 3" Standard Bales',
+      scenario: 'Mulching a 360 sq ft garden bed with 3" settled pine needles using standard square bales and 10% edge tuck.',
+      steps: [
+        'Bed area: 30 ft × 12 ft = 360 sq ft.',
+        'Raw bales @ 38 sq ft/bale: 360 ÷ 38 = 9.47 bales.',
+        'Add 10% tucking allowance along bed edges: 9.47 × 1.10 = 10.4 -> 11 bales.',
+      ],
+      result: 'Requirement: 11 Standard Pine Straw Bales (or 7 Longleaf Jumbo Bales).',
+    },
+    faqs: [
+      {
+        question: 'How many square feet does one bale of pine straw cover?',
+        answer: 'A standard square pine straw bale covers 35 to 40 square feet at a fresh 3-inch depth (up to 50 sq ft for light annual refreshing). Longleaf jumbo bales or round rolls cover 60 to 70 square feet.',
+      },
+      {
+        question: 'Why tuck pine straw along bed edges?',
+        answer: 'Tucking a rolled edge into a 2-inch trench along lawn borders keeps wind from blowing loose needles onto grass and gives a crisp, tailored landscape line—budget roughly 10% extra bales for tucking.',
+      },
+    ],
+  },
+
+  grass_seed: {
+    slug: 'grass-seed-calculator',
+    title: 'Grass Seed Coverage Calculator — New Lawn vs. Overseeding Rates',
+    metaDescription: 'Calculate pounds of grass seed and retail bag counts for new bare lawns vs overseeding existing turf across Tall Fescue, Bluegrass, Ryegrass, and Bermuda.',
+    keywords: ['grass seed calculator', 'how much grass seed do i need', 'overseeding grass seed rate', 'fescue seeding calculator'],
+    canonicalPath: '/grass-seed-calculator',
+    category: 'construction',
+    h1: 'Grass Seed Coverage & Bag Calculator',
+    lead: 'Compare exact pounds of grass seed and 5/10/25-lb retail bags needed for new bare-soil lawns versus overseeding existing turf across popular cool- and warm-season grasses.',
+    formula: {
+      title: 'Grass Seed Weight Formula',
+      expression: 'Seed Lbs = [(Lawn Sq Ft × 1.05) ÷ 1,000] × Species Rate (lbs per 1,000 sq ft)',
+      explanation: 'Example Tall Fescue uses 8 lbs/1,000 sq ft for new lawns vs. 4 lbs/1,000 sq ft when overseeding established turf.',
+    },
+    workedExample: {
+      title: 'Worked Example: 5,000 Sq Ft Overseed with Tall Fescue',
+      scenario: 'Fall aerating and overseeding a 5,000 sq ft lawn (100 ft × 50 ft) with Turf-Type Tall Fescue at 4 lbs/1,000 sq ft.',
+      steps: [
+        'Lawn area: 100 ft × 50 ft = 5,000 sq ft.',
+        'Apply 5% overlap margin: 5,250 effective sq ft.',
+        'Calculate seed: (5,250 ÷ 1,000) × 4 lbs = 21.0 lbs of seed.',
+        'Starter fertilizer (@ 3.5 lbs/1,000 sq ft): 19 lbs.',
+      ],
+      result: 'Requirement: 21 lbs of Tall Fescue Seed (1× 25-lb Bag) + 19 lbs Starter Fertilizer.',
+    },
+    faqs: [
+      {
+        question: 'What is the difference between new lawn and overseeding grass seed rates?',
+        answer: 'Bare soil new-lawn rates are typically double the overseeding rate because no existing turf roots are present to fill coverage gaps. Applying full new-lawn rates over thick grass wastes seed and causes overcrowded, weak seedlings.',
+      },
+      {
+        question: 'When is the best time to overseed Fescue vs. Bermuda?',
+        answer: 'Seed cool-season grasses (Tall Fescue, Kentucky Bluegrass, Perennial Ryegrass) in early fall when soil temperatures are 50°F–65°F. Seed warm-season grasses (Bermuda, Zoysia) in late spring once daytime highs consistently exceed 75°F.',
+      },
+    ],
+  },
+
+  fence_post: {
+    slug: 'fence-post-calculator',
+    title: 'Fence Post & Concrete Bag Calculator — Posts, Rails, Pickets & Bags',
+    metaDescription: 'Free fence calculator. Calculate fence posts, horizontal 2x4 rails, wood pickets, drainage gravel, and 50-lb/80-lb concrete bags by linear feet.',
+    keywords: ['fence post calculator', 'how much concrete for fence posts', 'fence picket calculator', 'fence material calculator'],
+    canonicalPath: '/fence-post-calculator',
+    category: 'construction',
+    h1: 'Fence Post, Lumber & Concrete Bag Calculator',
+    lead: 'Calculate exact fence posts, 2×4 horizontal rails, dog-ear pickets, post-hole drainage gravel, and 50-lb/80-lb concrete bags from your total linear footage.',
+    formula: {
+      title: 'Fence Posts & Post-Hole Concrete Formula',
+      expression: 'Posts = Ceil(Linear Ft ÷ Spacing) + 1 + Extra Gate/Corner Posts; Concrete/Hole = π·r²·Depth − Post Volume',
+      explanation: 'A standard 10" wide × 30" deep post hole around a 4×4 post requires ~1.14 cu ft of concrete (approx. 2.5 to 3 bags of 50-lb fast-set concrete).',
+    },
+    workedExample: {
+      title: 'Worked Example: 120 Linear Ft Privacy Fence (8\' Spacing)',
+      scenario: 'Building a 120 ft, 6 ft high wood privacy fence with 8\' bays, 3 rails/bay, 10"×30" post holes, and 2 extra gate posts.',
+      steps: [
+        'Fence bays: 120 ÷ 8 = 15 sections (16 line posts + 2 extra gate posts = 18 total posts).',
+        'Horizontal rails (3 per bay): 15 × 3 = 45 rails (8 ft long).',
+        '5.5" Dog-ear pickets (+5% waste): 270 pickets.',
+        'Concrete per hole (~1.14 cu ft) × 18 posts × 1.08 buffer = 22.1 cu ft -> 59 bags (50-lb) or 37 bags (80-lb).',
+      ],
+      result: 'Requirement: 18 Posts, 45 Rails, 270 Pickets, and 59× 50-lb Concrete Bags.',
+    },
+    faqs: [
+      {
+        question: 'How many bags of concrete do I need per fence post?',
+        answer: 'For standard 4×4 posts in a 10" wide by 30" deep hole, plan on 2.5 to 3 bags of 50-lb fast-setting concrete (or 2 bags of 80-lb mix) per post. Deeper 36"–42" frost-line holes or wider 12" gate-post holes require 3.5 to 4.5 bags per post.',
+      },
+      {
+        question: 'Should I put gravel at the bottom of a wooden fence post hole?',
+        answer: 'Yes. Pouring 4 to 6 inches of crushed gravel at the bottom of each post hole promotes drainage away from the end grain of pressure-treated lumber, extending post lifespan and reducing frost heave.',
+      },
+    ],
+  },
 };
+
 

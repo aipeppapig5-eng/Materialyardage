@@ -14,7 +14,7 @@ import { CALCULATOR_IMAGES } from '../data/uiImages';
 
 interface RelatedCalculatorsProps {
   currentId: string;
-  onSelectCalculator: (calculatorId: string) => void;
+  onSelectCalculator: (calculatorId: string, customRoutePath?: string, subType?: string) => void;
 }
 
 interface CalculatorMeta {
@@ -76,8 +76,38 @@ const ALL_CALCULATORS: CalculatorMeta[] = [
     slug: 'mulch-calculator',
     category: 'construction',
     description: 'Calculate cubic yards and 2 or 3 cu ft retail bags for garden beds, tree rings, and raised planter boxes.',
-    bestPairedWith: ['sod_turf', 'gravel_aggregate', 'paver_masonry'],
+    bestPairedWith: ['pine_straw', 'raised_bed_soil', 'sod_turf'],
     metrics: 'Cubic yards, retail bags, depth coverage matrix',
+  },
+  {
+    id: 'raised_bed_soil',
+    name: 'Raised Garden Bed Soil Calculator',
+    badge: 'Garden Beds',
+    slug: 'raised-bed-soil-calculator',
+    category: 'construction',
+    description: 'Calculate volume and topsoil/compost/aeration ratios for 4×4, 4×8, and custom raised garden beds.',
+    bestPairedWith: ['potting_soil', 'mulch_soil', 'pine_straw'],
+    metrics: '50/30/20 soil mix, cubic yards, 40-lb bags',
+  },
+  {
+    id: 'potting_soil',
+    name: 'Potting Mix & Planter Volume',
+    badge: 'Container Gardening',
+    slug: 'potting-soil-calculator',
+    category: 'construction',
+    description: 'Size dry quarts and gallons of potting mix for tapered flower pots, fabric grow bags, and rectangular window boxes.',
+    bestPairedWith: ['raised_bed_soil', 'mulch_soil', 'pine_straw'],
+    metrics: 'Dry quarts, gallons, 32-qt & 64-qt bags',
+  },
+  {
+    id: 'pine_straw',
+    name: 'Pine Straw Bale Calculator',
+    badge: 'Ground Cover',
+    slug: 'pine-straw-calculator',
+    category: 'construction',
+    description: 'Convert bed square footage into standard square pine straw bales (~38 sq ft) or longleaf jumbo bales (~65 sq ft).',
+    bestPairedWith: ['mulch_soil', 'raised_bed_soil', 'sod_turf'],
+    metrics: 'Standard vs jumbo bales, edge tuck allowance',
   },
   {
     id: 'gravel_aggregate',
@@ -85,8 +115,8 @@ const ALL_CALCULATORS: CalculatorMeta[] = [
     badge: 'Driveways & Drainage',
     slug: 'gravel-calculator',
     category: 'construction',
-    description: 'Estimate crushed stone, pea gravel, road base, and river rock with density conversion from cubic yards to tons.',
-    bestPairedWith: ['paver_masonry', 'concrete_calc', 'mulch_soil'],
+    description: 'Estimate crushed stone, pea gravel, decomposed granite, river rock, and sand tonnage from cubic yards.',
+    bestPairedWith: ['paver_masonry', 'concrete_calc', 'retaining_wall'],
     metrics: 'US tons, metric tonnes, standard dump truckloads',
   },
   {
@@ -96,18 +126,28 @@ const ALL_CALCULATORS: CalculatorMeta[] = [
     slug: 'concrete-calculator',
     category: 'construction',
     description: 'Accurately size concrete slabs, Sonotube columns, stairs, 40/60/80lb ready-mix bags, and 1:2:4 batch ratios.',
-    bestPairedWith: ['gravel_aggregate', 'paver_masonry'],
+    bestPairedWith: ['gravel_aggregate', 'fence_post', 'paver_masonry'],
     metrics: 'Cubic yards, 80lb bags, rebar grid, sand & gravel',
   },
   {
     id: 'paver_masonry',
-    name: 'Paver Patios & Retaining Walls',
+    name: 'Paver Base, Sand & Masonry',
     badge: 'Hardscaping & Patios',
     slug: 'paver-calculator',
     category: 'construction',
-    description: 'Calculate paver unit quantities, compacted gravel base, bedding sand depth, and polymeric joint sand bags.',
-    bestPairedWith: ['gravel_aggregate', 'concrete_calc', 'sod_turf'],
-    metrics: 'Paver count, bedding sand, polymeric joint sand',
+    description: 'Calculate paver unit quantities, 4"–8" compacted gravel base, 1" bedding sand depth, and polymeric joint sand bags.',
+    bestPairedWith: ['gravel_aggregate', 'concrete_calc', 'retaining_wall'],
+    metrics: 'Base gravel tons, bedding sand, pavers',
+  },
+  {
+    id: 'retaining_wall',
+    name: 'Retaining Wall & Drainage Calculator',
+    badge: 'Segmental Walls',
+    slug: 'retaining-wall-calculator',
+    category: 'construction',
+    description: 'Estimate interlocking wall blocks, buried base course, capstones, leveling gravel, and #57 drainage stone.',
+    bestPairedWith: ['gravel_aggregate', 'paver_masonry', 'mulch_soil'],
+    metrics: 'Wall blocks, capstones, drainage rock, geogrid',
   },
   {
     id: 'sod_turf',
@@ -116,8 +156,38 @@ const ALL_CALCULATORS: CalculatorMeta[] = [
     slug: 'sod-calculator',
     category: 'construction',
     description: 'Estimate square footage of sod rolls (2\'×5\'), full pallets, cutting waste allowances, and soil amendment needs.',
-    bestPairedWith: ['mulch_soil', 'paver_masonry', 'gravel_aggregate'],
+    bestPairedWith: ['grass_seed', 'mulch_soil', 'fence_post'],
     metrics: 'Lawn square footage, 2\'×5\' rolls, whole pallets',
+  },
+  {
+    id: 'grass_seed',
+    name: 'Grass Seed Coverage Calculator',
+    badge: 'Lawns & Overseeding',
+    slug: 'grass-seed-calculator',
+    category: 'construction',
+    description: 'Compare pounds and bags of grass seed for new bare lawns versus overseeding across Fescue, Bluegrass, and Bermuda.',
+    bestPairedWith: ['sod_turf', 'mulch_soil', 'fence_post'],
+    metrics: 'New vs overseed rates, bags, starter fertilizer',
+  },
+  {
+    id: 'fence_post',
+    name: 'Fence Post & Concrete Bag Calculator',
+    badge: 'Fencing & Footings',
+    slug: 'fence-post-calculator',
+    category: 'construction',
+    description: 'Calculate fence posts, 2×4 horizontal rails, dog-ear pickets, drainage gravel, and 50-lb/80-lb concrete bags.',
+    bestPairedWith: ['concrete_calc', 'sod_turf', 'gravel_aggregate'],
+    metrics: 'Posts, rails, pickets, concrete bags',
+  },
+  {
+    id: 'wallpaper_calc',
+    name: 'Wallpaper & Wallcovering Calculator',
+    badge: 'Interior Decor',
+    slug: 'wallpaper-calculator',
+    category: 'fabric',
+    description: 'Calculate roll counts for accent walls or full rooms with pattern repeat drops, window deductions, and paste.',
+    bestPairedWith: ['curtains_drapery', 'upholstery_cushions', 'fabric_cut'],
+    metrics: 'Roll count, pattern repeat drop, trim allowance',
   },
 ];
 
@@ -167,11 +237,9 @@ export const RelatedCalculators: React.FC<RelatedCalculatorsProps> = ({
           </p>
         </div>
 
-        <div className="flex items-center gap-2 self-start sm:self-auto shrink-0 text-xs">
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-semibold text-[11px]">
-            <CheckCircle className="w-3 h-3" />
-            <span>SEO Internal Hub</span>
-          </span>
+        <div className="flex items-center gap-2 self-start sm:self-auto shrink-0 text-xs text-slate-500">
+          <CheckCircle className="w-3.5 h-3.5 text-emerald-700" />
+          <span>Integrated BOM workflow</span>
         </div>
       </div>
 
@@ -186,7 +254,7 @@ export const RelatedCalculators: React.FC<RelatedCalculatorsProps> = ({
               href={`/${item.slug}`}
               onClick={(e) => {
                 e.preventDefault();
-                onSelectCalculator(item.id);
+                onSelectCalculator(item.id, item.slug);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className="group relative bg-white border border-slate-200 hover:border-emerald-500 rounded-2xl p-4 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between overflow-hidden"
@@ -277,7 +345,7 @@ export const RelatedCalculators: React.FC<RelatedCalculatorsProps> = ({
               href={`/${opp.slug}`}
               onClick={(e) => {
                 e.preventDefault();
-                onSelectCalculator(opp.id);
+                onSelectCalculator(opp.id, opp.slug);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-emerald-600 hover:text-emerald-800 text-slate-700 transition-colors shadow-2xs"

@@ -7,9 +7,10 @@ import { SEO_PAGES } from '../data/seoData';
 
 interface SEOGuideSectionProps {
   seo: PageSEO;
+  calculatorId?: string;
 }
 
-export const SEOGuideSection: React.FC<SEOGuideSectionProps> = ({ seo }) => {
+export const SEOGuideSection: React.FC<SEOGuideSectionProps> = ({ seo, calculatorId }) => {
   const [openFaq, setOpenFaq] = useState<number | null>(0); // First FAQ open by default
 
   const toggleFaq = (idx: number) => {
@@ -18,7 +19,7 @@ export const SEOGuideSection: React.FC<SEOGuideSectionProps> = ({ seo }) => {
 
   const matchingEntry = Object.entries(SEO_PAGES).find(([_, p]) => p.slug === seo.slug);
   const calcId = matchingEntry ? matchingEntry[0] : '';
-  const imgMeta = CALCULATOR_IMAGES[calcId];
+  const imgMeta = CALCULATOR_IMAGES[calcId] || (calculatorId ? CALCULATOR_IMAGES[calculatorId] : undefined);
 
   return (
     <section className="mt-12 space-y-8 border-t border-slate-200 pt-10 text-slate-800">

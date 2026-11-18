@@ -1,4 +1,4 @@
-import { PageSEO } from '../data/seoData';
+import { PageSEO, SEO_PAGES } from '../data/seoData';
 
 export interface SEOPayload {
   title: string;
@@ -145,12 +145,33 @@ export function updateDocumentSEO(
     });
   }
 
-  // If page has FAQs, add FAQPage schema
-  if (seo.faqs && seo.faqs.length > 0) {
+  // Resolve FAQs dynamically from SEO_PAGES if not directly provided on seo object
+  let faqs = ('faqs' in seo && seo.faqs && seo.faqs.length > 0) ? seo.faqs : undefined;
+  if (!faqs && 'seoKey' in seo && (seo as any).seoKey) {
+    const seoKey = (seo as any).seoKey;
+    if (SEO_PAGES[seoKey]?.faqs) {
+      faqs = SEO_PAGES[seoKey].faqs;
+    }
+  }
+  if (!faqs && 'targetCalculator' in seo && (seo as any).targetCalculator) {
+    const calcKey = (seo as any).targetCalculator;
+    if (SEO_PAGES[calcKey]?.faqs) {
+      faqs = SEO_PAGES[calcKey].faqs;
+    }
+  }
+  if (!faqs && 'slug' in seo && seo.slug) {
+    const matching = Object.values(SEO_PAGES).find(p => p.slug === seo.slug);
+    if (matching?.faqs) {
+      faqs = matching.faqs;
+    }
+  }
+
+  // If FAQs exist (from seo object or resolved from SEO_PAGES), inject FAQPage schema
+  if (faqs && faqs.length > 0) {
     schemaGraph.push({
       '@type': 'FAQPage',
       '@id': `${currentUrl}#faq`,
-      mainEntity: seo.faqs.map((faq: { question: string; answer: string }) => ({
+      mainEntity: faqs.map((faq: { question: string; answer: string }) => ({
         '@type': 'Question',
         name: faq.question,
         acceptedAnswer: {

@@ -57,6 +57,8 @@ export function calculateMulch(
   const bags1_5CuFt = Math.ceil(volumeCuFt / 1.5);
   const bags2CuFt = Math.ceil(volumeCuFt / 2.0);
   const bags3CuFt = Math.ceil(volumeCuFt / 3.0);
+  // 40-lb retail topsoil / compost bags (~0.75 cu ft each)
+  const bags40lb = Math.ceil(volumeCuFt / 0.75);
 
   return {
     areaSqFt,
@@ -70,6 +72,7 @@ export function calculateMulch(
     bags1_5CuFt,
     bags2CuFt,
     bags3CuFt,
+    bags40lb,
   };
 }
 
@@ -414,5 +417,225 @@ export function calculateRetainingWall(
     drainPipeLinearFt,
     geogridSqYd,
     geogridLayers,
+  };
+}
+
+/**
+ * Raised Garden Bed Soil & Blend calculation
+ */
+export type RaisedBedMixPreset = 'garden_50_30_20' | 'mels_mix' | 'loam_compost_60_40';
+
+export function calculateRaisedBedSoil(
+  lengthFt: number,
+  widthFt: number,
+  depthInches: number,
+  bedCount: number = 1,
+  mixPreset: RaisedBedMixPreset = 'garden_50_30_20',
+  settlementPercent: number = 5
+) {
+  const singleBedSqFt = Math.max(0, lengthFt * widthFt);
+  const totalSqFt = singleBedSqFt * Math.max(1, bedCount);
+  const rawCuFt = totalSqFt * (depthInches / 12);
+  const volumeCuFt = rawCuFt * (1 + settlementPercent / 100);
+  const volumeCuYd = volumeCuFt / 27;
+  const volumeCuM = volumeCuYd * 0.764555;
+
+  let topsoilRatio = 0.50;
+  let compostRatio = 0.30;
+  let aerationRatio = 0.20;
+  if (mixPreset === 'mels_mix') {
+    topsoilRatio = 1 / 3; // peat moss / coco coir base
+    compostRatio = 1 / 3;
+    aerationRatio = 1 / 3; // coarse vermiculite
+  } else if (mixPreset === 'loam_compost_60_40') {
+    topsoilRatio = 0.60;
+    compostRatio = 0.40;
+    aerationRatio = 0;
+  }
+
+  const topsoilCuFt = volumeCuFt * topsoilRatio;
+  const compostCuFt = volumeCuFt * compostRatio;
+  const aerationCuFt = volumeCuFt * aerationRatio;
+
+  const bags1_5CuFt = Math.ceil(volumeCuFt / 1.5);
+  const bags2CuFt = Math.ceil(volumeCuFt / 2.0);
+  const estimatedWeightTons = volumeCuYd * 0.85;
+
+  return {
+    singleBedSqFt,
+    totalSqFt,
+    volumeCuFt,
+    volumeCuYd,
+    volumeCuM,
+    topsoilCuFt,
+    compostCuFt,
+    aerationCuFt,
+    bags1_5CuFt,
+    bags2CuFt,
+    estimatedWeightTons,
+  };
+}
+
+/**
+ * Potting Mix & Planter Container Volume calculation
+ */
+export type PlanterShape = 'tapered_pot' | 'cylinder_growbag' | 'window_box';
+
+export function calculatePottingSoil(
+  shape: PlanterShape,
+  topDiameterOrLengthIn: number,
+  bottomDiameterOrWidthIn: number,
+  heightIn: number,
+  potCount: number = 1,
+  fillRatio: number = 0.92
+) {
+  let volumeCuInSingle = 0;
+  if (shape === 'tapered_pot') {
+    const r1 = topDiameterOrLengthIn / 2;
+    const r2 = bottomDiameterOrWidthIn / 2;
+    // Frustum of a cone: (1/3) * pi * h * (r1^2 + r1*r2 + r2^2)
+    volumeCuInSingle = (Math.PI * heightIn * (r1 * r1 + r1 * r2 + r2 * r2)) / 3;
+  } else if (shape === 'cylinder_growbag') {
+    const r = topDiameterOrLengthIn / 2;
+    volumeCuInSingle = Math.PI * r * r * heightIn;
+  } else {
+    volumeCuInSingle = topDiameterOrLengthIn * bottomDiameterOrWidthIn * heightIn;
+  }
+
+  const usableCuIn = Math.max(0, volumeCuInSingle * fillRatio) * Math.max(1, potCount);
+  const totalCuFt = usableCuIn / 1728;
+  // 1 US dry quart = 67.2006 cu in; 1 US trade/liquid gallon ≈ 231 cu in (soil bags commonly list dry quarts & cu ft)
+  const dryQuarts = usableCuIn / 67.2006;
+  const gallons = usableCuIn / 231;
+  const liters = usableCuIn * 0.0163871;
+
+  const bags8Qt = Math.ceil(dryQuarts / 8);
+  const bags16Qt = Math.ceil(dryQuarts / 16);
+  const bags32Qt = Math.ceil(dryQuarts / 32);
+  const bags2CuFt = Math.ceil(totalCuFt / 2.0); // ~51.4 dry quarts
+
+  return {
+    totalCuFt,
+    dryQuarts,
+    gallons,
+    liters,
+    bags8Qt,
+    bags16Qt,
+    bags32Qt,
+    bags2CuFt,
+  };
+}
+
+/**
+ * Pine Straw Bale calculation
+ */
+export type PineStrawBaleType = 'standard_square' | 'longleaf_jumbo';
+
+export function calculatePineStraw(
+  areaSqFt: number,
+  depthInches: number = 3,
+  baleType: PineStrawBaleType = 'standard_square',
+  wastePercent: number = 10
+) {
+  // Base coverage at 3" settled depth: Standard square bale (~14"x18"x36") covers ~38 sq ft;
+  // Longleaf Jumbo bale / roll covers ~65 sq ft. Scales inversely with target depth.
+  const baseCoverageAt3In = baleType === 'standard_square' ? 38 : 65;
+  const depthAdjustedCoverage = baseCoverageAt3In * (3 / Math.max(1.5, depthInches));
+  const rawBales = areaSqFt / depthAdjustedCoverage;
+  const totalBales = Math.ceil(rawBales * (1 + wastePercent / 100));
+  const baleWeightLbs = baleType === 'standard_square' ? 20 : 34;
+  const totalWeightLbs = totalBales * baleWeightLbs;
+
+  return {
+    areaSqFt,
+    coveragePerBaleSqFt: depthAdjustedCoverage,
+    totalBales,
+    totalWeightLbs,
+  };
+}
+
+/**
+ * Grass Seed Coverage calculation
+ */
+export function calculateGrassSeed(
+  areaSqFt: number,
+  ratePer1000SqFt: number,
+  wastePercent: number = 5
+) {
+  const effectiveAreaSqFt = areaSqFt * (1 + wastePercent / 100);
+  const totalLbs = (effectiveAreaSqFt / 1000) * ratePer1000SqFt;
+  const totalKg = totalLbs * 0.453592;
+  const bags5lb = Math.ceil(totalLbs / 5);
+  const bags10lb = Math.ceil(totalLbs / 10);
+  const bags25lb = Math.ceil(totalLbs / 25);
+  const bags50lb = Math.ceil(totalLbs / 50);
+  // Standard starter fertilizer application rate ~3.5 lbs per 1,000 sq ft
+  const starterFertilizerLbs = Math.ceil((effectiveAreaSqFt / 1000) * 3.5);
+
+  return {
+    areaSqFt,
+    totalLbs,
+    totalKg,
+    bags5lb,
+    bags10lb,
+    bags25lb,
+    bags50lb,
+    starterFertilizerLbs,
+  };
+}
+
+/**
+ * Fence Post, Lumber & Concrete Bag calculation
+ */
+export function calculateFenceProject(
+  linearFeet: number,
+  postSpacingFt: number = 8,
+  fenceHeightFt: number = 6,
+  railsPerSection: number = 3,
+  picketWidthInches: number = 5.5,
+  picketGapInches: number = 0.25,
+  holeDiameterInches: number = 10,
+  holeDepthInches: number = 30,
+  extraEndCornerPosts: number = 2
+) {
+  const sectionsCount = Math.max(1, Math.ceil(linearFeet / Math.max(4, postSpacingFt)));
+  const totalPosts = sectionsCount + 1 + Math.max(0, extraEndCornerPosts);
+  const totalRails = sectionsCount * railsPerSection;
+
+  const effectivePicketStepInches = picketWidthInches + picketGapInches;
+  const totalPickets = Math.ceil(((linearFeet * 12) / effectivePicketStepInches) * 1.05);
+
+  // Cylindrical post hole volume minus displaced 4x4 wood post (3.5" x 3.5")
+  const holeRadiusIn = holeDiameterInches / 2;
+  const holeVolumeCuIn = Math.PI * holeRadiusIn * holeRadiusIn * holeDepthInches;
+  const postDisplacementCuIn = 3.5 * 3.5 * Math.max(0, holeDepthInches - 4); // assume 4" gravel at bottom
+  const concreteCuInPerHole = Math.max(0, holeVolumeCuIn - postDisplacementCuIn);
+  const concreteCuFtPerHole = concreteCuInPerHole / 1728;
+  const totalConcreteCuFt = concreteCuFtPerHole * totalPosts * 1.08; // 8% waste
+  const totalConcreteCuYd = totalConcreteCuFt / 27;
+
+  const bags50lbPerPost = Math.ceil((concreteCuFtPerHole / 0.375) * 10) / 10;
+  const bags50lbTotal = Math.ceil(totalConcreteCuFt / 0.375);
+  const bags60lbTotal = Math.ceil(totalConcreteCuFt / 0.45);
+  const bags80lbTotal = Math.ceil(totalConcreteCuFt / 0.60);
+
+  // 4" crushed gravel drainage pocket per post hole
+  const gravelPerHoleCuFt = (Math.PI * holeRadiusIn * holeRadiusIn * 4) / 1728;
+  const totalGravelCuFt = gravelPerHoleCuFt * totalPosts;
+
+  return {
+    sectionsCount,
+    totalPosts,
+    totalRails,
+    totalPickets,
+    fenceHeightFt,
+    concreteCuFtPerHole,
+    totalConcreteCuFt,
+    totalConcreteCuYd,
+    bags50lbPerPost,
+    bags50lbTotal,
+    bags60lbTotal,
+    bags80lbTotal,
+    totalGravelCuFt,
   };
 }

@@ -64,6 +64,7 @@ export interface MulchResult {
   bags3CuFt: number;
   bags1_5CuFt: number;
   bags1CuFt: number;
+  bags40lb: number;
 }
 
 export interface AggregateResult {

@@ -187,5 +187,80 @@ export const CALCULATOR_IMAGES: Record<string, CalculatorImageMeta> = {
       'For straight or half-drop patterns, round up each strip length to the nearest multiple of the vertical repeat.',
       'Always purchase +1 extra roll from the exact same dye lot / run number for repair patches or pattern accidents.'
     ]
+  },
+  raised_bed_soil: {
+    id: 'raised_bed_soil',
+    calculatorId: 'raised_bed_soil',
+    title: 'Raised Garden Bed Soil & Mel’s Mix Blend',
+    caption: 'Balanced blend of screened topsoil, organic compost, and coarse aeration (perlite/vermiculite) for cedar and galvanized raised beds.',
+    src: mulchImg,
+    alt: 'Raised garden beds filled with dark fertile topsoil and compost mix surrounded by garden greenery',
+    badge: '50/30/20 Garden Blend',
+    category: 'construction',
+    materialTips: [
+      'Standard 4×8 ft raised beds at 12" deep hold 32 cubic feet (~1.19 cubic yards) of garden soil mix.',
+      'Blending topsoil, compost, and coarse perlite prevents compaction in deep container beds.',
+      'Allow 5%–10% extra volume for initial watering settlement after filling.'
+    ]
+  },
+  potting_soil: {
+    id: 'potting_soil',
+    calculatorId: 'potting_soil',
+    title: 'Container Planters, Tapered Pots & Grow Bags',
+    caption: 'Dry quarts and gallons of lightweight container potting mix calculated accurately using frustum geometry for tapered pots.',
+    src: mulchImg,
+    alt: 'Terracotta flower pots, window boxes, and fabric grow bags filled with aerated potting mix',
+    badge: 'Dry Quarts & Gallons',
+    category: 'construction',
+    materialTips: [
+      'Use lightweight soilless potting mix (peat/coir + perlite) in containers—never heavy backyard topsoil.',
+      '1 cubic foot of potting mix equals 25.71 dry quarts (~6.43 dry gallons).',
+      'Leave 1 inch of watering headspace below the container rim so mulch and soil do not wash over.'
+    ]
+  },
+  pine_straw: {
+    id: 'pine_straw',
+    calculatorId: 'pine_straw',
+    title: 'Southern Pine Straw & Longleaf Needle Mulching',
+    caption: 'Fresh golden-brown longleaf pine needles tucked neatly along shrub beds, shade borders, and natural tree islands.',
+    src: mulchImg,
+    alt: 'Crisp pine straw needle ground cover tucked cleanly along curved shrub border',
+    badge: 'Standard & Jumbo Bales',
+    category: 'construction',
+    materialTips: [
+      'Standard square bales cover 35–40 sq ft at 3" settled depth; longleaf jumbo bales cover 60–70 sq ft.',
+      'Tuck a rolled edge into a 2" perimeter trench to prevent wind uplift and create a clean lawn border.',
+      'Budget +10% extra bales for thick edge tucking and slope coverage.'
+    ]
+  },
+  grass_seed: {
+    id: 'grass_seed',
+    calculatorId: 'grass_seed',
+    title: 'New Lawn Seeding & Fall Turf Overseeding',
+    caption: 'Precision seed application across Tall Fescue, Kentucky Bluegrass, Perennial Ryegrass, and Bermuda grass lawns.',
+    src: sodImg,
+    alt: 'Dense thick green seeded turfgrass lawn with crisp striping and uniform germination',
+    badge: 'New Lawn vs Overseed',
+    category: 'construction',
+    materialTips: [
+      'New bare lawns require roughly double the pounds per 1,000 sq ft compared to overseeding existing turf.',
+      'Apply half the seed north-to-south and half east-to-west with a broadcast spreader for streak-free germination.',
+      'Keep the top 0.5 inch of soil consistently moist with light daily watering for 14–21 days.'
+    ]
+  },
+  fence_post: {
+    id: 'fence_post',
+    calculatorId: 'fence_post',
+    title: 'Wood Privacy Fence Posts, Rails & Footings',
+    caption: 'Complete lumber bill of materials with 4×4 posts, 2×4 horizontal rails, dog-ear pickets, and concrete footing bags.',
+    src: concreteImg,
+    alt: 'Freshly set fence post concrete footings with gravel drainage base and pressure-treated posts',
+    badge: 'Posts, Pickets & 50-lb Bags',
+    category: 'construction',
+    materialTips: [
+      'Always pour 4–6" of crushed gravel at the bottom of wooden post holes for end-grain drainage.',
+      'Slope the top of each concrete footing slightly away from the wood post to shed rainwater.',
+      'Standard 10" wide × 30" deep holes around a 4×4 post require ~2.5 to 3 bags of 50-lb fast-setting concrete.'
+    ]
   }
 };

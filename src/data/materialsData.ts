@@ -82,6 +82,15 @@ export const LANDSCAPE_MATERIALS: MaterialDensity[] = [
     recommendedDepthInches: 8,
   },
   {
+    id: 'fill_dirt',
+    name: 'Clean Fill Dirt / Grading Subsoil',
+    category: 'soil',
+    tonsPerCuYd: 1.22,
+    tonnesPerCuM: 1.44,
+    description: 'Dense clay-loam subsoil ideal for leveling low yard spots, grading slopes, and backfilling.',
+    recommendedDepthInches: 6,
+  },
+  {
     id: 'pea_gravel',
     name: 'Pea Gravel (3/8" Smooth River Rock)',
     category: 'gravel',

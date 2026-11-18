@@ -11,23 +11,51 @@ import { ProjectPhotoPreview } from '../ProjectPhotoPreview';
 interface MulchSoilCalcProps {
   system: MeasurementSystem;
   onAddToBOM: (item: Omit<BOMItem, 'id' | 'timestamp'>) => void;
+  initialSubType?: string;
 }
 
 export const MulchSoilCalc: React.FC<MulchSoilCalcProps> = ({
   system,
   onAddToBOM,
+  initialSubType,
 }) => {
   const initialParams = useMemo(() => readCalculatorQueryParams(), []);
+  const defaultMaterialFromSubType =
+    initialSubType === 'topsoil'
+      ? 'topsoil_screened'
+      : initialSubType === 'compost'
+      ? 'compost_organic'
+      : initialSubType === 'fill_dirt'
+      ? 'fill_dirt'
+      : initialSubType === 'playground'
+      ? 'wood_chips'
+      : 'bark_shredded';
+
+  const defaultDepthFromSubType =
+    initialSubType === 'compost'
+      ? 2
+      : initialSubType === 'topsoil'
+      ? 4
+      : initialSubType === 'fill_dirt'
+      ? 6
+      : initialSubType === 'playground'
+      ? 9
+      : 3;
+
   const [shape, setShape] = useState<BedShape>(
     (initialParams.shape as BedShape) || 'rectangle'
   );
   const [dim1, setDim1] = useState<number>(Number(initialParams.l || initialParams.dim1) || 20); // Length, Diameter, or Base
   const [dim2, setDim2] = useState<number>(Number(initialParams.w || initialParams.dim2) || 15); // Width, Inner Diameter, or Height
-  const [depthInches, setDepthInches] = useState<number>(Number(initialParams.depth) || 3);
-  const [selectedMaterialId, setSelectedMaterialId] = useState<string>(
-    initialParams.mat || 'bark_shredded'
+  const [depthInches, setDepthInches] = useState<number>(
+    Number(initialParams.depth) || defaultDepthFromSubType
   );
-  const [compactionPercent, setCompactionPercent] = useState<number>(5);
+  const [selectedMaterialId, setSelectedMaterialId] = useState<string>(
+    initialParams.mat || defaultMaterialFromSubType
+  );
+  const [compactionPercent, setCompactionPercent] = useState<number>(
+    initialSubType === 'fill_dirt' ? 15 : 5
+  );
   const [pricePerCuYd, setPricePerCuYd] = useState<number>(38);
 
   const materials = useMemo(() => {
@@ -423,19 +451,49 @@ export const MulchSoilCalc: React.FC<MulchSoilCalcProps> = ({
           <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs flex flex-col justify-between flex-1">
             <div className="space-y-2">
               <span className="text-xs font-semibold text-slate-800 block">Retail Bag Breakdown</span>
-              <div className="grid grid-cols-2 gap-2 text-xs">
+              <div className="grid grid-cols-3 gap-2 text-xs">
+                <div className="bg-slate-50 p-2 rounded border border-slate-100">
+                  <span className="text-slate-500 block">40 lb bags</span>
+                  <strong className="text-sm font-mono text-slate-900 tabular-nums">{res.bags40lb}</strong>
+                </div>
                 <div className="bg-slate-50 p-2 rounded border border-slate-100">
                   <span className="text-slate-500 block">2 cu ft bags</span>
-                  <strong className="text-sm font-mono text-slate-900">{res.bags2CuFt} bags</strong>
+                  <strong className="text-sm font-mono text-slate-900 tabular-nums">{res.bags2CuFt}</strong>
                 </div>
                 <div className="bg-slate-50 p-2 rounded border border-slate-100">
                   <span className="text-slate-500 block">3 cu ft bags</span>
-                  <strong className="text-sm font-mono text-slate-900">{res.bags3CuFt} bags</strong>
+                  <strong className="text-sm font-mono text-slate-900 tabular-nums">{res.bags3CuFt}</strong>
                 </div>
               </div>
-              <p className="text-[11px] text-slate-500">
-                Rule of thumb: 1 cubic yard = 13.5 bags (2 cu ft) or 9 bags (3 cu ft).
-              </p>
+              {initialSubType === 'playground' ? (
+                <div className="pt-1 space-y-1">
+                  <span className="text-[11px] font-semibold text-slate-700 block">ASTM Playground Fall-Height Depth:</span>
+                  <div className="grid grid-cols-3 gap-1.5">
+                    {[
+                      { depth: 6, label: '6" (4 ft fall)' },
+                      { depth: 9, label: '9" (7 ft fall)' },
+                      { depth: 12, label: '12" (10 ft fall)' },
+                    ].map(item => (
+                      <button
+                        key={item.depth}
+                        type="button"
+                        onClick={() => setDepthInches(item.depth)}
+                        className={`px-2 py-1 text-[11px] rounded border transition-colors cursor-pointer ${
+                          depthInches === item.depth
+                            ? 'bg-emerald-800 text-white border-emerald-800 font-semibold'
+                            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <p className="text-[11px] text-slate-500">
+                  1 cu yd = 13.5 bags (2 cu ft), 9 bags (3 cu ft), or 36 bags (40-lb topsoil).
+                </p>
+              )}
             </div>
 
             <div className="mt-4 space-y-2">

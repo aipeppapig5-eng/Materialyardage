@@ -12,6 +12,11 @@ import { PaverMasonryCalc } from './components/calculators/PaverMasonryCalc';
 import { SodTurfCalc } from './components/calculators/SodTurfCalc';
 import { RetainingWallCalc } from './components/calculators/RetainingWallCalc';
 import { WallpaperCalc } from './components/calculators/WallpaperCalc';
+import { RaisedBedSoilCalc } from './components/calculators/RaisedBedSoilCalc';
+import { PottingSoilCalc } from './components/calculators/PottingSoilCalc';
+import { PineStrawCalc } from './components/calculators/PineStrawCalc';
+import { GrassSeedCalc } from './components/calculators/GrassSeedCalc';
+import { FencePostCalc } from './components/calculators/FencePostCalc';
 import { ProjectBOMModal } from './components/ProjectBOMModal';
 import { ProjectManagerModal, SavedProject } from './components/ProjectManagerModal';
 import { UnitConverterModal } from './components/UnitConverterModal';
@@ -35,6 +40,8 @@ import { GSC_INDEXED_ROUTES, resolveGSCPath, GSCIndexedRoute } from './data/gscI
 import { updateDocumentSEO } from './utils/useSEO';
 import { DimensionLookupMatrix } from './components/DimensionLookupMatrix';
 import { EmbedWidgetModal } from './components/EmbedWidgetModal';
+import { HomePage } from './components/pages/HomePage';
+import { getInitialMeasurementSystem } from './utils/localeDetection';
 import {
   Scissors,
   TreePine,
@@ -50,12 +57,25 @@ import {
   Scale,
   FolderKanban,
   Code2,
+  ArrowLeft,
 } from 'lucide-react';
 
 export default function App() {
   const [categoryMode, setCategoryMode] = useState<CategoryMode>('fabric');
-  const [activeCalculator, setActiveCalculator] = useState<string>('fabric_cut');
-  const [system, setSystem] = useState<MeasurementSystem>('imperial');
+  const [activeCalculator, setActiveCalculator] = useState<string>('home');
+  const [activeSubType, setActiveSubType] = useState<string | undefined>(undefined);
+  // Auto-detect browser locale on first visit (US/Liberia/Myanmar -> Imperial; Rest of World -> Metric)
+  // while honoring manual override saved in localStorage
+  const [system, setSystem] = useState<MeasurementSystem>(() => getInitialMeasurementSystem());
+
+  const handleToggleSystem = (newSystem: MeasurementSystem) => {
+    setSystem(newSystem);
+    try {
+      localStorage.setItem('materialyardage_unitsystem', newSystem);
+    } catch (e) {
+      console.error('Failed to save preferred unit system to localStorage', e);
+    }
+  };
 
   // Modals
   const [isBOMOpen, setIsBOMOpen] = useState<boolean>(false);
@@ -220,13 +240,18 @@ export default function App() {
     { id: 'quilt_backing', label: 'Quilt Backing & Binding', category: 'fabric', desc: 'Backing seam layouts (horizontal vs vertical vs 108" wide) and binding strips' },
     { id: 'upholstery_cushions', label: 'Upholstery & Cushions', category: 'fabric', desc: 'Box cushions, foam thickness, boxing strips & welting/piping cord yards' },
     { id: 'wallpaper_calc', label: 'Wallpaper & Decor', category: 'fabric', desc: 'Single accent wall or 4-room walls, pattern repeat drops, window deductions, and paste' },
-    // Construction
-    { id: 'mulch_soil', label: 'Mulch & Soil Mix', category: 'construction', desc: 'Cubic yards, retail bags (2/3 cu ft), bed shapes, and depth coverage matrix' },
-    { id: 'gravel_aggregate', label: 'Gravel & Aggregates', category: 'construction', desc: 'Crushed stone, pea gravel, road base, US tons, metric tonnes, and truckloads' },
+    // Construction & Landscaping
+    { id: 'mulch_soil', label: 'Mulch & Topsoil', category: 'construction', desc: 'Topsoil, hardwood mulch, compost, fill dirt, playground chips, and retail bags' },
+    { id: 'raised_bed_soil', label: 'Raised Bed Soil', category: 'construction', desc: '4×4 and 4×8 raised garden beds with topsoil, compost, and aeration blend' },
+    { id: 'potting_soil', label: 'Potting Soil & Pots', category: 'construction', desc: 'Dry quarts & gallons for tapered pots, grow bags, and window boxes' },
+    { id: 'pine_straw', label: 'Pine Straw Bales', category: 'construction', desc: 'Standard square (~38 sq ft) & longleaf jumbo (~65 sq ft) pine needle bales' },
+    { id: 'gravel_aggregate', label: 'Gravel & Aggregates', category: 'construction', desc: 'Pea gravel, #57 crushed stone, decomposed granite, river rock, and lawn sand' },
     { id: 'concrete_calc', label: 'Concrete Slabs & Footings', category: 'construction', desc: 'Slabs, Sonotube columns, stairs, 40/60/80lb ready-mix bags, and 1:2:4 mix' },
-    { id: 'paver_masonry', label: 'Paver Patios & CMU Walls', category: 'construction', desc: 'Paver counts, bedding sand, polymeric joint sand, and modular brick walls' },
+    { id: 'paver_masonry', label: 'Paver Base & Masonry', category: 'construction', desc: 'Compacted gravel base, 1" bedding sand, pavers, polymeric sand, and CMU walls' },
     { id: 'retaining_wall', label: 'Retaining Wall & Drainage', category: 'construction', desc: 'Blocks, buried base courses, capstones, 6" leveling gravel, and 12" drainage rock chimney' },
     { id: 'sod_turf', label: 'Sod & Turf Grass', category: 'construction', desc: 'Lawn square footage, 2\'×5\' sod rolls, whole pallets, and edge cutting waste' },
+    { id: 'grass_seed', label: 'Grass Seed Coverage', category: 'construction', desc: 'New bare-lawn vs overseeding rates across Tall Fescue, Bluegrass & Bermuda' },
+    { id: 'fence_post', label: 'Fence Post & Concrete Bags', category: 'construction', desc: 'Fence posts, 2×4 horizontal rails, pickets, drainage gravel, and 50/80-lb concrete bags' },
   ];
 
   // Clean URL Router sync for direct URL navigation, back/forward buttons, and SEO
@@ -239,10 +264,10 @@ export default function App() {
 
       const currentRoute = pathname || hash;
       if (!currentRoute || currentRoute === 'index.html') {
-        setActiveCalculator('fabric_cut');
+        setActiveCalculator('home');
         setActiveGuideSlug(null);
-        setCategoryMode('fabric');
-        setActiveGSCRoute(null);
+        setActiveSubType(undefined);
+        setActiveGSCRoute(GSC_INDEXED_ROUTES[''] || null);
         return;
       }
 
@@ -250,6 +275,7 @@ export default function App() {
       const gscMatch = resolveGSCPath(currentRoute);
       if (gscMatch) {
         setActiveGSCRoute(gscMatch);
+        setActiveSubType(gscMatch.subType);
         if (gscMatch.guideSlug) {
           setActiveCalculator('guide_detail');
           setActiveGuideSlug(gscMatch.guideSlug);
@@ -271,6 +297,7 @@ export default function App() {
       }
 
       setActiveGSCRoute(null);
+      setActiveSubType(undefined);
 
       if (currentRoute === 'privacy-policy' || currentRoute === 'privacy') {
         setActiveCalculator('privacy');
@@ -332,8 +359,18 @@ export default function App() {
   useEffect(() => {
     let targetPath = '/';
     if (activeGSCRoute) {
-      updateDocumentSEO(activeGSCRoute, activeGSCRoute.fullUrl);
+      const seoBase = activeGSCRoute.seoKey && SEO_PAGES[activeGSCRoute.seoKey]
+        ? SEO_PAGES[activeGSCRoute.seoKey]
+        : SEO_PAGES[activeGSCRoute.targetCalculator];
+      const mergedSeo = seoBase
+        ? { ...seoBase, ...activeGSCRoute }
+        : activeGSCRoute;
+      updateDocumentSEO(mergedSeo, activeGSCRoute.fullUrl);
       targetPath = activeGSCRoute.path ? `/${activeGSCRoute.path}` : '/';
+    } else if (activeCalculator === 'home') {
+      const homeGsc = GSC_INDEXED_ROUTES[''];
+      if (homeGsc) updateDocumentSEO(homeGsc, homeGsc.fullUrl);
+      targetPath = '/';
     } else if (activeCalculator === 'privacy') {
       document.title = 'Privacy Policy — Material Yardage';
       targetPath = '/privacy-policy';
@@ -376,7 +413,7 @@ export default function App() {
     } catch {
       // Ignore background analytics errors
     }
-  }, [activeCalculator, activeGuideSlug]);
+  }, [activeCalculator, activeGuideSlug, activeGSCRoute]);
 
   const handleAddToBOM = (item: Omit<BOMItem, 'id' | 'timestamp'>) => {
     const newItem: BOMItem = {
@@ -413,6 +450,9 @@ export default function App() {
 
   const handleSelectGuide = (slug: string) => {
     setActiveGuideSlug(slug);
+    setActiveSubType(undefined);
+    const gscGuide = resolveGSCPath(`guides/${slug}`);
+    setActiveGSCRoute(gscGuide);
     setActiveCalculator('guide_detail');
     const targetPath = `/guides/${slug}`;
     if (window.location.pathname !== targetPath) {
@@ -421,12 +461,35 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSelectTab = (tabId: string) => {
+  const handleSelectTab = (tabId: string, customRoutePath?: string, subType?: string) => {
     setActiveGuideSlug(null);
+
+    if (tabId === 'home') {
+      setIsCalculatorLoading(false);
+      setActiveCalculator('home');
+      setActiveSubType(undefined);
+      setActiveGSCRoute(GSC_INDEXED_ROUTES[''] || null);
+      if (window.location.pathname !== '/') {
+        window.history.pushState(null, '', '/');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     setIsCalculatorLoading(true);
     setActiveCalculator(tabId);
+    setActiveSubType(subType);
+
+    const gscMatch = customRoutePath !== undefined ? resolveGSCPath(customRoutePath) : null;
+    setActiveGSCRoute(gscMatch);
+
     let targetPath = '/';
-    if (tabId === 'privacy') {
+    if (gscMatch) {
+      targetPath = gscMatch.path ? `/${gscMatch.path}` : '/';
+      if (gscMatch.category === 'fabric' || gscMatch.category === 'construction') {
+        setCategoryMode(gscMatch.category);
+      }
+    } else if (tabId === 'privacy') {
       targetPath = '/privacy-policy';
     } else if (tabId === 'about') {
       targetPath = '/about';
@@ -456,6 +519,29 @@ export default function App() {
     }, 160);
   };
 
+  const handleNavigateHomeSection = (sectionId: string) => {
+    const scrollTarget = () => {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    if (activeCalculator !== 'home') {
+      setActiveGuideSlug(null);
+      setIsCalculatorLoading(false);
+      setActiveCalculator('home');
+      setActiveSubType(undefined);
+      setActiveGSCRoute(GSC_INDEXED_ROUTES[''] || null);
+      if (window.location.pathname !== '/') {
+        window.history.pushState(null, '', '/');
+      }
+      setTimeout(scrollTarget, 60);
+    } else {
+      scrollTarget();
+    }
+  };
+
   const filteredTools = searchQuery.trim()
     ? tools.filter(t =>
         t.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -463,7 +549,9 @@ export default function App() {
       )
     : tools.filter(t => t.category === categoryMode);
 
-  const activeSeo = SEO_PAGES[activeCalculator];
+  const activeSeo =
+    (activeGSCRoute?.seoKey && SEO_PAGES[activeGSCRoute.seoKey]) ||
+    SEO_PAGES[activeCalculator];
 
   return (
     <div className="min-h-screen bg-slate-50/70 text-slate-900 flex flex-col font-sans">
@@ -471,6 +559,7 @@ export default function App() {
       <Header
         activeTab={activeCalculator}
         onSelectTab={handleSelectTab}
+        onNavigateHomeSection={handleNavigateHomeSection}
         bomCount={bomItems.length}
         onOpenBOM={() => setIsBOMOpen(true)}
         onOpenConverter={() => setIsConverterOpen(true)}
@@ -481,7 +570,27 @@ export default function App() {
         onOpenProjectManager={() => setIsProjectManagerOpen(true)}
         onOpenEmbed={() => setIsEmbedModalOpen(true)}
         activeProjectName={activeProject.name}
+        system={system}
+        onToggleSystem={handleToggleSystem}
       />
+
+      {/* Clean Home Directory Page */}
+      {activeCalculator === 'home' && (
+        <HomePage
+          onSelectCalculator={handleSelectTab}
+          onSelectGuide={handleSelectGuide}
+          onOpenConverter={() => setIsConverterOpen(true)}
+          onOpenReference={() => setIsGuidesOpen(true)}
+          onOpenComparison={() => handleOpenComparison()}
+          onOpen3DPreview={() => setIs3DPreviewOpen(true)}
+          onOpenPrintSheet={() => setIsPrintModalOpen(true)}
+          onOpenBOM={() => setIsBOMOpen(true)}
+          onOpenProjectManager={() => setIsProjectManagerOpen(true)}
+          onOpenEmbed={() => setIsEmbedModalOpen(true)}
+          bomCount={bomItems.length}
+          projectsCount={projects.length}
+        />
+      )}
 
       {/* Render Dedicated Legal / Company Pages */}
       {activeCalculator === 'privacy' && <PrivacyPolicyPage />}
@@ -504,56 +613,72 @@ export default function App() {
       )}
 
       {/* Main Calculator Workspace */}
-      {activeCalculator !== 'privacy' && activeCalculator !== 'about' && activeCalculator !== 'contact' && activeCalculator !== 'guides' && activeCalculator !== 'guide_detail' && (
+      {activeCalculator !== 'home' &&
+        activeCalculator !== 'privacy' &&
+        activeCalculator !== 'about' &&
+        activeCalculator !== 'contact' &&
+        activeCalculator !== 'guides' &&
+        activeCalculator !== 'guide_detail' && (
         <>
           {/* Hero Section */}
           <section className="bg-white border-b border-slate-200 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto space-y-4">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="space-y-1.5">
-                  {CALCULATOR_IMAGES[activeCalculator] && (
-                    <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-900 text-[11px] font-semibold">
-                        <img
-                          src={CALCULATOR_IMAGES[activeCalculator].src}
-                          alt=""
-                          className="w-4 h-4 rounded-xs object-cover"
-                        />
-                        <span>{CALCULATOR_IMAGES[activeCalculator].badge}</span>
-                      </span>
-                    </div>
-                  )}
-                  <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                    {activeSeo?.h1 || 'Material & Fabric Yardage Calculator'}
+                  <div className="flex items-center gap-2 text-xs text-slate-500">
+                    <a
+                      href="/"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleSelectTab('home', '');
+                      }}
+                      className="inline-flex items-center gap-1 font-semibold text-emerald-800 hover:text-emerald-950 transition-colors"
+                    >
+                      <ArrowLeft className="w-3.5 h-3.5" />
+                      <span>All Calculators</span>
+                    </a>
+                    {CALCULATOR_IMAGES[activeCalculator] && (
+                      <>
+                        <span aria-hidden="true">/</span>
+                        <span className="font-medium text-slate-600">
+                          {CALCULATOR_IMAGES[activeCalculator].badge}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                  <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight text-balance">
+                    {activeGSCRoute?.h1 || activeSeo?.h1 || 'Material & Fabric Yardage Calculator'}
                   </h1>
                   <p className="text-sm text-slate-600 max-w-2xl leading-relaxed">
-                    {activeSeo?.lead || 'Real-time quantity estimation with interactive 2D cutting diagrams, exact material bulk densities, and integrated multi-zone project billing.'}
+                    {activeGSCRoute?.metaDescription || activeSeo?.lead || 'Real-time quantity estimation with interactive 2D cutting diagrams, exact material bulk densities, and integrated multi-zone project billing.'}
                   </p>
                 </div>
 
                 {/* Quick Controls: Imperial/Metric & Quick Utility buttons */}
                 <div className="flex flex-wrap items-center gap-3">
-                  {/* Unit Toggle */}
+                  {/* Unit Toggle with LocalStorage Persistence */}
                   <div className="flex items-center p-1 bg-slate-100 rounded-lg border border-slate-200">
                     <button
                       type="button"
-                      onClick={() => setSystem('imperial')}
-                      className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${
+                      onClick={() => handleToggleSystem('imperial')}
+                      className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
                         system === 'imperial'
                           ? 'bg-white text-slate-900 shadow-xs'
                           : 'text-slate-600 hover:text-slate-900'
                       }`}
+                      title="Imperial (ft, in, yd) — Saved to browser across sessions"
                     >
                       Imperial (ft, in, yd)
                     </button>
                     <button
                       type="button"
-                      onClick={() => setSystem('metric')}
-                      className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${
+                      onClick={() => handleToggleSystem('metric')}
+                      className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer ${
                         system === 'metric'
                           ? 'bg-white text-slate-900 shadow-xs'
                           : 'text-slate-600 hover:text-slate-900'
                       }`}
+                      title="Metric (m, cm, tonnes) — Saved to browser across sessions"
                     >
                       Metric (m, cm)
                     </button>
@@ -721,11 +846,41 @@ export default function App() {
                 )}
 
                 {activeCalculator === 'mulch_soil' && (
-                  <MulchSoilCalc system={system} onAddToBOM={handleAddToBOM} />
+                  <MulchSoilCalc
+                    key={`mulch_soil-${activeSubType || 'default'}`}
+                    system={system}
+                    onAddToBOM={handleAddToBOM}
+                    initialSubType={activeSubType}
+                  />
                 )}
 
                 {activeCalculator === 'gravel_aggregate' && (
-                  <GravelAggregateCalc system={system} onAddToBOM={handleAddToBOM} />
+                  <GravelAggregateCalc
+                    key={`gravel_aggregate-${activeSubType || 'default'}`}
+                    system={system}
+                    onAddToBOM={handleAddToBOM}
+                    initialSubType={activeSubType}
+                  />
+                )}
+
+                {activeCalculator === 'raised_bed_soil' && (
+                  <RaisedBedSoilCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
+
+                {activeCalculator === 'potting_soil' && (
+                  <PottingSoilCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
+
+                {activeCalculator === 'pine_straw' && (
+                  <PineStrawCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
+
+                {activeCalculator === 'grass_seed' && (
+                  <GrassSeedCalc system={system} onAddToBOM={handleAddToBOM} />
+                )}
+
+                {activeCalculator === 'fence_post' && (
+                  <FencePostCalc system={system} onAddToBOM={handleAddToBOM} />
                 )}
 
                 {activeCalculator === 'concrete_calc' && (
@@ -733,7 +888,12 @@ export default function App() {
                 )}
 
                 {activeCalculator === 'paver_masonry' && (
-                  <PaverMasonryCalc system={system} onAddToBOM={handleAddToBOM} />
+                  <PaverMasonryCalc
+                    key={`paver_masonry-${activeSubType || 'default'}`}
+                    system={system}
+                    onAddToBOM={handleAddToBOM}
+                    initialSubType={activeSubType}
+                  />
                 )}
 
                 {activeCalculator === 'retaining_wall' && (
@@ -753,7 +913,9 @@ export default function App() {
             />
 
             {/* On-Page SEO Guide, Formulas, Worked Example, and Rich FAQ Accordion */}
-            {activeSeo && <SEOGuideSection seo={activeSeo} />}
+            {activeSeo && (
+              <SEOGuideSection seo={activeSeo} calculatorId={activeCalculator} />
+            )}
 
             {/* Up Next & Related Calculators for Internal Link Equity & SEO Authority */}
             <RelatedCalculators

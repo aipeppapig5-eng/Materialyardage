@@ -1,0 +1,6 @@
+{
+  "name": "Material Yardage",
+  "description": "Advanced material, landscaping, concrete, and fabric yardage calculators with interactive 2D cut diagrams, multi-zone project estimator, and cost planning.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -10,15 +10,18 @@ import { ProjectPhotoPreview } from '../ProjectPhotoPreview';
 interface PaverMasonryCalcProps {
   system: MeasurementSystem;
   onAddToBOM: (item: Omit<BOMItem, 'id' | 'timestamp'>) => void;
+  initialSubType?: string;
 }
 
 export const PaverMasonryCalc: React.FC<PaverMasonryCalcProps> = ({
   system,
   onAddToBOM,
+  initialSubType,
 }) => {
   const initialParams = useMemo(() => readCalculatorQueryParams(), []);
+  const isMasonrySubType = initialSubType === 'mortar' || initialSubType === 'cmu' || initialSubType === 'brick';
   const [activeTab, setActiveTab] = useState<'pavers' | 'masonry'>(
-    initialParams.type === 'masonry' ? 'masonry' : 'pavers'
+    initialParams.type === 'masonry' || isMasonrySubType ? 'masonry' : 'pavers'
   );
 
   // Pavers
@@ -29,13 +32,16 @@ export const PaverMasonryCalc: React.FC<PaverMasonryCalcProps> = ({
   );
   const [jointGap, setJointGap] = useState<number>(0.125); // 1/8"
   const [paverWaste, setPaverWaste] = useState<number>(10);
+  const [baseGravelDepthIn, setBaseGravelDepthIn] = useState<number>(
+    initialSubType === 'paver_base' ? 6 : 4
+  );
   const [paverCostPerUnit, setPaverCostPerUnit] = useState<number>(0.85);
 
   // Masonry
   const [wallLength, setWallLength] = useState<number>(Number(initialParams.wl) || 30);
   const [wallHeight, setWallHeight] = useState<number>(Number(initialParams.wh) || 4);
   const [masonryType, setMasonryType] = useState<'brick' | 'cmu'>(
-    initialParams.m === 'brick' ? 'brick' : 'cmu'
+    initialParams.m === 'brick' || initialSubType === 'brick' || initialSubType === 'mortar' ? 'brick' : 'cmu'
   );
   const [masonryWaste, setMasonryWaste] = useState<number>(8);
 
@@ -46,14 +52,21 @@ export const PaverMasonryCalc: React.FC<PaverMasonryCalcProps> = ({
   const patioAreaSqFt = patioLength * patioWidth;
 
   const paverRes = useMemo(() => {
-    return calculatePavers(
+    const base = calculatePavers(
       patioAreaSqFt,
       selectedPaver.lengthInches,
       selectedPaver.widthInches,
       jointGap,
       paverWaste
     );
-  }, [patioAreaSqFt, selectedPaver, jointGap, paverWaste]);
+    const customBaseCuYd = ((patioAreaSqFt * (baseGravelDepthIn / 12)) / 27) * 1.15;
+    const customBaseTons = customBaseCuYd * 1.60;
+    return {
+      ...base,
+      baseGravelCuYd: customBaseCuYd,
+      baseGravelTons: customBaseTons,
+    };
+  }, [patioAreaSqFt, selectedPaver, jointGap, paverWaste, baseGravelDepthIn]);
 
   const masonryRes = useMemo(() => {
     return calculateMasonry(wallLength, wallHeight, masonryType, masonryWaste);
@@ -257,7 +270,22 @@ export const PaverMasonryCalc: React.FC<PaverMasonryCalcProps> = ({
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-3 border-t border-slate-100">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-3 border-t border-slate-100">
+                <div>
+                  <label className="block text-xs font-medium text-slate-700 mb-1">
+                    Gravel Base Depth
+                  </label>
+                  <select
+                    value={baseGravelDepthIn}
+                    onChange={e => setBaseGravelDepthIn(Number(e.target.value))}
+                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg font-mono"
+                  >
+                    <option value={4}>4" Patio Sub-Base</option>
+                    <option value={6}>6" Driveway Base</option>
+                    <option value={8}>8" Heavy Load Base</option>
+                  </select>
+                </div>
+
                 <div>
                   <label className="block text-xs font-medium text-slate-700 mb-1">
                     Joint Sand Gap (inches)
@@ -333,8 +361,10 @@ export const PaverMasonryCalc: React.FC<PaverMasonryCalcProps> = ({
                     <strong className="font-mono text-emerald-800">{paverRes.polymericSandBags} bags (50 lb)</strong>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-600">4" Compacted Base:</span>
-                    <strong className="font-mono text-emerald-800">{paverRes.baseGravelTons.toFixed(2)} tons crusher run</strong>
+                    <span className="text-slate-600">{baseGravelDepthIn}" Compacted Base:</span>
+                    <strong className="font-mono text-emerald-800">
+                      {paverRes.baseGravelTons.toFixed(2)} tons ({paverRes.baseGravelCuYd.toFixed(2)} yd³)
+                    </strong>
                   </div>
                 </div>
               </ProjectPhotoPreview>
@@ -355,7 +385,7 @@ export const PaverMasonryCalc: React.FC<PaverMasonryCalcProps> = ({
           </div>
 
           {/* KPI Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
             <div className="bg-emerald-900 text-white rounded-xl p-4 shadow-xs">
               <p className="text-xs text-emerald-200 font-medium">Total Pavers Needed</p>
               <p className="text-2xl font-bold font-mono tracking-tight mt-1">
@@ -363,6 +393,16 @@ export const PaverMasonryCalc: React.FC<PaverMasonryCalcProps> = ({
               </p>
               <p className="text-[11px] text-emerald-300/90 mt-0.5">
                 Includes {paverWaste}% cutting waste
+              </p>
+            </div>
+
+            <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
+              <p className="text-xs text-slate-500 font-medium">{baseGravelDepthIn}" Gravel Base</p>
+              <p className="text-2xl font-bold font-mono text-slate-900 mt-1">
+                {paverRes.baseGravelTons.toFixed(2)} tons
+              </p>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-mono">
+                {paverRes.baseGravelCuYd.toFixed(2)} cu yd crusher run
               </p>
             </div>
 
@@ -382,7 +422,7 @@ export const PaverMasonryCalc: React.FC<PaverMasonryCalcProps> = ({
                 {paverRes.polymericSandBags} bags
               </p>
               <p className="text-[11px] text-slate-500 mt-0.5">
-                50 lb bags for 1/8" joints
+                50 lb bags for joints
               </p>
             </div>
 
