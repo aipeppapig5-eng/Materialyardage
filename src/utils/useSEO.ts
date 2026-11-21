@@ -76,6 +76,14 @@ export function updateDocumentSEO(
   // Schema.org Structured Data (WebApplication + AggregateRating + BreadcrumbList + FAQPage + HowTo)
   const schemaGraph: any[] = [
     {
+      '@type': 'Organization',
+      '@id': 'https://www.materialyardage.com/#organization',
+      name: 'Material Yardage',
+      url: 'https://www.materialyardage.com/',
+      email: 'support@materialyardage.com',
+      description: 'Engineering-calibrated material, landscaping, concrete, masonry, and fabric yardage estimation tools.',
+    },
+    {
       '@type': 'WebApplication',
       '@id': `${currentUrl}#calculator`,
       name: seo.title,
@@ -85,6 +93,12 @@ export function updateDocumentSEO(
       browserRequirements: 'Requires JavaScript and HTML5',
       description: seo.metaDescription,
       image: 'https://www.materialyardage.com/og-image.svg',
+      author: {
+        '@id': 'https://www.materialyardage.com/#organization',
+      },
+      publisher: {
+        '@id': 'https://www.materialyardage.com/#organization',
+      },
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: '4.9',

@@ -90,7 +90,7 @@ export const PrivacyPolicyPage: React.FC = () => {
           Some of our advertising partners may use cookies and web beacons on our site. Our advertising partners include:
         </p>
         <ul className="list-disc list-inside space-y-1 font-medium text-slate-700 pl-2">
-          <li><strong>Google AdSense (Publisher ID: pub-2650221548917155):</strong> Contextual and personalized banner advertisements delivered in accordance with Google Publisher Policies.</li>
+          <li><strong>Google AdSense:</strong> Contextual and personalized banner advertisements delivered in accordance with Google Publisher Policies.</li>
         </ul>
         <p className="text-xs text-slate-500">
           Third-party ad servers or ad networks use technologies like cookies, JavaScript, or Web Beacons that are used in their respective advertisements and links that appear on Material Yardage, which are sent directly to users' browser. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the advertising content that you see on websites that you visit.

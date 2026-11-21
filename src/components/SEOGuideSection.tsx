@@ -40,12 +40,27 @@ export const SEOGuideSection: React.FC<SEOGuideSectionProps> = ({ seo, calculato
             <span>Browse All Guides & Formulas &rarr;</span>
           </a>
         </div>
-        <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
+        <h2 className="text-2xl font-bold text-slate-900 tracking-tight text-balance">
           How to Calculate {seo.h1}
         </h2>
         <p className="text-xs text-slate-600 max-w-3xl leading-relaxed">
           {seo.lead}
         </p>
+        <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 pt-1">
+          <span>
+            Reviewed by <strong className="text-slate-700 font-semibold">Material Yardage Estimating Team</strong>
+          </span>
+          <span aria-hidden="true">·</span>
+          <span>ASTM &amp; ACI Reference Standards</span>
+          <span aria-hidden="true">·</span>
+          <a href="/about" className="text-emerald-800 hover:underline font-medium">
+            Methodology
+          </a>
+          <span aria-hidden="true">·</span>
+          <a href="/disclaimer" className="text-emerald-800 hover:underline font-medium">
+            Disclaimer
+          </a>
+        </div>
       </div>
 
       {/* Real-World Application Visual Banner */}

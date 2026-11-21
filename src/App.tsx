@@ -29,10 +29,13 @@ import { SEOGuideSection } from './components/SEOGuideSection';
 import { RelatedCalculators } from './components/RelatedCalculators';
 import { AdSlot } from './components/AdSlot';
 import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
+import { TermsOfServicePage } from './components/pages/TermsOfServicePage';
+import { DisclaimerPage } from './components/pages/DisclaimerPage';
 import { AboutPage } from './components/pages/AboutPage';
 import { ContactPage } from './components/pages/ContactPage';
 import { GuidesHubPage } from './components/pages/GuidesHubPage';
 import { GuideDetailPage } from './components/pages/GuideDetailPage';
+import { CookieConsentBanner } from './components/CookieConsentBanner';
 import { GUIDES_DATA } from './data/guidesData';
 import { SEO_PAGES } from './data/seoData';
 import { CALCULATOR_IMAGES } from './data/uiImages';
@@ -85,6 +88,7 @@ export default function App() {
   const [isPrintModalOpen, setIsPrintModalOpen] = useState<boolean>(false);
   const [isComparisonModalOpen, setIsComparisonModalOpen] = useState<boolean>(false);
   const [isEmbedModalOpen, setIsEmbedModalOpen] = useState<boolean>(false);
+  const [isCookieSettingsOpen, setIsCookieSettingsOpen] = useState<boolean>(false);
   const [comparisonTargetItem, setComparisonTargetItem] = useState<BOMItem | null>(null);
   const [activeGuideSlug, setActiveGuideSlug] = useState<string | null>(null);
   const [isCalculatorLoading, setIsCalculatorLoading] = useState<boolean>(false);
@@ -302,6 +306,12 @@ export default function App() {
       if (currentRoute === 'privacy-policy' || currentRoute === 'privacy') {
         setActiveCalculator('privacy');
         setActiveGuideSlug(null);
+      } else if (currentRoute === 'terms-of-service' || currentRoute === 'terms') {
+        setActiveCalculator('terms');
+        setActiveGuideSlug(null);
+      } else if (currentRoute === 'disclaimer') {
+        setActiveCalculator('disclaimer');
+        setActiveGuideSlug(null);
       } else if (currentRoute === 'about' || currentRoute === 'about-us') {
         setActiveCalculator('about');
         setActiveGuideSlug(null);
@@ -372,20 +382,55 @@ export default function App() {
       if (homeGsc) updateDocumentSEO(homeGsc, homeGsc.fullUrl);
       targetPath = '/';
     } else if (activeCalculator === 'privacy') {
-      document.title = 'Privacy Policy — Material Yardage';
+      updateDocumentSEO({
+        title: 'Privacy Policy',
+        metaDescription: 'Material Yardage privacy policy covering browser storage, Google AdSense DART cookies, GDPR, and CCPA rights.',
+        h1: 'Privacy Policy',
+      }, 'https://www.materialyardage.com/privacy-policy');
       targetPath = '/privacy-policy';
+    } else if (activeCalculator === 'terms') {
+      updateDocumentSEO({
+        title: 'Terms of Service',
+        metaDescription: 'Terms of Service and usage guidelines for Material Yardage calculators, 2D cutting planners, and embed widgets.',
+        h1: 'Terms of Service',
+      }, 'https://www.materialyardage.com/terms-of-service');
+      targetPath = '/terms-of-service';
+    } else if (activeCalculator === 'disclaimer') {
+      updateDocumentSEO({
+        title: 'Disclaimer',
+        metaDescription: 'Engineering, bulk material variance, textile tolerance, and advertising disclaimer for Material Yardage.',
+        h1: 'Disclaimer',
+      }, 'https://www.materialyardage.com/disclaimer');
+      targetPath = '/disclaimer';
     } else if (activeCalculator === 'about') {
-      document.title = 'About Us & Calculation Methodology — Material Yardage';
+      updateDocumentSEO({
+        title: 'About Us & Calculation Methodology',
+        metaDescription: 'Learn about the engineering algorithms, ASTM/ACI verification standards, and team behind Material Yardage.',
+        h1: 'About Material Yardage',
+      }, 'https://www.materialyardage.com/about');
       targetPath = '/about';
     } else if (activeCalculator === 'contact') {
-      document.title = 'Contact Support & Editors — Material Yardage';
+      updateDocumentSEO({
+        title: 'Contact Support & Editors',
+        metaDescription: 'Contact the Material Yardage engineering and editorial team for formula questions or trade feedback.',
+        h1: 'Contact Material Yardage',
+      }, 'https://www.materialyardage.com/contact');
       targetPath = '/contact';
     } else if (activeCalculator === 'guides') {
-      document.title = 'Material Calculation Guides & Engineering Reference — Material Yardage';
+      updateDocumentSEO({
+        title: 'Material Calculation Guides & Engineering Reference',
+        metaDescription: 'Comprehensive material estimation knowledge base with step-by-step formulas and density reference charts.',
+        h1: 'Material & Fabric Calculation Guides Library',
+      }, 'https://www.materialyardage.com/guides');
       targetPath = '/guides';
     } else if (activeCalculator === 'guide_detail' && activeGuideSlug && GUIDES_DATA[activeGuideSlug]) {
       const guide = GUIDES_DATA[activeGuideSlug];
-      document.title = `${guide.metaTitle} — Material Yardage`;
+      updateDocumentSEO({
+        title: guide.metaTitle,
+        metaDescription: guide.metaDescription,
+        h1: guide.title,
+        faqs: guide.faq,
+      }, `https://www.materialyardage.com/guides/${guide.slug}`);
       targetPath = `/guides/${guide.slug}`;
     } else {
       const currentSeo = SEO_PAGES[activeCalculator];
@@ -491,6 +536,10 @@ export default function App() {
       }
     } else if (tabId === 'privacy') {
       targetPath = '/privacy-policy';
+    } else if (tabId === 'terms') {
+      targetPath = '/terms-of-service';
+    } else if (tabId === 'disclaimer') {
+      targetPath = '/disclaimer';
     } else if (tabId === 'about') {
       targetPath = '/about';
     } else if (tabId === 'contact') {
@@ -594,6 +643,8 @@ export default function App() {
 
       {/* Render Dedicated Legal / Company Pages */}
       {activeCalculator === 'privacy' && <PrivacyPolicyPage />}
+      {activeCalculator === 'terms' && <TermsOfServicePage />}
+      {activeCalculator === 'disclaimer' && <DisclaimerPage />}
       {activeCalculator === 'about' && <AboutPage />}
       {activeCalculator === 'contact' && <ContactPage />}
 
@@ -615,6 +666,8 @@ export default function App() {
       {/* Main Calculator Workspace */}
       {activeCalculator !== 'home' &&
         activeCalculator !== 'privacy' &&
+        activeCalculator !== 'terms' &&
+        activeCalculator !== 'disclaimer' &&
         activeCalculator !== 'about' &&
         activeCalculator !== 'contact' &&
         activeCalculator !== 'guides' &&
@@ -975,48 +1028,162 @@ export default function App() {
       {/* Footer */}
       <footer className="bg-slate-950 text-slate-400 text-xs py-10 border-t border-slate-800 mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-slate-800 pb-6">
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-white text-base">Material Yardage</span>
-              <span className="text-slate-600">·</span>
-              <span className="text-slate-400 text-xs">Professional estimation & cutting layout tools</span>
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 border-b border-slate-800 pb-6">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <a
+                  href="/"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSelectTab('home', '');
+                  }}
+                  className="font-bold text-white text-base hover:text-emerald-300 transition-colors"
+                >
+                  Material Yardage
+                </a>
+                <span className="text-slate-600" aria-hidden="true">·</span>
+                <span className="text-slate-400 text-xs">Professional estimation &amp; cutting layout tools</span>
+              </div>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-slate-400">
+                <a
+                  href="/topsoil-calculator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSelectTab('mulch_soil', 'topsoil-calculator', 'topsoil');
+                  }}
+                  className="hover:text-white transition-colors"
+                >
+                  Topsoil
+                </a>
+                <a
+                  href="/mulch-calculator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSelectTab('mulch_soil', 'mulch-calculator', 'mulch');
+                  }}
+                  className="hover:text-white transition-colors"
+                >
+                  Mulch
+                </a>
+                <a
+                  href="/gravel-calculator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSelectTab('gravel_aggregate', 'gravel-calculator');
+                  }}
+                  className="hover:text-white transition-colors"
+                >
+                  Gravel
+                </a>
+                <a
+                  href="/concrete-calculator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSelectTab('concrete_calc', 'concrete-calculator');
+                  }}
+                  className="hover:text-white transition-colors"
+                >
+                  Concrete
+                </a>
+                <a
+                  href="/fabric-yardage-calculator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSelectTab('fabric_cut', 'fabric-yardage-calculator');
+                  }}
+                  className="hover:text-white transition-colors"
+                >
+                  Fabric Yardage
+                </a>
+                <a href="/sitemap.xml" className="hover:text-white transition-colors">
+                  XML Sitemap
+                </a>
+              </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-6 text-xs text-slate-300">
-              <button onClick={() => handleSelectTab('about')} className="hover:text-white transition-colors flex items-center gap-1">
+            <nav aria-label="Footer navigation" className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-300">
+              <a
+                href="/about"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTab('about', 'about');
+                }}
+                className="hover:text-white transition-colors flex items-center gap-1 whitespace-nowrap"
+              >
                 <Compass className="w-3.5 h-3.5" />
                 <span>About Us</span>
-              </button>
-              <button onClick={() => handleSelectTab('contact')} className="hover:text-white transition-colors flex items-center gap-1">
+              </a>
+              <a
+                href="/contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTab('contact', 'contact');
+                }}
+                className="hover:text-white transition-colors flex items-center gap-1 whitespace-nowrap"
+              >
                 <MessageSquare className="w-3.5 h-3.5" />
                 <span>Contact</span>
-              </button>
-              <button onClick={() => handleSelectTab('privacy')} className="hover:text-white transition-colors flex items-center gap-1">
+              </a>
+              <a
+                href="/privacy-policy"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTab('privacy', 'privacy-policy');
+                }}
+                className="hover:text-white transition-colors flex items-center gap-1 whitespace-nowrap"
+              >
                 <ShieldCheck className="w-3.5 h-3.5" />
                 <span>Privacy Policy</span>
-              </button>
-              <button onClick={() => handleSelectTab('guides')} className="hover:text-white transition-colors flex items-center gap-1 font-semibold text-emerald-300">
+              </a>
+              <a
+                href="/terms-of-service"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTab('terms', 'terms-of-service');
+                }}
+                className="hover:text-white transition-colors whitespace-nowrap"
+              >
+                Terms of Service
+              </a>
+              <a
+                href="/disclaimer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTab('disclaimer', 'disclaimer');
+                }}
+                className="hover:text-white transition-colors whitespace-nowrap"
+              >
+                Disclaimer
+              </a>
+              <a
+                href="/guides"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTab('guides', 'guides');
+                }}
+                className="hover:text-white transition-colors flex items-center gap-1 font-semibold text-emerald-300 whitespace-nowrap"
+              >
                 <BookOpen className="w-3.5 h-3.5" />
                 <span>Guides Library</span>
-              </button>
-              <button onClick={() => setIsGuidesOpen(true)} className="hover:text-white transition-colors">
+              </a>
+              <button type="button" onClick={() => setIsGuidesOpen(true)} className="hover:text-white transition-colors cursor-pointer whitespace-nowrap">
                 Density Guide
               </button>
-              <button onClick={() => setIsConverterOpen(true)} className="hover:text-white transition-colors">
+              <button type="button" onClick={() => setIsConverterOpen(true)} className="hover:text-white transition-colors cursor-pointer whitespace-nowrap">
                 Unit Converter
               </button>
-              <button onClick={() => setIs3DPreviewOpen(true)} className="hover:text-white transition-colors flex items-center gap-1">
+              <button type="button" onClick={() => setIs3DPreviewOpen(true)} className="hover:text-white transition-colors flex items-center gap-1 cursor-pointer whitespace-nowrap">
                 <Box className="w-3.5 h-3.5 text-emerald-400" />
                 <span>3D Preview</span>
               </button>
-              <button onClick={() => setIsPrintModalOpen(true)} className="hover:text-white transition-colors flex items-center gap-1 text-emerald-400 font-semibold cursor-pointer">
+              <button type="button" onClick={() => setIsPrintModalOpen(true)} className="hover:text-white transition-colors flex items-center gap-1 text-emerald-400 font-semibold cursor-pointer whitespace-nowrap">
                 <Printer className="w-3.5 h-3.5" />
                 <span>Print Spec Sheet</span>
               </button>
               <button
                 type="button"
                 onClick={() => setIsEmbedModalOpen(true)}
-                className="hover:text-emerald-300 transition-colors flex items-center gap-1 text-slate-300 cursor-pointer"
+                className="hover:text-emerald-300 transition-colors flex items-center gap-1 text-slate-300 cursor-pointer whitespace-nowrap"
                 title="Embed free calculation widget on your blog or website"
               >
                 <Code2 className="w-3.5 h-3.5 text-emerald-400" />
@@ -1025,29 +1192,53 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setIsProjectManagerOpen(true)}
-                className="hover:text-white transition-colors flex items-center gap-1 text-slate-300"
+                className="hover:text-white transition-colors flex items-center gap-1 text-slate-300 cursor-pointer whitespace-nowrap"
               >
                 <FolderKanban className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Projects ({projects.length})</span>
               </button>
-              <button onClick={() => setIsBOMOpen(true)} className="hover:text-white transition-colors">
+              <button type="button" onClick={() => setIsBOMOpen(true)} className="hover:text-white transition-colors cursor-pointer whitespace-nowrap">
                 Project BOM ({bomItems.length})
               </button>
-            </div>
+            </nav>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-500 text-[11px]">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-400 text-[11px]">
             <p>
               © 2026 Material Yardage. All rights reserved. Calculations are provided for planning and estimation purposes.
             </p>
-            <p className="flex items-center gap-3">
-              <span>Google AdSense Compliant</span>
-              <span>·</span>
-              <span>GDPR / CCPA Protected</span>
-            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setIsCookieSettingsOpen(true)}
+                className="hover:text-white underline transition-colors cursor-pointer"
+              >
+                Cookie Settings
+              </button>
+              <span aria-hidden="true">·</span>
+              <a
+                href="/privacy-policy"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTab('privacy', 'privacy-policy');
+                }}
+                className="hover:text-white transition-colors"
+              >
+                GDPR / CCPA
+              </a>
+            </div>
           </div>
         </div>
       </footer>
+
+      <CookieConsentBanner
+        forceOpen={isCookieSettingsOpen}
+        onCloseForceOpen={() => setIsCookieSettingsOpen(false)}
+        onNavigatePrivacy={() => {
+          setIsCookieSettingsOpen(false);
+          handleSelectTab('privacy', 'privacy-policy');
+        }}
+      />
 
       {/* Modals */}
       <ProjectBOMModal

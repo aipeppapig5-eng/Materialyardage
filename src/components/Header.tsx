@@ -130,27 +130,36 @@ export const Header: React.FC<HeaderProps> = ({
           >
             Calculators
           </a>
-          <button
-            type="button"
-            onClick={() => handleSectionClick('landscaping-materials', 'mulch_soil')}
+          <a
+            href="/#landscaping-materials"
+            onClick={(e) => {
+              e.preventDefault();
+              handleSectionClick('landscaping-materials', 'mulch_soil');
+            }}
             className="whitespace-nowrap shrink-0 py-1 transition-colors text-slate-600 hover:text-slate-900 cursor-pointer"
           >
             Landscaping
-          </button>
-          <button
-            type="button"
-            onClick={() => handleSectionClick('construction-materials', 'concrete_calc')}
+          </a>
+          <a
+            href="/#construction-materials"
+            onClick={(e) => {
+              e.preventDefault();
+              handleSectionClick('construction-materials', 'concrete_calc');
+            }}
             className="whitespace-nowrap shrink-0 py-1 transition-colors text-slate-600 hover:text-slate-900 cursor-pointer"
           >
             Construction
-          </button>
-          <button
-            type="button"
-            onClick={() => handleSectionClick('fabric-sewing', 'fabric_cut')}
+          </a>
+          <a
+            href="/#fabric-sewing"
+            onClick={(e) => {
+              e.preventDefault();
+              handleSectionClick('fabric-sewing', 'fabric_cut');
+            }}
             className="whitespace-nowrap shrink-0 py-1 transition-colors text-slate-600 hover:text-slate-900 cursor-pointer"
           >
             Fabric &amp; Sewing
-          </button>
+          </a>
           <a
             href="/guides"
             onClick={(e) => {
@@ -222,20 +231,26 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 py-4 space-y-4 text-xs max-h-[80vh] overflow-y-auto">
           <div className="flex items-center justify-between">
             <span className="font-bold text-slate-500 text-[11px]">All Calculators</span>
-            <button
-              type="button"
-              onClick={() => handleNavClick('home', '')}
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('home', '');
+              }}
               className="text-xs font-semibold text-emerald-800 hover:underline cursor-pointer"
             >
               View Home Directory
-            </button>
+            </a>
           </div>
           <div className="grid grid-cols-2 gap-1.5">
             {quickCalcs.map((calc) => (
-              <button
+              <a
                 key={`${calc.id}-${calc.path}`}
-                type="button"
-                onClick={() => handleNavClick(calc.id, calc.path, calc.subType)}
+                href={`/${calc.path}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(calc.id, calc.path, calc.subType);
+                }}
                 className={`text-left px-2.5 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
                   activeTab === calc.id
                     ? 'bg-emerald-50 text-emerald-900 font-bold'
@@ -243,7 +258,7 @@ export const Header: React.FC<HeaderProps> = ({
                 }`}
               >
                 {calc.label}
-              </button>
+              </a>
             ))}
           </div>
 
@@ -251,14 +266,17 @@ export const Header: React.FC<HeaderProps> = ({
             Tools &amp; Reference
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              onClick={() => handleNavClick('guides', 'guides')}
+            <a
+              href="/guides"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('guides', 'guides');
+              }}
               className="text-emerald-800 font-bold py-1 flex items-center gap-1 cursor-pointer"
             >
               <BookOpen className="w-3.5 h-3.5" />
               <span>Guides Library</span>
-            </button>
+            </a>
             <button
               type="button"
               onClick={() => {
@@ -345,20 +363,46 @@ export const Header: React.FC<HeaderProps> = ({
                 <span>Embed Widget</span>
               </button>
             )}
-            <button
-              type="button"
-              onClick={() => handleNavClick('about', 'about')}
-              className="text-slate-700 font-medium py-1 cursor-pointer"
+            <a
+              href="/about"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('about', 'about');
+              }}
+              className="text-slate-700 font-medium py-1 cursor-pointer hover:underline"
             >
               About
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick('contact', 'contact')}
-              className="text-slate-700 font-medium py-1 cursor-pointer"
+            </a>
+            <a
+              href="/contact"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('contact', 'contact');
+              }}
+              className="text-slate-700 font-medium py-1 cursor-pointer hover:underline"
             >
               Contact
-            </button>
+            </a>
+            <a
+              href="/privacy-policy"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('privacy', 'privacy-policy');
+              }}
+              className="text-slate-700 font-medium py-1 cursor-pointer hover:underline"
+            >
+              Privacy Policy
+            </a>
+            <a
+              href="/terms-of-service"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('terms', 'terms-of-service');
+              }}
+              className="text-slate-700 font-medium py-1 cursor-pointer hover:underline"
+            >
+              Terms
+            </a>
           </div>
 
           {system && onToggleSystem && (

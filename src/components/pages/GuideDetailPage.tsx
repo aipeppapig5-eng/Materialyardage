@@ -62,20 +62,24 @@ export const GuideDetailPage: React.FC<GuideDetailPageProps> = ({
 
       {/* Article Header */}
       <header className="space-y-4">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-900">
+        <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
+          <span className="font-bold text-emerald-800">
             {guide.categoryLabel}
           </span>
-          <span className="text-slate-300">·</span>
-          <span className="flex items-center gap-1 text-xs text-slate-500">
+          <span aria-hidden="true">·</span>
+          <span className="flex items-center gap-1">
             <Clock className="w-3.5 h-3.5" />
             <span>{guide.readTime}</span>
           </span>
-          <span className="text-slate-300">·</span>
-          <span className="text-xs text-slate-500">Updated for 2026</span>
+          <span aria-hidden="true">·</span>
+          <span>
+            By <strong className="text-slate-700 font-semibold">Material Yardage Editorial &amp; Estimating Team</strong>
+          </span>
+          <span aria-hidden="true">·</span>
+          <span>Updated November 2026</span>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight text-balance">
           {guide.title}
         </h1>
 
@@ -161,7 +165,7 @@ export const GuideDetailPage: React.FC<GuideDetailPageProps> = ({
             ))}
 
             {block.callout && (
-              <div className="bg-slate-900 text-white rounded-xl p-4 my-3 font-mono text-xs border-l-4 border-emerald-500">
+              <div className="bg-slate-900 text-white rounded-xl p-4 my-3 font-mono text-xs border border-slate-700">
                 <div className="text-emerald-400 font-bold text-[11px] mb-1 uppercase tracking-wider">
                   {block.callout.title}
                 </div>
@@ -260,6 +264,24 @@ export const GuideDetailPage: React.FC<GuideDetailPageProps> = ({
           Open {guide.calculatorName}
         </button>
       </div>
+
+      {/* Editorial & Author Verification Block */}
+      <aside className="p-5 bg-white border border-slate-200 rounded-2xl text-xs text-slate-600 space-y-1.5">
+        <div className="font-bold text-slate-900">
+          Author &amp; Calculation Verification
+        </div>
+        <p className="leading-relaxed">
+          Prepared by the <strong>Material Yardage Editorial &amp; Estimating Team</strong> and cross-checked against ASTM C33 aggregate specifications, ACI-318 concrete volume standards, and ASTM D3774 textile bolt tolerances. Read our{' '}
+          <a href="/about" className="text-emerald-800 underline font-semibold hover:text-emerald-950">
+            Methodology &amp; Verification Standards
+          </a>{' '}
+          or review our{' '}
+          <a href="/disclaimer" className="text-emerald-800 underline font-semibold hover:text-emerald-950">
+            Engineering &amp; Estimation Disclaimer
+          </a>
+          .
+        </p>
+      </aside>
 
       {/* Bottom Ad */}
       <AdSlot slotId="8492019382" format="horizontal" label="Advertisement" />
